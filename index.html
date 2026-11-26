@@ -438,7 +438,7 @@
                 <input
                   id="inputUsername"
                   type="text"
-                  value="@noorslide.id"
+                  value="@lightofhijrah"
                   placeholder="@akunanda"
                   class="w-full rounded-xl bg-[#F7F3EB] border border-[#D4CCB8] px-3.5 py-2.5 text-sm text-[#163020] focus:outline-none focus:border-[#A38A48] focus:bg-white transition"
                 />
@@ -761,7 +761,7 @@
 
       // Active Carousel Data (Editable live on Canvas)
       carouselData: {
-        username: '@noorslide.id',
+        username: '@lightofhijrah',
         category: 'TASAWUF (AKHLAK)',
         readingTime: 'Baca 30 Detik',
         cover: {
@@ -1292,7 +1292,7 @@ Format JSON wajib:
       const sourceRef = document.getElementById('inputSourceRef').value.trim();
       const arabicText = document.getElementById('inputArabicText').value.trim();
       const translation = document.getElementById('inputTranslation').value.trim();
-      const username = document.getElementById('inputUsername').value.trim() || '@noorslide.id';
+      const username = document.getElementById('inputUsername').value.trim() || '@lightofhijrah';
 
       if (!topic) {
         showToast('Topik utama carousel wajib diisi.', 'warning');
@@ -3190,7 +3190,7 @@ Format JSON wajib:
 
       // Username live sync
       document.getElementById('inputUsername').addEventListener('input', (e) => {
-        const val = e.target.value.trim() || '@noorslide.id';
+        const val = e.target.value.trim() || '@lightofhijrah';
         appState.carouselData.username = val.startsWith('@') ? val : `@${val}`;
         refreshAllCanvasAndEditors();
       });
