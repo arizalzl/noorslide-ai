@@ -186,7 +186,7 @@
               <span class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-colors" id="api-status-dot"></span>
               <h2 class="font-bold text-sm text-forest-800">Konfigurasi Google Gemini API</h2>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#F2EDE2] text-[#4A5D50]">
-                gemini-2.5-flash
+                gemini-3.8-flash
               </span>
             </div>
             <a
@@ -1081,7 +1081,7 @@
       const statusText = document.getElementById('api-status-text');
       if (key && key.length > 20) {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 transition-colors';
-        statusText.textContent = 'Status: Terhubung dengan Google Gemini API (gemini-2.5-flash siap digunakan).';
+        statusText.textContent = 'Status: Terhubung dengan Google Gemini API (gemini-3.8-flash siap digunakan).';
       } else {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 transition-colors';
         statusText.textContent =
@@ -2418,7 +2418,7 @@ Kembalikan HANYA JSON valid dengan struktur kunci persis berikut:
 Pastikan array "poin" berisi TEPAT ${pointCount} item.`;
 
       try {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${encodeURIComponent(
           apiKey
         )}`;
 
