@@ -13,7 +13,7 @@
     rel="stylesheet"
   />
 
-  <!-- Tailwind CSS -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
@@ -86,7 +86,7 @@
     /* Responsive 4:5 Portrait Canvas Preview */
     .preview-canvas-element {
       width: 100%;
-      max-width: 380px;
+      max-width: 390px;
       aspect-ratio: 4 / 5;
       height: auto;
       display: block;
@@ -116,11 +116,11 @@
               NoorSlide AI
             </h1>
             <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-900/10 text-forest-800 border border-forest-800/20">
-              Gemini Edition
+              Gemini Edition • High-Retention Engine
             </span>
           </div>
           <p class="text-xs text-[#596B60] hidden sm:block">
-            Islamic Carousel & Caption Generator • Klasifikasi Otomatis Tauhid, Fiqih & Tasawuf • 1080×1350 px
+            Islamic Carousel &amp; Caption Generator • Dwell-Time &amp; Swipe-to-End Optimized • 1080×1350 px
           </p>
         </div>
       </div>
@@ -158,7 +158,7 @@
           </button>
         </div>
 
-        <!-- Guide Modal Button -->
+        <!-- Guide & Retention Strategy Modal Button -->
         <button
           type="button"
           onclick="toggleInfoModal(true)"
@@ -167,7 +167,8 @@
           <svg class="w-4 h-4 text-gold-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <span>Panduan</span>
+          <span class="hidden sm:inline">Panduan &amp; Strategi Retensi</span>
+          <span class="sm:hidden">Panduan</span>
         </button>
       </div>
     </div>
@@ -178,7 +179,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
       <!-- =================================================================== -->
-      <!-- LEFT COLUMN: Google Gemini API Config, Universal Dalil Input        -->
+      <!-- LEFT COLUMN: API Config, Daily Dalil Library, & Input Controls      -->
       <!-- =================================================================== -->
       <section class="lg:col-span-5 flex flex-col gap-5">
 
@@ -257,17 +258,17 @@
             </div>
 
             <p id="api-status-text" class="text-[11px] text-[#66786D] leading-relaxed">
-              Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.
+              Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat menggunakan Bank Ide Dalil Harian, 4 Preset Cepat, atau Mode Demo Lokal.
             </p>
           </div>
         </div>
 
-        <!-- Card 2: Universal Dalil Input (Hadits & Ayat Al-Qur'an) -->
+        <!-- Card 2: Bank Ide Dalil Harian & Universal Dalil Input -->
         <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#E3DCC9] space-y-4">
           <div class="flex items-center justify-between">
             <h2 class="font-bold text-sm text-forest-800 flex items-center gap-2">
               <span class="w-6 h-6 rounded-lg bg-forest-800 text-gold-400 text-xs flex items-center justify-center font-serif">1</span>
-              <span>Tempel Hadits atau Ayat Al-Qur'an</span>
+              <span>Bank Ide Dalil Harian &amp; Input Konten</span>
             </h2>
             <button
               type="button"
@@ -276,6 +277,51 @@
             >
               Bersihkan
             </button>
+          </div>
+
+          <!-- NEW FEATURE: Bank Ide Dalil Harian (Refresh Otomatis Harian & Manual / AI) -->
+          <div class="bg-[#FAF8F3] rounded-xl p-3.5 border border-[#E2DAC4] space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <div class="text-xs font-bold text-forest-800 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-gold-600" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                  </svg>
+                  <span>Bank Ide Dalil Harian</span>
+                </div>
+                <p id="daily-library-subtitle" class="text-[10px] text-[#596B60] mt-0.5">
+                  Pilihan kurasi harian otomatis • Tauhid, Fiqih &amp; Tasawuf
+                </p>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  id="refresh-daily-btn"
+                  onclick="refreshDailyDalilLibrary(false)"
+                  class="px-2.5 py-1.5 rounded-lg bg-white hover:bg-[#EFE8D8] border border-[#D4C9B0] text-forest-800 text-[11px] font-bold transition flex items-center gap-1 shadow-2xs"
+                  title="Putar koleksi 12 hadits & ayat pilihan harian"
+                >
+                  <svg class="w-3 h-3 text-gold-600" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
+                  <span>Refresh Ide Dalil</span>
+                </button>
+
+                <button
+                  type="button"
+                  id="refresh-ai-library-btn"
+                  onclick="refreshDailyDalilLibrary(true)"
+                  class="px-2.5 py-1.5 rounded-lg bg-forest-800 hover:bg-forest-700 text-gold-300 text-[11px] font-bold transition flex items-center gap-1 shadow-2xs"
+                  title="Minta 3 rekomendasi hadits & ayat segar langsung dari Gemini AI"
+                >
+                  <span>✨ AI</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 3 Daily Library Cards Mount -->
+            <div id="daily-library-cards" class="space-y-2"></div>
           </div>
 
           <!-- 4 One-Click Presets Covering Hadits & Al-Qur'an Across All 3 Categories -->
@@ -337,13 +383,13 @@
             </label>
             <textarea
               id="dalil-input"
-              rows="5"
-              placeholder="Tempel teks Hadits atau Ayat Al-Qur'an di sini (misal: QS. Al-Insyirah: 5-6 atau HR. Muslim no. 2664)... Gemini AI akan otomatis mendeteksi jenis dalil, melengkapi teks Arab berharakat, dan mengelompokkannya ke TAUHID (AKIDAH), FIQIH, atau TASAWUF (AKHLAK)."
+              rows="4"
+              placeholder="Tempel teks Hadits atau Ayat Al-Qur'an di sini... Slide 5 otomatis meringkas bagian inti dalil agar proporsional & tidak overload."
               class="w-full p-3.5 text-sm bg-[#FAF8F3] border border-[#DCD4C0] rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-600/35 focus:border-gold-600 transition leading-relaxed"
             ></textarea>
           </div>
 
-          <!-- Handle & Point Slides Count -->
+          <!-- Handle, Point Slides Count & Hook Angle Selector -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label for="username-input" class="block text-xs font-semibold text-[#4A5D50] mb-1">Username Akun</label>
@@ -369,17 +415,56 @@
             </div>
           </div>
 
-          <!-- Dwell-Time & Retention Toggle Switches -->
-          <div class="bg-[#FAF8F3] rounded-xl p-3.5 border border-[#E5DEC9] space-y-2.5">
-            <div class="text-xs font-bold text-forest-800 flex items-center gap-1.5">
+          <!-- Hook Angle Selector -->
+          <div>
+            <label for="hook-angle-select" class="block text-xs font-semibold text-[#4A5D50] mb-1">
+              Gaya Hook Pembuka (Stopping Power Slide 1)
+            </label>
+            <select
+              id="hook-angle-select"
+              onchange="renderWorkspace()"
+              class="w-full px-3 py-2 text-xs font-semibold bg-[#FAF8F3] border border-[#DCD4C0] rounded-xl text-forest-800 focus:outline-none focus:border-gold-600"
+            >
+              <option value="Validasi Luka Batin" selected>Validasi Luka Batin (Empatik &amp; Menenangkan)</option>
+              <option value="Teguran Lembut">Teguran Lembut (Muhasabah &amp; Menyentuh Kesadaran)</option>
+              <option value="Rahasia Tafsir & Hadits">Rahasia Tafsir &amp; Hadits (Memancing Rasa Penasaran)</option>
+              <option value="Pertanyaan Reflektif">Pertanyaan Reflektif (Mengajak Pembaca Berhenti Sejenak)</option>
+            </select>
+          </div>
+
+          <!-- 7 Dwell-Time & Retention Toggle Switches -->
+          <div class="bg-[#FAF8F3] rounded-xl p-3.5 border border-[#E5DEC9] space-y-2">
+            <div class="text-xs font-bold text-forest-800 flex items-center gap-1.5 pb-0.5">
               <svg class="w-3.5 h-3.5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span>Fitur Peningkat Dwell Time &amp; Retensi</span>
+              <span>7 Mesin Peningkat Dwell Time &amp; Swipe-to-End</span>
             </div>
 
             <label class="flex items-center justify-between cursor-pointer gap-2">
-              <span class="text-xs text-[#4A5D50]">Penjelasan Mikro 2 Baris (Slide Poin)</span>
+              <span class="text-xs text-[#4A5D50]">1. Lencana Estimasi Waktu Baca (Cover)</span>
+              <input
+                type="checkbox"
+                id="toggle-reading-badge"
+                checked
+                onchange="renderWorkspace()"
+                class="w-4 h-4 accent-[#163020] rounded cursor-pointer"
+              />
+            </label>
+
+            <label class="flex items-center justify-between cursor-pointer gap-2">
+              <span class="text-xs text-[#4A5D50]">2. Variasi Layout Antar-Slide Poin (Anti-Jenuh)</span>
+              <input
+                type="checkbox"
+                id="toggle-layout-variation"
+                checked
+                onchange="renderWorkspace()"
+                class="w-4 h-4 accent-[#163020] rounded cursor-pointer"
+              />
+            </label>
+
+            <label class="flex items-center justify-between cursor-pointer gap-2">
+              <span class="text-xs text-[#4A5D50]">3. Penjelasan Mikro 2 Baris (Slide Poin)</span>
               <input
                 type="checkbox"
                 id="toggle-micro-explanation"
@@ -390,7 +475,7 @@
             </label>
 
             <label class="flex items-center justify-between cursor-pointer gap-2">
-              <span class="text-xs text-[#4A5D50]">Curiosity Bridge Antar-Slide (Slide Poin)</span>
+              <span class="text-xs text-[#4A5D50]">4. Open-Loop Curiosity Bridge (Slide Poin)</span>
               <input
                 type="checkbox"
                 id="toggle-curiosity-bridge"
@@ -401,7 +486,18 @@
             </label>
 
             <label class="flex items-center justify-between cursor-pointer gap-2">
-              <span class="text-xs text-[#4A5D50]">Kotak Intisari Amal (Slide Dalil)</span>
+              <span class="text-xs text-[#4A5D50]">5. Goal-Gradient Progress Pill &amp; Bar (02/06)</span>
+              <input
+                type="checkbox"
+                id="toggle-progress-bar"
+                checked
+                onchange="renderWorkspace()"
+                class="w-4 h-4 accent-[#163020] rounded cursor-pointer"
+              />
+            </label>
+
+            <label class="flex items-center justify-between cursor-pointer gap-2">
+              <span class="text-xs text-[#4A5D50]">6. Kotak Intisari Amal (Slide Dalil)</span>
               <input
                 type="checkbox"
                 id="toggle-intisari-amal"
@@ -412,7 +508,7 @@
             </label>
 
             <label class="flex items-center justify-between cursor-pointer gap-2">
-              <span class="text-xs text-[#4A5D50]">Pemicu Komentar (Slide Penutup)</span>
+              <span class="text-xs text-[#4A5D50]">7. Pemicu Komentar Interaktif (Slide Penutup)</span>
               <input
                 type="checkbox"
                 id="toggle-comment-prompt"
@@ -687,7 +783,7 @@
                 <span>Caption Otomatis (Siap Salin &amp; Posting)</span>
               </h2>
               <p class="text-[11px] text-[#596B60] mt-0.5">
-                Dirangkai otomatis dari hook, poin refleksi, dalil Al-Qur'an/Hadits, serta kategori ilmu Islam.
+                Dirangkai otomatis dari hook, poin refleksi, dalil lengkap, serta kategori ilmu Islam.
               </p>
             </div>
 
@@ -741,13 +837,13 @@
   <!-- Hidden Offscreen 1080x1350 Export Canvas -->
   <canvas id="offscreen-export-canvas" width="1080" height="1350" class="hidden"></canvas>
 
-  <!-- Guide & Retention Modal -->
+  <!-- Guide & Retention Strategy Modal -->
   <div id="info-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-xs p-4">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto p-6 shadow-2xl border border-[#DDD4C0] space-y-4">
       <div class="flex items-center justify-between border-b border-[#EFEAE0] pb-3">
         <div>
-          <h3 class="font-serif font-bold text-lg text-forest-800">Panduan NoorSlide AI (Gemini Edition)</h3>
-          <p class="text-xs text-[#596B60]">Otomatisasi konten dakwah visual dengan klasifikasi 3 cabang ilmu Islam</p>
+          <h3 class="font-serif font-bold text-lg text-forest-800">Panduan &amp; Strategi Retensi Tinggi NoorSlide AI</h3>
+          <p class="text-xs text-[#596B60]">Psikologi visual untuk memperlama dwell time dan mendorong swipe hingga slide akhir</p>
         </div>
         <button type="button" onclick="toggleInfoModal(false)" class="p-2 rounded-lg hover:bg-[#F2EDE2] text-forest-800 font-bold text-sm">
           ✕
@@ -756,23 +852,30 @@
 
       <div class="space-y-3 text-xs sm:text-sm text-[#3A4D40] leading-relaxed">
         <div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80">
-          <p class="font-bold text-forest-800 mb-1">1. Mesin Google Gemini API Free Tier + Rantai Auto-Fallback</p>
+          <p class="font-bold text-forest-800 mb-1">1. Variasi Pola Visual Antar-Slide Poin (Anti-Banner Blindness)</p>
           <p class="text-xs">
-            Menggunakan model utama <code>gemini-4-hydrogen</code> yang didukung gratis di Google AI Studio tanpa kartu kredit. Jika server sedang padat (HTTP 503 <em>high demand</em> / 429 <em>rate limit</em>), sistem otomatis mencoba ulang hingga 3x lalu berpindah ke rantai cadangan Free Tier: <code>gemini-3.5-flash-lite</code> → <code>gemini-3.1-flash-lite</code> → <code>gemini-3.8-flash</code> → <code>gemini-3.6-flash</code>.
+            Setiap slide poin dirancang dengan ritme visual berbeda agar mata pembaca tidak jenuh: <strong>Poin 1</strong> memakai layout rata kiri + garis aksen vertikal emas &amp; kotak refleksi (Validasi Emosi), <strong>Poin 2</strong> memakai tata letak tengah klasik dengan sorotan pill emas (<em>Aha! Moment</em>), dan <strong>Poin 3</strong> memakai bingkai kartu praktik nyata sebelum masuk ke landasan dalil.
           </p>
         </div>
 
         <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80">
-          <p class="font-bold text-forest-800 mb-1">2. Deteksi Dalil Otomatis &amp; Klasifikasi 3 Cabang Ilmu Islam</p>
+          <p class="font-bold text-forest-800 mb-1">2. Smart Excerpt pada Slide Dalil (Anti-Overload)</p>
           <p class="text-xs">
-            Tempel teks <strong>Hadits</strong> atau <strong>Ayat Al-Qur'an</strong> (teks Arab + terjemahan, terjemahan saja, atau cukup rujukannya seperti <em>"QS. Al-Insyirah: 5-6"</em> atau <em>"HR. Muslim no. 2664"</em>). Gemini AI otomatis mendeteksi label kartu (<strong>♦ AL-QUR'AN ♦</strong> / <strong>♦ HADITS ♦</strong>) dan mengelompokkannya ke <strong>TAUHID (AKIDAH)</strong>, <strong>FIQIH</strong>, atau <strong>TASAWUF (AKHLAK)</strong>.
+            Jika hadits atau ayat cukup panjang, sistem otomatis memilih potongan inti (<em>maqtha'</em>) yang paling selaras dengan topik utama (maksimal 18 kata Arab &amp; 28 kata terjemahan) sehingga ukuran huruf tetap besar, mewah, dan nyaman dibaca di layar ponsel.
           </p>
         </div>
 
         <div class="p-3.5 rounded-xl bg-stone-50 border border-stone-200">
-          <p class="font-bold text-forest-800 mb-1">3. Unduh Foto Berurutan Tanpa ZIP (1080×1350 px)</p>
+          <p class="font-bold text-forest-800 mb-1">3. Open-Loop Curiosity Bridge &amp; Goal-Gradient Progress (02/06)</p>
           <p class="text-xs">
-            Klik <strong>"Unduh Semua Foto Berurutan (PNG)"</strong> untuk langsung mengunduh seluruh slide satu per satu (<code>01-cover.png</code>, <code>02-poin-1.png</code>, ..., <code>05-dalil.png</code>, <code>06-penutup.png</code>) dalam kualitas cetak 1080×1350 px.
+            Setiap akhir slide dilengkapi jembatan rasa penasaran (<em>open loop</em>), pil progres <code>02 / 06</code>, dan garis progres emas di bingkai bawah yang secara psikologis mendorong pembaca menyelesaikan seluruh slide hingga akhir.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-emerald-50/50 border border-emerald-200/60">
+          <p class="font-bold text-forest-800 mb-1">4. Bank Ide Dalil Harian &amp; Google Gemini Free Tier Auto-Fallback</p>
+          <p class="text-xs">
+            Tersedia 12 koleksi hadits dan ayat Al-Qur'an pilihan yang berganti otomatis setiap hari (atau klik <strong>Refresh Ide Dalil</strong> / <strong>✨ AI</strong>), didukung rantai model gratis <code>gemini-4-hydrogen</code> → <code>gemini-3.5-flash-lite</code> → <code>gemini-3.1-flash-lite</code> → <code>gemini-3.8-flash</code> → <code>gemini-3.6-flash</code>.
           </p>
         </div>
       </div>
@@ -860,11 +963,120 @@
     };
 
     // =========================================================================
-    // 2. FOUR ONE-CLICK PRESETS (2 HADITS & 2 AL-QUR'AN ACROSS ALL 3 CATEGORIES)
+    // 2. DAILY DALIL LIBRARY (12 AUTHENTIC ITEMS BALANCED ACROSS 3 CATEGORIES)
+    // =========================================================================
+    const DAILY_DALIL_LIBRARY = [
+      // SET A (Balanced: Tauhid, Fiqih, Tasawuf)
+      {
+        id: 'lib_1',
+        dalilType: 'HADITS',
+        category: 'TAUHID (AKIDAH)',
+        title: 'Pertolongan Allah Turun Bersama Kesabaran',
+        source: 'HR. Tirmidzi no. 2516',
+        dalilText: `Rasulullah ﷺ bersabda kepada Ibnu Abbas radhiyallahu 'anhuma:\n"وَاعْلَمْ أَنَّ النَّصْرَ مَعَ الصَّبْرِ، وَأَنَّ الْفَرَجَ مَعَ الْكَرْبِ، وَأَنَّ مَعَ الْعُسْرِ يُسْرًا"\n"Ketahuilah bahwa pertolongan itu datang bersama kesabaran, kelapangan datang bersama kesempitan, dan bersama kesulitan pasti ada kemudahan." (HR. Tirmidzi no. 2516)`,
+      },
+      {
+        id: 'lib_2',
+        dalilType: "AL-QUR'AN",
+        category: 'FIQIH',
+        title: 'Shalat Tepat Waktu adalah Kewajiban Terjadwal',
+        source: 'QS. An-Nisa: 103',
+        dalilText: `Allah Subhanahu wa Ta'ala berfirman:\n"إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا"\n"Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman." (QS. An-Nisa: 103)`,
+      },
+      {
+        id: 'lib_3',
+        dalilType: 'HADITS',
+        category: 'TASAWUF (AKHLAK)',
+        title: 'Orang Kuat Bukan yang Menang Bergulat',
+        source: 'HR. Bukhari no. 6114',
+        dalilText: `Rasulullah ﷺ bersabda:\n"لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ"\n"Bukanlah orang kuat itu yang menang dalam bergulat, tetapi orang kuat adalah yang mampu mengendalikan dirinya ketika marah." (HR. Bukhari no. 6114)`,
+      },
+
+      // SET B (Balanced: Tauhid, Fiqih, Tasawuf)
+      {
+        id: 'lib_4',
+        dalilType: "AL-QUR'AN",
+        category: 'TAUHID (AKIDAH)',
+        title: 'Cukuplah Allah Menjadi Penolong Terbaik',
+        source: 'QS. Ali Imran: 173',
+        dalilText: `Allah Subhanahu wa Ta'ala berfirman:\n"حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ"\n"Cukuplah Allah menjadi Penolong kami dan Allah adalah sebaik-baik Pelindung." (QS. Ali Imran: 173)`,
+      },
+      {
+        id: 'lib_5',
+        dalilType: 'HADITS',
+        category: 'FIQIH',
+        title: 'Sedekah Tidak Pernah Mengurangi Harta',
+        source: 'HR. Muslim no. 2588',
+        dalilText: `Rasulullah ﷺ bersabda:\n"مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ، وَمَا زَادَ اللَّهُ عَبْدًا بِعَفْوٍ إِلَّا عِزًّا"\n"Sedekah tidak akan mengurangi harta sedikit pun, dan tidaklah Allah menambah bagi seorang hamba yang pemaaf melainkan kemuliaan." (HR. Muslim no. 2588)`,
+      },
+      {
+        id: 'lib_6',
+        dalilType: "AL-QUR'AN",
+        category: 'TASAWUF (AKHLAK)',
+        title: 'Hati Hanya Tenang dengan Mengingat Allah',
+        source: "QS. Ar-Ra'd: 28",
+        dalilText: `Allah Subhanahu wa Ta'ala berfirman:\n"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ"\n"Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram." (QS. Ar-Ra'd: 28)`,
+      },
+
+      // SET C (Balanced: Tauhid, Fiqih, Tasawuf)
+      {
+        id: 'lib_7',
+        dalilType: "AL-QUR'AN",
+        category: 'TAUHID (AKIDAH)',
+        title: 'Allah Tidak Membebani Melebihi Kesanggupan',
+        source: 'QS. Al-Baqarah: 286',
+        dalilText: `Allah Subhanahu wa Ta'ala berfirman:\n"لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا"\n"Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya." (QS. Al-Baqarah: 286)`,
+      },
+      {
+        id: 'lib_8',
+        dalilType: 'HADITS',
+        category: 'FIQIH',
+        title: 'Shalat Dua Rakaat Fajar Lebih Baik dari Dunia',
+        source: 'HR. Muslim no. 725',
+        dalilText: `Rasulullah ﷺ bersabda:\n"رَكْعَتَا الْفَجْرِ خَيْرٌ مِنَ الدُّنْيَا وَمَا فِيهَا"\n"Dua rakaat shalat sunnah fajar (qabliyah Subuh) lebih baik daripada dunia dan seisinya." (HR. Muslim no. 725)`,
+      },
+      {
+        id: 'lib_9',
+        dalilType: 'HADITS',
+        category: 'TASAWUF (AKHLAK)',
+        title: 'Kebaikan Iman Adalah Meninggalkan yang Sia-Sia',
+        source: 'HR. Tirmidzi no. 2317',
+        dalilText: `Rasulullah ﷺ bersabda:\n"مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ"\n"Di antara tanda kebaikan keislaman seseorang adalah meninggalkan hal-hal yang tidak bermanfaat baginya." (HR. Tirmidzi no. 2317)`,
+      },
+
+      // SET D (Balanced: Tauhid, Fiqih, Tasawuf)
+      {
+        id: 'lib_10',
+        dalilType: 'HADITS',
+        category: 'TAUHID (AKIDAH)',
+        title: 'Keajaiban Urusan Orang Beriman Saat Syukur & Sabar',
+        source: 'HR. Muslim no. 2999',
+        dalilText: `Rasulullah ﷺ bersabda:\n"عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ... إِنْ أَصَابَتْهُ سَرَّاءُ شَكَرَ فَكَانَ خَيْرًا لَهُ"\n"Sungguh menakjubkan urusan seorang mukmin, semua urusannya baik baginya; jika mendapat kelapangan ia bersyukur maka itu baik baginya." (HR. Muslim no. 2999)`,
+      },
+      {
+        id: 'lib_11',
+        dalilType: "AL-QUR'AN",
+        category: 'FIQIH',
+        title: 'Dirikan Shalat untuk Mencegah Perbuatan Keji',
+        source: 'QS. Al-Ankabut: 45',
+        dalilText: `Allah Subhanahu wa Ta'ala berfirman:\n"وَأَقِمِ الصَّلَاةَ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ"\n"Dan dirikanlah shalat. Sesungguhnya shalat itu mencegah dari perbuatan keji dan mungkar." (QS. Al-Ankabut: 45)`,
+      },
+      {
+        id: 'lib_12',
+        dalilType: 'HADITS',
+        category: 'TASAWUF (AKHLAK)',
+        title: 'Allah Melihat Hati dan Amal, Bukan Rupa',
+        source: 'HR. Muslim no. 2564',
+        dalilText: `Rasulullah ﷺ bersabda:\n"إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ"\n"Sesungguhnya Allah tidak melihat kepada rupa dan harta kalian, tetapi Allah melihat kepada hati dan amal perbuatan kalian." (HR. Muslim no. 2564)`,
+      },
+    ];
+
+    // =========================================================================
+    // 3. FOUR QUICK PRESETS (CONCISE DALIL EXCERPTS + OPEN-LOOP BRIDGES)
     // =========================================================================
     const PRESETS = {
       hadits_takdir: {
-        dalilInput: `Dari Abu Hurairah radhiyallahu 'anhu, Rasulullah ﷺ bersabda:\n"...وَإِنْ أَصَابَكَ شَيْءٌ فَلاَ تَقُلْ لَوْ أَنِّي فَعَلْتُ كَانَ كَذَا وَكَذَا وَلَكِنْ قُلْ قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ فَإِنَّ لَوْ تَفْتَحُ عَمَلَ الشَّيْطَانِ"\n"...Jika sesuatu (musibah) menimpamu, janganlah berkata: 'Seandainya aku berbuat begini, tentu jadinya begini dan begitu.' Tetapi katakanlah: 'Qadarullah wa maa syaa-a fa'ala (Ini takdir Allah, dan apa yang Dia kehendaki pasti Dia lakukan).' Karena kata 'seandainya' membuka pintu perbuatan setan." (HR. Muslim no. 2664)`,
+        dalilInput: `Dari Abu Hurairah radhiyallahu 'anhu, Rasulullah ﷺ bersabda:\n"...فَلاَ تَقُلْ لَوْ أَنِّي فَعَلْتُ كَانَ كَذَا وَكَذَا وَلَكِنْ قُلْ قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ فَإِنَّ لَوْ تَفْتَحُ عَمَلَ الشَّيْطَانِ"\n"...Janganlah berkata: 'Seandainya aku berbuat begini, tentu jadinya begini.' Tetapi katakanlah: 'Qadarullah wa maa syaa-a fa'ala (Ini takdir Allah, dan apa yang Dia kehendaki pasti Dia lakukan).' Karena kata 'seandainya' membuka pintu perbuatan setan." (HR. Muslim no. 2664)`,
         data: {
           dalilType: 'HADITS',
           category: 'TAUHID (AKIDAH)',
@@ -888,21 +1100,21 @@
               highlightPhrase: 'qadarullah',
               microNote:
                 'Kalimat qadarullah menenangkan jiwa bahwa setiap kejadian berada dalam ilmu dan kasih sayang Allah Yang Maha Bijaksana.',
-              bridgeCue: 'Langkah ketiganya →',
+              bridgeCue: 'Tapi kenapa hati masih sesak? →',
             },
             {
               headline: 'Fokus pada yang masih bisa dikerjakan hari ini',
               highlightPhrase: 'dikerjakan hari ini',
               microNote:
                 'Masa lalu adalah ruang belajar, bukan tempat tinggal. Gunakan sisa tenaga untuk memperbaiki ikhtiar dan doa saat ini.',
-              bridgeCue: 'Ini dalil shahihnya →',
+              bridgeCue: 'Ini jaminan sabda Nabi ﷺ →',
             },
           ],
           dalil: {
             arabicText:
-              '...وَإِنْ أَصَابَكَ شَيْءٌ فَلاَ تَقُلْ لَوْ أَنِّي فَعَلْتُ كَانَ كَذَا وَكَذَا وَلَكِنْ قُلْ قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ...',
+              '...فَلاَ تَقُلْ لَوْ أَنِّي فَعَلْتُ كَانَ كَذَا وَلَكِنْ قُلْ قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ...',
             translation:
-              '...Jika sesuatu menimpamu, jangan berkata: Seandainya aku berbuat begini, tentu jadinya begini dan begitu. Tetapi katakanlah: Ini takdir Allah, dan apa yang Dia kehendaki Dia lakukan...',
+              '...Jangan berkata: Seandainya aku berbuat begini, tentu jadinya begini. Tetapi katakanlah: Ini takdir Allah, dan apa yang Dia kehendaki Dia lakukan...',
             highlightPhrase: 'Ini takdir Allah, dan apa yang Dia kehendaki Dia lakukan',
             source: 'HR. Muslim no. 2664',
             amalTip:
@@ -914,7 +1126,7 @@
             commentPrompt: 'Ketik "Qadarullah" atau tulis satu hal yang sedang kamu ikhlaskan hari ini 🤍',
           },
           captions: {
-            storytelling: `Jangan Terjebak Kata "Seandainya" 🌙\n[Kajian Tauhid & Akidah]\n\nPernahkah hati terasa sesak karena terus mengulang kalimat: "Seandainya dulu aku memilih jalan lain, mungkin sekarang keadaannya berbeda..."?\n\nRasulullah ﷺ mengajarkan fondasi akidah yang menenangkan hati saat rencana tak berjalan sesuai harapan:\n\n1️⃣ Menyesal itu wajar, terjebak di seandainya jangan.\nMengulang skenario masa lalu tidak mengubah ketetapan—justru membuka pintu kesedihan berkepanjangan.\n\n2️⃣ Ucapkan Qadarullah, lalu bangkit dan lanjut berusaha.\nMeyakini bahwa takdir Allah selalu berada dalam hikmah dan kasih sayang-Nya.\n\n3️⃣ Fokus pada yang masih bisa dikerjakan hari ini.\nMasa lalu adalah ruang belajar, bukan tempat tinggal.\n\n📖 Dalil Hadits:\n"...Jika sesuatu menimpamu, jangan berkata: Seandainya aku berbuat begini, tentu jadinya begini dan begitu. Tetapi katakanlah: Ini takdir Allah, dan apa yang Dia kehendaki Dia lakukan..." (HR. Muslim no. 2664)\n\n💬 Ketik "Qadarullah" di kolom komentar sebagai pengingat diri hari ini, lalu simpan & bagikan ke sahabat yang sedang butuh penguat hati.\n\n#tauhid #akidahislam #qadarullah #refleksiislami #haditsshahih #dakwahvisual #muhasabahdiri`,
+            storytelling: `Jangan Terjebak Kata "Seandainya" 🌙\n[Kajian Tauhid & Akidah]\n\nPernahkah hati terasa sesak karena terus mengulang kalimat: "Seandainya dulu aku memilih jalan lain, mungkin sekarang keadaannya berbeda..."?\n\nRasulullah ﷺ mengajarkan fondasi akidah yang menenangkan hati saat rencana tak berjalan sesuai harapan:\n\n1️⃣ Menyesal itu wajar, terjebak di seandainya jangan.\nMengulang skenario masa lalu tidak mengubah ketetapan—justru membuka pintu kesedihan berkepanjangan.\n\n2️⃣ Ucapkan Qadarullah, lalu bangkit dan lanjut berusaha.\nMeyakini bahwa takdir Allah selalu berada dalam hikmah dan kasih sayang-Nya.\n\n3️⃣ Fokus pada yang masih bisa dikerjakan hari ini.\nMasa lalu adalah ruang belajar, bukan tempat tinggal.\n\n📖 Dalil Hadits:\n"...Jika sesuatu (musibah) menimpamu, janganlah berkata: 'Seandainya aku berbuat begini, tentu jadinya begini dan begitu.' Tetapi katakanlah: 'Qadarullah wa maa syaa-a fa'ala (Ini takdir Allah, dan apa yang Dia kehendaki pasti Dia lakukan).' Karena kata 'seandainya' membuka pintu perbuatan setan." (HR. Muslim no. 2664)\n\n💬 Ketik "Qadarullah" di kolom komentar sebagai pengingat diri hari ini, lalu simpan & bagikan ke sahabat yang sedang butuh penguat hati.\n\n#tauhid #akidahislam #qadarullah #refleksiislami #haditsshahih #dakwahvisual #muhasabahdiri`,
             short: `Jangan Terjebak Kata "Seandainya" 🌙\n\n1. Menyesal itu wajar, terjebak di seandainya jangan.\n2. Ucapkan qadarullah, lalu bangkit dan lanjut berusaha.\n3. Fokus pada yang masih bisa dikerjakan hari ini.\n\n"Katakanlah: Qadarullah wa maa syaa-a fa'ala (Ini takdir Allah, dan apa yang Dia kehendaki Dia lakukan)." — HR. Muslim no. 2664\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#tauhid #akidah #qadarullah #haditsmuslim #pengingatdiri`,
           },
         },
@@ -938,21 +1150,21 @@
               highlightPhrase: 'bersama ujian',
               microNote:
                 'Perhatikan kata "ma’a" (bersama) dalam ayat ini: di tengah proses berat pun Allah sudah menyisipkan kekuatan dan celah solusi.',
-              bridgeCue: 'Rahasia kedua ayat ini →',
+              bridgeCue: 'Rahasia bahasa Arab ayat ini →',
             },
             {
               headline: 'Satu kesulitan dikepung oleh dua kemudahan dari Allah',
               highlightPhrase: 'dua kemudahan',
               microNote:
-                'Dalam kaidah bahasa Arab, pengulangan kata "al-‘usr" merujuk pada satu kesulitan yang sama, sedangkan "yusran" bermakna dua kemudahan berbeda.',
-              bridgeCue: 'Sikap hati terbaik →',
+                'Pengulangan kata "al-‘usr" merujuk pada satu kesulitan yang sama, sedangkan "yusran" bermakna dua kemudahan berbeda.',
+              bridgeCue: 'Di sinilah kunci ketenangannya →',
             },
             {
               headline: 'Perkuat husnuzan kepada Allah saat jalan terasa sempit',
               highlightPhrase: 'husnuzan kepada Allah',
               microNote:
                 'Jangan ukur keluasan pertolongan Allah dengan logika yang sedang lelah; teruslah melangkah sambil berdoa.',
-              bridgeCue: 'Simak firman-Nya →',
+              bridgeCue: 'Ini jaminan langsung dari Allah →',
             },
           ],
           dalil: {
@@ -1002,14 +1214,14 @@
               highlightPhrase: 'niat lillah',
               microNote:
                 'Mencari nafkah, menuntut ilmu, bahkan istirahat malam pun dicatat sebagai amal saleh ketika diniatkan untuk taat kepada Allah.',
-              bridgeCue: 'Cara menjaganya →',
+              bridgeCue: 'Satu kebiasaan 3 detik ini →',
             },
             {
               headline: 'Perbarui niat sebelum memulai setiap pekerjaan hari ini',
               highlightPhrase: 'Perbarui niat',
               microNote:
                 'Luangkan 3 detik sebelum melangkah: luruskan tujuan hanya mengharap ridha Allah, bukan sekadar pujian manusia.',
-              bridgeCue: 'Ini hadits shahihnya →',
+              bridgeCue: 'Ini kaidah pokok haditsnya →',
             },
           ],
           dalil: {
@@ -1052,28 +1264,28 @@
               highlightPhrase: 'merasa lebih tinggi',
               microNote:
                 'Dalam ilmu tasawuf, mengolok-olok sesama adalah cermin penyakit ujub yang diam-diam menggerogoti kebersihan jiwa.',
-              bridgeCue: 'Peringatan Al-Qur’an →',
+              bridgeCue: 'Di sinilah letak kekeliruannya →',
             },
             {
               headline: 'Ukuran kemuliaan di sisi Allah bukan rupa atau status dunia',
               highlightPhrase: 'kemuliaan di sisi Allah',
               microNote:
                 'Boleh jadi seseorang yang tampak sederhana di mata manusia memiliki ketulusan amal tersembunyi yang dicintai Allah.',
-              bridgeCue: 'Adab menjaga lisan →',
+              bridgeCue: 'Adab menjaga lisan & jari →',
             },
             {
               headline: 'Jaga lisan dan ketikan jari dari candaan yang melukai hati',
               highlightPhrase: 'lisan dan ketikan jari',
               microNote:
                 'Saring setiap ucapan dan komentar di media sosial: jika tidak membawa kebaikan atau empati, lebih baik diam.',
-              bridgeCue: 'Simak firman Allah →',
+              bridgeCue: 'Ini peringatan tegas Al-Qur’an →',
             },
           ],
           dalil: {
             arabicText:
-              'يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِنْ قَوْمٍ عَسَىٰ أَنْ يَكُونُوا خَيْرًا مِنْهُمْ... وَلَا تَنَابَزُوا بِالْأَلْقَابِ',
+              'يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِنْ قَوْمٍ عَسَىٰ أَنْ يَكُونُوا خَيْرًا مِنْهُمْ...',
             translation:
-              'Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka... dan janganlah saling memanggil dengan gelar yang buruk.',
+              'Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka...',
             highlightPhrase: 'boleh jadi mereka lebih baik dari mereka',
             source: 'QS. Al-Hujurat: 11',
             amalTip:
@@ -1085,7 +1297,7 @@
             commentPrompt: 'Tulis "Allahumma tahhir qalbi" (Ya Allah sucikan hatiku) di kolom komentar 🤍',
           },
           captions: {
-            storytelling: `Jangan Merasa Lebih Baik dari Orang Lain 🌙\n[Tadabbur Al-Qur'an • Tasawuf & Akhlak]\n\nDi era media sosial yang serba cepat, begitu mudah jari dan lisan melontarkan candaan yang merendahkan orang lain tanpa sadar bahwa hati sedang terjangkit rasa ujub.\n\n1️⃣ Merendahkan orang lain lahir dari hati yang merasa lebih tinggi.\nMengolok-olok sesama berawal dari kesombongan halus di dalam dada.\n\n2️⃣ Ukuran kemuliaan di sisi Allah bukan rupa atau status dunia.\nBoleh jadi orang yang diremehkan manusia justru jauh lebih mulia di hadapan Allah.\n\n3️⃣ Jaga lisan dan ketikan jari dari candaan yang melukai hati.\nSaring setiap ucapan: jika tidak menenangkan atau bermanfaat, memilih diam jauh lebih selamat.\n\n📖 Firman Allah Ta'ala:\n"Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka... dan janganlah saling memanggil dengan gelar yang buruk." (QS. Al-Hujurat: 11)\n\n💬 Simpan pengingat akhlak ini & bagikan ke sahabatmu agar kita saling menjaga lisan dan hati 🤍\n\n#tasawuf #akhlakmulia #menjagalisandanhati #alhujurat11 #tadabburquran #muhasabahdiri #dakwahvisual`,
+            storytelling: `Jangan Merasa Lebih Baik dari Orang Lain 🌙\n[Tadabbur Al-Qur'an • Tasawuf & Akhlak]\n\nDi era media sosial yang serba cepat, begitu mudah jari dan lisan melontarkan candaan yang merendahkan orang lain tanpa sadar bahwa hati sedang terjangkit rasa ujub.\n\n1️⃣ Merendahkan orang lain lahir dari hati yang merasa lebih tinggi.\nMengolok-olok sesama berawal dari kesombongan halus di dalam dada.\n\n2️⃣ Ukuran kemuliaan di sisi Allah bukan rupa atau status dunia.\nBoleh jadi orang yang diremehkan manusia justru jauh lebih mulia di hadapan Allah.\n\n3️⃣ Jaga lisan dan ketikan jari dari candaan yang melukai hati.\nSaring setiap ucapan: jika tidak menenangkan atau bermanfaat, memilih diam jauh lebih selamat.\n\n📖 Firman Allah Ta'ala:\n"Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka (yang diolok-olok) lebih baik dari mereka (yang mengolok-olok)... dan janganlah saling memanggil dengan gelar-gelar yang buruk." (QS. Al-Hujurat: 11)\n\n💬 Simpan pengingat akhlak ini & bagikan ke sahabatmu agar kita saling menjaga lisan dan hati 🤍\n\n#tasawuf #akhlakmulia #menjagalisandanhati #alhujurat11 #tadabburquran #muhasabahdiri #dakwahvisual`,
             short: `Jangan Merasa Lebih Baik dari Orang Lain 🌙\n\n1. Merendahkan orang lain lahir dari hati yang merasa lebih tinggi.\n2. Kemuliaan di sisi Allah bukan diukur dari status dunia.\n3. Jaga lisan dan ketikan jari dari candaan yang melukai.\n\n"Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka." — QS. Al-Hujurat: 11\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#tasawuf #akhlak #menjagalisan #alquran #pengingatdiri`,
           },
         },
@@ -1093,7 +1305,7 @@
     };
 
     // =========================================================================
-    // 3. APPLICATION STATE
+    // 4. APPLICATION STATE
     // =========================================================================
     let appState = {
       theme: 'ivory',
@@ -1102,11 +1314,13 @@
       isEditorOpen: false,
       captionTab: 'lengkap', // 'lengkap' | 'ringkas'
       username: '@lightofhijrah',
+      dailyOffset: 0,
+      aiDailyPicks: null, // Holds AI-refreshed picks if requested by user
       carouselData: JSON.parse(JSON.stringify(PRESETS.hadits_takdir.data)),
     };
 
     // =========================================================================
-    // 4. INITIALIZATION & API KEY STORAGE (noorslide_gemini_api_key)
+    // 5. INITIALIZATION & API KEY STORAGE (noorslide_gemini_api_key)
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
       const savedKey = localStorage.getItem('noorslide_gemini_api_key') || '';
@@ -1119,6 +1333,9 @@
         localStorage.setItem('noorslide_gemini_api_key', val);
         updateApiKeyStatus(val);
       });
+
+      // Render Daily Dalil Library seeded by today's date
+      renderDailyDalilLibrary();
 
       // Load default preset
       applyPreset('hadits_takdir', false);
@@ -1140,7 +1357,7 @@
       } else {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 transition-colors';
         statusText.textContent =
-          'Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.';
+          'Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat menggunakan Bank Ide Dalil Harian, 4 Preset Cepat, atau Mode Demo Lokal.';
       }
     }
 
@@ -1163,7 +1380,198 @@
     }
 
     // =========================================================================
-    // 5. PRESETS, CLASSIFICATION & STATE SYNCHRONIZATION
+    // 6. DAILY DALIL LIBRARY (DATE-SEEDED + MANUAL / AI REFRESH)
+    // =========================================================================
+    function getDailyDateInfo() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const isoDate = `${yyyy}-${mm}-${dd}`;
+
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+      const displayDate = `${now.getDate()} ${months[now.getMonth()]} ${yyyy}`;
+
+      // Deterministic daily hash from YYYY-MM-DD
+      let hash = 0;
+      for (let i = 0; i < isoDate.length; i++) {
+        hash = (hash * 31 + isoDate.charCodeAt(i)) >>> 0;
+      }
+      return { isoDate, displayDate, seed: hash };
+    }
+
+    function getCurrentDailyPicks() {
+      if (Array.isArray(appState.aiDailyPicks) && appState.aiDailyPicks.length > 0) {
+        return appState.aiDailyPicks;
+      }
+      const { seed } = getDailyDateInfo();
+      const totalSets = Math.floor(DAILY_DALIL_LIBRARY.length / 3); // 4 sets of 3 balanced items
+      const setIndex = (seed + appState.dailyOffset) % totalSets;
+      const start = setIndex * 3;
+      return DAILY_DALIL_LIBRARY.slice(start, start + 3);
+    }
+
+    function renderDailyDalilLibrary() {
+      const { displayDate } = getDailyDateInfo();
+      const subtitleEl = document.getElementById('daily-library-subtitle');
+      const mount = document.getElementById('daily-library-cards');
+      if (!mount) return;
+
+      const picks = getCurrentDailyPicks();
+      const sourceLabel = appState.aiDailyPicks
+        ? `Rekomendasi Segar Gemini AI • ${displayDate}`
+        : `Pilihan Harian (${displayDate}) • Tauhid, Fiqih & Tasawuf`;
+      if (subtitleEl) subtitleEl.textContent = sourceLabel;
+
+      mount.innerHTML = picks
+        .map((item, idx) => {
+          const catShort = item.category.includes('TAUHID')
+            ? 'TAUHID'
+            : item.category.includes('FIQIH')
+            ? 'FIQIH'
+            : 'TASAWUF';
+          const badgeClass =
+            catShort === 'TAUHID'
+              ? 'bg-emerald-900/10 text-forest-800 border-forest-800/20'
+              : catShort === 'FIQIH'
+              ? 'bg-amber-900/10 text-gold-700 border-gold-600/30'
+              : 'bg-stone-200/80 text-forest-800 border-stone-300';
+
+          return `
+            <div class="p-2.5 rounded-xl bg-white border border-[#E2DAC7] hover:border-gold-500 transition flex items-center justify-between gap-2.5">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-gold-600/15 text-gold-700">
+                    ${escapeHtml(item.dalilType)}
+                  </span>
+                  <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border ${badgeClass}">
+                    ${escapeHtml(item.category)}
+                  </span>
+                  <span class="text-[10px] text-[#596B60] truncate">${escapeHtml(item.source)}</span>
+                </div>
+                <div class="text-xs font-bold text-forest-800 truncate mt-1">
+                  ${escapeHtml(item.title)}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onclick="useDailyLibraryItem(${idx})"
+                class="px-2.5 py-1.5 rounded-lg bg-forest-800 hover:bg-forest-700 text-ivory-100 text-[11px] font-bold transition shrink-0"
+              >
+                Pakai &amp; Generate
+              </button>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    async function refreshDailyDalilLibrary(useAI = false) {
+      if (!useAI) {
+        appState.aiDailyPicks = null;
+        appState.dailyOffset = (appState.dailyOffset + 1) % 4;
+        renderDailyDalilLibrary();
+        showToast('🔄 Koleksi Ide Dalil Harian diperbarui!');
+        return;
+      }
+
+      const apiKey = document.getElementById('gemini-api-key').value.trim();
+      if (!apiKey) {
+        // Rotate curated set and notify user gently
+        appState.aiDailyPicks = null;
+        appState.dailyOffset = (appState.dailyOffset + 1) % 4;
+        renderDailyDalilLibrary();
+        showToast('💡 Ide dalil kurasi diputar! Isi Gemini API Key untuk rekomendasi AI tak terbatas.');
+        return;
+      }
+
+      const aiBtn = document.getElementById('refresh-ai-library-btn');
+      aiBtn.disabled = true;
+      aiBtn.textContent = '...';
+
+      try {
+        const selectedModel = document.getElementById('gemini-model-select')?.value || 'auto';
+        const modelToUse = selectedModel === 'auto' ? GEMINI_FREE_TIER_CHAIN[0] : selectedModel;
+        const prompt = `Berikan 3 ide dalil Islam yang menyentuh hati dan relevan untuk konten carousel Instagram hari ini:
+1 dalil kategori "TAUHID (AKIDAH)", 1 dalil kategori "FIQIH", dan 1 dalil kategori "TASAWUF (AKHLAK)" (campuran HADITS shahih dan AL-QUR'AN).
+Kembalikan HANYA JSON array valid berisi 3 objek persis dengan format:
+[
+  {
+    "dalilType": "HADITS" atau "AL-QUR'AN",
+    "category": "TAUHID (AKIDAH)" atau "FIQIH" atau "TASAWUF (AKHLAK)",
+    "title": "Judul topik singkat maksimal 6 kata",
+    "source": "Rujukan sumber resmi (misal: QS. Al-Mulk: 2 atau HR. Muslim no. 2564)",
+    "dalilText": "Teks Arab berharakat lengkap + terjemahan Indonesia + sumber"
+  }
+]`;
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+          modelToUse
+        )}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: 'application/json', temperature: 0.85 },
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error?.message || 'Gagal mengambil ide AI');
+
+        const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+        const parsedArr = JSON.parse(cleaned);
+
+        if (Array.isArray(parsedArr) && parsedArr.length >= 3) {
+          appState.aiDailyPicks = parsedArr.slice(0, 3).map((item, i) => ({
+            id: `ai_pick_${Date.now()}_${i}`,
+            dalilType: normalizeDalilType(item.dalilType),
+            category: normalizeCanonicalCategory(item.category),
+            title: String(item.title || 'Inspirasi Dalil Harian').trim(),
+            source: String(item.source || 'Dalil Shahih').trim(),
+            dalilText: String(item.dalilText || '').trim(),
+          }));
+          renderDailyDalilLibrary();
+          showToast('✨ 3 Ide Dalil Harian baru berhasil diracik Gemini AI!');
+        } else {
+          throw new Error('Format daftar ide tidak sesuai');
+        }
+      } catch (err) {
+        console.warn('AI Daily Library fallback:', err);
+        appState.aiDailyPicks = null;
+        appState.dailyOffset = (appState.dailyOffset + 1) % 4;
+        renderDailyDalilLibrary();
+        showToast('🔄 Menampilkan set dalil pilihan kurasi berikutnya.');
+      } finally {
+        aiBtn.disabled = false;
+        aiBtn.textContent = '✨ AI';
+      }
+    }
+
+    async function useDailyLibraryItem(idx) {
+      const picks = getCurrentDailyPicks();
+      const item = picks[idx];
+      if (!item) return;
+
+      highlightPresetButton(null);
+      document.getElementById('dalil-input').value = item.dalilText;
+
+      const apiKey = document.getElementById('gemini-api-key').value.trim();
+      const pointCount = parseInt(document.getElementById('point-count-select').value, 10) || 3;
+
+      if (apiKey) {
+        await generateWithGeminiAPI(apiKey, item.dalilText, pointCount);
+      } else {
+        runInstantLocalFallback();
+      }
+    }
+
+    // =========================================================================
+    // 7. PRESETS, CLASSIFICATION & STATE SYNCHRONIZATION
     // =========================================================================
     function normalizeDalilType(rawType) {
       if (!rawType) return 'HADITS';
@@ -1271,7 +1679,7 @@
           highlightPhrase: `Refleksi ke-${idx}`,
           microNote:
             'Renungkan makna dalil ini dengan hati yang lapang dan hadirkan niat tulus untuk mengamalkannya hari ini.',
-          bridgeCue: idx === targetCount ? 'Simak dalilnya →' : 'Lanjut →',
+          bridgeCue: idx === targetCount ? 'Ini jaminan dalilnya →' : 'Lalu apa dampaknya? →',
         });
       }
 
@@ -1286,7 +1694,7 @@
         headline: `Poin Refleksi ke-${newNum} yang Menguatkan Hati`,
         highlightPhrase: `Refleksi ke-${newNum}`,
         microNote: 'Jadikan nilai mulia dari dalil ini sebagai pegangan praktis dalam aktivitas sehari-hari.',
-        bridgeCue: 'Simak dalilnya →',
+        bridgeCue: 'Ini jaminan dalilnya →',
       });
       document.getElementById('point-count-select').value = String(appState.carouselData.points.length);
       appState.activeSlideIndex = newNum;
@@ -1311,7 +1719,7 @@
     }
 
     // =========================================================================
-    // 6. FLATTEN SLIDE STRUCTURE
+    // 8. FLATTEN SLIDE STRUCTURE & SMART DALIL EXCERPT HELPER
     // =========================================================================
     function getSlidesList() {
       const d = appState.carouselData;
@@ -1352,8 +1760,34 @@
       return list;
     }
 
+    /**
+     * Smart Excerpting & Anti-Overload for Slide 5 (Dalil):
+     * Trims overly long Arabic (>18 words) and Indonesian translation (>28 words)
+     * cleanly at word boundaries so font sizes stay large and readable on mobile.
+     */
+    function formatSmartDalilExcerpt(arabicText, translation) {
+      let cleanArabic = (arabicText || '').trim();
+      let cleanTrans = (translation || '').trim();
+
+      if (cleanArabic) {
+        const aWords = cleanArabic.split(/\s+/).filter(Boolean);
+        if (aWords.length > 18) {
+          cleanArabic = aWords.slice(0, 18).join(' ').replace(/[،؛:.]+$/, '') + '...';
+        }
+      }
+
+      if (cleanTrans) {
+        const tWords = cleanTrans.split(/\s+/).filter(Boolean);
+        if (tWords.length > 28) {
+          cleanTrans = tWords.slice(0, 28).join(' ').replace(/[,;:.]+$/, '') + '...';
+        }
+      }
+
+      return { arabic: cleanArabic, translation: cleanTrans };
+    }
+
     // =========================================================================
-    // 7. PURE HTML5 CANVAS 2D ENGINE (1080 x 1350 PX — 4:5 PORTRAIT RATIO)
+    // 9. HIGH-RETENTION HTML5 CANVAS 2D ENGINE (1080 x 1350 PX — 4:5 PORTRAIT)
     // =========================================================================
     function drawRoundedRectPath(ctx, x, y, width, height, radius) {
       const r = Math.min(radius, width / 2, height / 2);
@@ -1391,6 +1825,10 @@
       return allLines;
     }
 
+    /**
+     * Draws centered multi-line text with golden highlight on highlightPhrase,
+     * plus optional warm highlight pill backdrop behind matched phrases.
+     */
     function drawRichCenteredBlock(ctx, options) {
       const {
         text,
@@ -1403,6 +1841,7 @@
         highlightColor,
         baseFont,
         highlightFont,
+        pillBackdropColor = null,
       } = options;
 
       ctx.font = baseFont;
@@ -1448,6 +1887,13 @@
             cursorX += wBefore;
           }
           if (matched) {
+            if (pillBackdropColor) {
+              ctx.save();
+              ctx.fillStyle = pillBackdropColor;
+              drawRoundedRectPath(ctx, cursorX - 10, y - lineHeight * 0.42, wMatched + 20, lineHeight * 0.84, 14);
+              ctx.fill();
+              ctx.restore();
+            }
             ctx.font = highlightFont;
             ctx.fillStyle = highlightColor;
             ctx.fillText(matched, cursorX, y);
@@ -1473,6 +1919,13 @@
           let cursorX = centerX - totalW / 2;
           ctx.textAlign = 'left';
           measured.forEach((seg) => {
+            if (seg.isHi && pillBackdropColor && seg.tok.trim()) {
+              ctx.save();
+              ctx.fillStyle = pillBackdropColor;
+              drawRoundedRectPath(ctx, cursorX - 6, y - lineHeight * 0.42, seg.w + 12, lineHeight * 0.84, 12);
+              ctx.fill();
+              ctx.restore();
+            }
             ctx.font = seg.isHi ? highlightFont : baseFont;
             ctx.fillStyle = seg.isHi ? highlightColor : baseColor;
             ctx.fillText(seg.tok, cursorX, y);
@@ -1483,6 +1936,88 @@
           ctx.fillStyle = baseColor;
           ctx.textAlign = 'center';
           ctx.fillText(line, centerX, y);
+        }
+      });
+
+      return lines.length * lineHeight;
+    }
+
+    /**
+     * Left-aligned rich text block for Poin 1 Editorial Layout
+     */
+    function drawRichLeftBlock(ctx, options) {
+      const {
+        text,
+        highlightPhrase = '',
+        leftX,
+        startY,
+        maxWidth,
+        lineHeight,
+        baseColor,
+        highlightColor,
+        baseFont,
+        highlightFont,
+      } = options;
+
+      ctx.font = baseFont;
+      ctx.textBaseline = 'middle';
+      ctx.direction = 'ltr';
+      ctx.textAlign = 'left';
+
+      const lines = wrapTextIntoLines(ctx, text, maxWidth);
+      const cleanHighlight = highlightPhrase ? highlightPhrase.trim().toLowerCase() : '';
+
+      lines.forEach((line, lineIdx) => {
+        const y = startY + lineIdx * lineHeight;
+        let cursorX = leftX;
+
+        if (!cleanHighlight) {
+          ctx.font = baseFont;
+          ctx.fillStyle = baseColor;
+          ctx.fillText(line, cursorX, y);
+          return;
+        }
+
+        const lowerLine = line.toLowerCase();
+        const matchIdx = lowerLine.indexOf(cleanHighlight);
+        const highlightWords = cleanHighlight.split(/\s+/).filter((w) => w.length > 2);
+
+        if (matchIdx !== -1) {
+          const before = line.slice(0, matchIdx);
+          const matched = line.slice(matchIdx, matchIdx + cleanHighlight.length);
+          const after = line.slice(matchIdx + cleanHighlight.length);
+
+          if (before) {
+            ctx.font = baseFont;
+            ctx.fillStyle = baseColor;
+            ctx.fillText(before, cursorX, y);
+            cursorX += ctx.measureText(before).width;
+          }
+          if (matched) {
+            ctx.font = highlightFont;
+            ctx.fillStyle = highlightColor;
+            ctx.fillText(matched, cursorX, y);
+            cursorX += ctx.measureText(matched).width;
+          }
+          if (after) {
+            ctx.font = baseFont;
+            ctx.fillStyle = baseColor;
+            ctx.fillText(after, cursorX, y);
+          }
+        } else if (highlightWords.length > 1) {
+          const tokens = line.split(/(\s+)/);
+          tokens.forEach((tok) => {
+            const stripped = tok.toLowerCase().replace(/[.,!?;:"'()]/g, '');
+            const isHi = stripped && highlightWords.includes(stripped);
+            ctx.font = isHi ? highlightFont : baseFont;
+            ctx.fillStyle = isHi ? highlightColor : baseColor;
+            ctx.fillText(tok, cursorX, y);
+            cursorX += ctx.measureText(tok).width;
+          });
+        } else {
+          ctx.font = baseFont;
+          ctx.fillStyle = baseColor;
+          ctx.fillText(line, cursorX, y);
         }
       });
 
@@ -1535,18 +2070,21 @@
       ctx.restore();
     }
 
-    function drawPaginationDotsCanvas(ctx, rightX, centerY, totalSlides, activeIndex, theme) {
-      const dotR = 7.5;
-      const activeW = 46;
-      const gap = 14;
+    /**
+     * Draws bottom-right Pagination Dots AND optional Goal-Gradient Progress Pill (e.g. "02 / 06")
+     */
+    function drawFooterProgressAndDots(ctx, rightX, centerY, totalSlides, activeIndex, theme, showProgressPill) {
+      const dotR = 7;
+      const activeW = 42;
+      const gap = 12;
 
-      let totalW = 0;
+      let dotsW = 0;
       for (let i = 0; i < totalSlides; i++) {
-        totalW += i === activeIndex ? activeW : dotR * 2;
-        if (i < totalSlides - 1) totalW += gap;
+        dotsW += i === activeIndex ? activeW : dotR * 2;
+        if (i < totalSlides - 1) dotsW += gap;
       }
 
-      let curX = rightX - totalW;
+      let curX = rightX - dotsW;
       for (let i = 0; i < totalSlides; i++) {
         if (i === activeIndex) {
           ctx.fillStyle = theme.accentGold;
@@ -1561,11 +2099,39 @@
           curX += dotR * 2 + gap;
         }
       }
+
+      if (showProgressPill) {
+        const curNum = String(activeIndex + 1).padStart(2, '0');
+        const totNum = String(totalSlides).padStart(2, '0');
+        const pillLabel = `${curNum} / ${totNum}`;
+
+        ctx.save();
+        ctx.font = '700 23px "Plus Jakarta Sans", sans-serif';
+        const textW = ctx.measureText(pillLabel).width;
+        const pillW = textW + 32;
+        const pillH = 38;
+        const pillX = rightX - dotsW - 18 - pillW;
+        const pillY = centerY - pillH / 2;
+
+        ctx.fillStyle = theme.highlightBg;
+        drawRoundedRectPath(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+        ctx.fill();
+
+        ctx.strokeStyle = theme.frameBorder;
+        ctx.lineWidth = 1.8;
+        drawRoundedRectPath(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+        ctx.stroke();
+
+        ctx.fillStyle = theme.accentGold;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(pillLabel, pillX + pillW / 2, centerY + 1);
+        ctx.restore();
+      }
     }
 
     function drawBookmarkAndShareIcons(ctx, centerX, centerY, color) {
       ctx.save();
-      // Gold Outline Bookmark Icon
       const bx = centerX - 68;
       const by = centerY - 34;
       ctx.strokeStyle = color;
@@ -1583,7 +2149,6 @@
       ctx.closePath();
       ctx.stroke();
 
-      // Solid Gold Curved Share Arrow Icon
       const sx = centerX + 18;
       const sy = centerY - 34;
       ctx.fillStyle = color;
@@ -1600,11 +2165,7 @@
       ctx.restore();
     }
 
-    /**
-     * Subtle deterministic paper grain + sacred geometry watermark
-     */
     function drawPaperTextureAndWatermark(ctx, W, H, theme) {
-      // Subtle paper fiber speckles
       ctx.save();
       ctx.fillStyle = theme.accentGold;
       ctx.globalAlpha = 0.025;
@@ -1618,7 +2179,6 @@
       }
       ctx.restore();
 
-      // Faint Islamic Sacred Geometry Watermark
       ctx.save();
       ctx.globalAlpha = theme.watermarkAlpha;
       ctx.strokeStyle = theme.accentGold;
@@ -1642,7 +2202,7 @@
     }
 
     /**
-     * Master Canvas 2D Slide Renderer at 1080x1350 px (4:5 Ratio)
+     * Master High-Retention Canvas 2D Slide Renderer at 1080x1350 px (4:5 Ratio)
      */
     function renderSlideToCanvas(canvas, slideObj, slideIndex, totalSlides) {
       const ctx = canvas.getContext('2d');
@@ -1652,8 +2212,11 @@
       canvas.height = H;
 
       const theme = THEMES[appState.theme] || THEMES.ivory;
+      const showReadingBadge = document.getElementById('toggle-reading-badge')?.checked ?? true;
+      const showLayoutVariation = document.getElementById('toggle-layout-variation')?.checked ?? true;
       const showMicroNote = document.getElementById('toggle-micro-explanation')?.checked ?? true;
       const showBridgeCue = document.getElementById('toggle-curiosity-bridge')?.checked ?? true;
+      const showProgressBar = document.getElementById('toggle-progress-bar')?.checked ?? true;
       const showAmalTip = document.getElementById('toggle-intisari-amal')?.checked ?? true;
       const showCommentPrompt = document.getElementById('toggle-comment-prompt')?.checked ?? true;
 
@@ -1669,7 +2232,7 @@
       // 2. Subtle Paper Grain & Islamic Sacred Geometry Watermark
       drawPaperTextureAndWatermark(ctx, W, H, theme);
 
-      // 3. Outer Thin Rounded Editorial Frame + Top & Bottom Diamond Ornaments
+      // 3. Outer Thin Rounded Editorial Frame + Goal-Gradient Bottom Progress Bar
       const inset = 44;
       ctx.save();
       ctx.strokeStyle = theme.frameBorder;
@@ -1677,6 +2240,20 @@
       drawRoundedRectPath(ctx, inset, inset, W - inset * 2, H - inset * 2, 46);
       ctx.stroke();
 
+      // Goal-Gradient Progress Fill along the bottom border of the frame
+      if (showProgressBar && totalSlides > 1) {
+        const barStartX = inset + 52;
+        const barEndX = W - inset - 52;
+        const barTotalW = barEndX - barStartX;
+        const progressRatio = Math.min(1, Math.max(0.08, (slideIndex + 1) / totalSlides));
+        const fillW = barTotalW * progressRatio;
+
+        ctx.fillStyle = theme.accentGold;
+        drawRoundedRectPath(ctx, barStartX, H - inset - 3, fillW, 6, 3);
+        ctx.fill();
+      }
+
+      // Top & Bottom Diamond Ornaments
       [inset, H - inset].forEach((diamondY) => {
         ctx.fillStyle = theme.bg;
         ctx.fillRect(W / 2 - 28, diamondY - 16, 56, 32);
@@ -1685,13 +2262,49 @@
       ctx.restore();
 
       // =======================================================================
-      // SLIDE 1: COVER HOOK
+      // SLIDE 1: COVER HOOK (DYNAMIC VERTICAL CENTERING + READING-TIME BADGE)
       // =======================================================================
       if (slideObj.type === 'cover') {
         const { hookTitle, highlightWord, subHook } = slideObj.data;
+        const pointCount = (appState.carouselData.points || []).length;
+        const readSeconds = 15 + pointCount * 5;
+
+        const titleLen = (hookTitle || '').length;
+        const hookFontSize = titleLen > 45 ? 78 : 90;
+        const hookLineH = titleLen > 45 ? 96 : 110;
+
+        // Pre-measure heights for mathematical vertical centering
+        ctx.font = `700 ${hookFontSize}px "Playfair Display", serif`;
+        const titleLines = wrapTextIntoLines(ctx, hookTitle, 830);
+        const titleBlockH = titleLines.length * hookLineH;
+
+        ctx.font = '500 40px "Plus Jakarta Sans", sans-serif';
+        const subLines = wrapTextIntoLines(ctx, subHook, 780);
+        const subBlockH = subLines.length * 60;
+
+        const moonH = 76;
+        const catH = 34;
+        const dividerH = 6;
+        const badgeH = showReadingBadge ? 52 : 0;
+
+        const totalContentH =
+          moonH +
+          34 +
+          catH +
+          64 +
+          titleBlockH +
+          22 +
+          dividerH +
+          48 +
+          subBlockH +
+          (showReadingBadge ? 44 + badgeH : 0);
+
+        const safeCenterY = 635;
+        let curY = Math.max(185, safeCenterY - totalContentH / 2);
 
         // Crescent Moon Emblem
-        drawCrescentMoon(ctx, W / 2, 232, 38, theme.accentGold);
+        drawCrescentMoon(ctx, W / 2, curY + moonH / 2, 38, theme.accentGold);
+        curY += moonH + 34;
 
         // Category Label
         ctx.save();
@@ -1700,19 +2313,16 @@
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.letterSpacing = '6px';
-        ctx.fillText(categoryLabel, W / 2, 320);
+        ctx.fillText(categoryLabel, W / 2, curY + catH / 2);
         ctx.restore();
+        curY += catH + 64 + hookLineH * 0.42;
 
-        // Adaptive Title Font Size for Very Long Hook Titles
-        const titleLen = (hookTitle || '').length;
-        const hookFontSize = titleLen > 45 ? 80 : 92;
-        const hookLineH = titleLen > 45 ? 98 : 112;
-
-        const titleUsedH = drawRichCenteredBlock(ctx, {
+        // Main Serif Hook Title
+        const usedTitleH = drawRichCenteredBlock(ctx, {
           text: hookTitle,
           highlightPhrase: highlightWord,
           centerX: W / 2,
-          startY: 465,
+          startY: curY,
           maxWidth: 830,
           lineHeight: hookLineH,
           baseColor: theme.primaryText,
@@ -1720,25 +2330,54 @@
           baseFont: `700 ${hookFontSize}px "Playfair Display", serif`,
           highlightFont: `italic 700 ${hookFontSize}px "Playfair Display", serif`,
         });
+        curY += usedTitleH - hookLineH * 0.42 + 22;
 
         // Short Gold Horizontal Rule
-        const dividerY = 465 + titleUsedH - 12;
         ctx.fillStyle = theme.accentGold;
-        drawRoundedRectPath(ctx, W / 2 - 52, dividerY, 104, 6, 3);
+        drawRoundedRectPath(ctx, W / 2 - 52, curY, 104, dividerH, 3);
         ctx.fill();
+        curY += dividerH + 48 + 24;
 
-        // Relatable 2-Line Subtitle
-        drawRichCenteredBlock(ctx, {
+        // Relatable 2-Line Sub-Hook
+        const usedSubH = drawRichCenteredBlock(ctx, {
           text: subHook,
           centerX: W / 2,
-          startY: dividerY + 74,
+          startY: curY,
           maxWidth: 780,
-          lineHeight: 62,
+          lineHeight: 60,
           baseColor: theme.secondaryText,
           highlightColor: theme.accentGold,
           baseFont: '500 40px "Plus Jakarta Sans", sans-serif',
           highlightFont: '700 40px "Plus Jakarta Sans", sans-serif',
         });
+        curY += usedSubH - 24;
+
+        // Optional Reading-Time & Value Pill Badge
+        if (showReadingBadge) {
+          curY += 38;
+          const badgeLabel = `⏱ Baca ${readSeconds} Detik • ${pointCount} Poin Refleksi`;
+          ctx.save();
+          ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
+          const bTextW = ctx.measureText(badgeLabel).width;
+          const bPillW = bTextW + 56;
+          const bPillH = 50;
+          const bPillX = W / 2 - bPillW / 2;
+
+          ctx.fillStyle = theme.highlightBg;
+          drawRoundedRectPath(ctx, bPillX, curY, bPillW, bPillH, bPillH / 2);
+          ctx.fill();
+
+          ctx.strokeStyle = theme.frameBorder;
+          ctx.lineWidth = 2;
+          drawRoundedRectPath(ctx, bPillX, curY, bPillW, bPillH, bPillH / 2);
+          ctx.stroke();
+
+          ctx.fillStyle = theme.accentGold;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(badgeLabel, W / 2, curY + bPillH / 2 + 1);
+          ctx.restore();
+        }
 
         // Bottom-Left @handle
         ctx.save();
@@ -1769,10 +2408,12 @@
       }
 
       // =======================================================================
-      // SLIDES 2..N: POINT SLIDES (1..3)
+      // SLIDES 2..N: POINT SLIDES WITH 3 DISTINCT VISUAL LAYOUT PATTERNS
       // =======================================================================
       else if (slideObj.type === 'point') {
         const { headline, highlightPhrase, microNote, bridgeCue } = slideObj.data;
+        const ptNum = slideObj.number;
+        const numStr = String(ptNum).padStart(2, '0');
 
         // Top-Left Category Label
         ctx.save();
@@ -1784,69 +2425,279 @@
         ctx.fillText(categoryLabel, 96, 114);
         ctx.restore();
 
-        // Centered Gold Number with Flanking Star-Lines: ✦ ──── 1 ──── ✦
-        const numY = showMicroNote ? 385 : 445;
-        ctx.save();
-        ctx.font = '700 112px "Playfair Display", serif';
-        ctx.fillStyle = theme.accentGold;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(String(slideObj.number), W / 2, numY);
+        // LAYOUT VARIATION 1: POIN 1 — Validasi Emosi / Masalah (Left-Aligned + Gold Bar + Callout Card)
+        if (showLayoutVariation && ptNum === 1) {
+          const leftX = 148;
+          const maxBodyW = 805;
+          const headlineFontSize = showMicroNote ? 64 : 74;
+          const headlineLH = showMicroNote ? 82 : 94;
 
-        ctx.strokeStyle = theme.frameBorder;
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(W / 2 - 210, numY);
-        ctx.lineTo(W / 2 - 82, numY);
-        ctx.moveTo(W / 2 + 82, numY);
-        ctx.lineTo(W / 2 + 210, numY);
-        ctx.stroke();
+          ctx.font = `700 ${headlineFontSize}px "Playfair Display", serif`;
+          const hLines = wrapTextIntoLines(ctx, headline, maxBodyW);
+          const headlineH = hLines.length * headlineLH;
 
-        ctx.font = '700 26px "Plus Jakarta Sans", sans-serif';
-        ctx.fillStyle = theme.accentGold;
-        ctx.fillText('✦', W / 2 - 235, numY);
-        ctx.fillText('✦', W / 2 + 235, numY);
-        ctx.restore();
+          ctx.font = '400 33px "Plus Jakarta Sans", sans-serif';
+          const mLines = showMicroNote && microNote ? wrapTextIntoLines(ctx, microNote, maxBodyW - 56) : [];
+          const microCardH = mLines.length > 0 ? mLines.length * 50 + 86 : 0;
 
-        // Large Serif Point Headline
-        const headlineStartY = numY + 135;
-        const headlineFontSize = showMicroNote ? 68 : 76;
-        const headlineLineHeight = showMicroNote ? 86 : 96;
+          const headerBlockH = 92;
+          const totalH = headerBlockH + 38 + headlineH + (microCardH > 0 ? 44 + microCardH : 0);
+          let curY = Math.max(195, 625 - totalH / 2);
 
-        const usedHeadlineH = drawRichCenteredBlock(ctx, {
-          text: headline,
-          highlightPhrase: highlightPhrase,
-          centerX: W / 2,
-          startY: headlineStartY,
-          maxWidth: 830,
-          lineHeight: headlineLineHeight,
-          baseColor: theme.primaryText,
-          highlightColor: theme.accentGold,
-          baseFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
-          highlightFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
-        });
+          // Left-Aligned Editorial Number + Tag ("01 • VALIDASI RASA")
+          ctx.save();
+          ctx.font = '700 88px "Playfair Display", serif';
+          ctx.fillStyle = theme.accentGold;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(numStr, 116, curY + 42);
 
-        // Optional 2-Line MicroNote (Dwell-Time Booster)
-        if (showMicroNote && microNote) {
-          const sepY = headlineStartY + usedHeadlineH - 12;
-          ctx.fillStyle = theme.frameBorder;
-          drawRoundedRectPath(ctx, W / 2 - 42, sepY, 84, 4, 2);
+          const numW = ctx.measureText(numStr).width;
+          ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = theme.categoryColor;
+          ctx.letterSpacing = '4px';
+          ctx.fillText('• VALIDASI RASA', 116 + numW + 24, curY + 48);
+          ctx.restore();
+
+          curY += headerBlockH + 38;
+
+          // Bold Vertical Gold Accent Bar alongside left-aligned Headline
+          const barTopY = curY - 12;
+          const barH = headlineH + 14;
+          ctx.fillStyle = theme.accentGold;
+          drawRoundedRectPath(ctx, 116, barTopY, 8, barH, 4);
           ctx.fill();
 
-          drawRichCenteredBlock(ctx, {
-            text: microNote,
-            centerX: W / 2,
-            startY: sepY + 58,
-            maxWidth: 810,
-            lineHeight: 54,
-            baseColor: theme.secondaryText,
+          drawRichLeftBlock(ctx, {
+            text: headline,
+            highlightPhrase: highlightPhrase,
+            leftX: leftX,
+            startY: curY + headlineLH * 0.42,
+            maxWidth: maxBodyW,
+            lineHeight: headlineLH,
+            baseColor: theme.primaryText,
             highlightColor: theme.accentGold,
-            baseFont: '400 35px "Plus Jakarta Sans", sans-serif',
-            highlightFont: '600 35px "Plus Jakarta Sans", sans-serif',
+            baseFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
+            highlightFont: `italic 700 ${headlineFontSize}px "Playfair Display", serif`,
           });
+
+          curY += headlineH + 44;
+
+          // Subtle Tinted Callout Card for 2-line MicroNote
+          if (showMicroNote && mLines.length > 0) {
+            const cardX = 116;
+            const cardW = 848;
+            ctx.save();
+            ctx.fillStyle = theme.highlightBg;
+            drawRoundedRectPath(ctx, cardX, curY, cardW, microCardH, 26);
+            ctx.fill();
+
+            ctx.strokeStyle = theme.frameBorder;
+            ctx.lineWidth = 1.8;
+            drawRoundedRectPath(ctx, cardX, curY, cardW, microCardH, 26);
+            ctx.stroke();
+
+            ctx.font = '700 21px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = theme.accentGold;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.letterSpacing = '3px';
+            ctx.fillText('REFLEKSI HATI', cardX + 32, curY + 34);
+            ctx.restore();
+
+            drawRichLeftBlock(ctx, {
+              text: microNote,
+              leftX: cardX + 32,
+              startY: curY + 76,
+              maxWidth: cardW - 64,
+              lineHeight: 50,
+              baseColor: theme.secondaryText,
+              highlightColor: theme.accentGold,
+              baseFont: '400 33px "Plus Jakarta Sans", sans-serif',
+              highlightFont: '600 33px "Plus Jakarta Sans", sans-serif',
+            });
+          }
         }
 
-        // Optional Curiosity Bridge Cue at Bottom-Right Above Pagination Dots
+        // LAYOUT VARIATION 3: POIN 3 — Langkah Praktis (Framed Editorial Insight Card)
+        else if (showLayoutVariation && ptNum === 3) {
+          const cardX = 96;
+          const cardW = 888;
+          const headlineFontSize = showMicroNote ? 62 : 72;
+          const headlineLH = showMicroNote ? 80 : 92;
+
+          ctx.font = `700 ${headlineFontSize}px "Playfair Display", serif`;
+          const hLines = wrapTextIntoLines(ctx, headline, cardW - 110);
+          const headlineH = hLines.length * headlineLH;
+
+          ctx.font = '400 34px "Plus Jakarta Sans", sans-serif';
+          const mLines = showMicroNote && microNote ? wrapTextIntoLines(ctx, microNote, cardW - 120) : [];
+          const microH = mLines.length * 52;
+
+          const innerTopPad = 56;
+          const badgeH = 48;
+          const totalCardH =
+            innerTopPad +
+            badgeH +
+            48 +
+            headlineH +
+            (microH > 0 ? 24 + 4 + 44 + microH : 0) +
+            60;
+
+          const cardY = Math.max(190, 625 - totalCardH / 2);
+
+          // Framed Editorial Card Backdrop
+          ctx.save();
+          ctx.fillStyle = theme.highlightBg;
+          drawRoundedRectPath(ctx, cardX, cardY, cardW, totalCardH, 38);
+          ctx.fill();
+
+          ctx.strokeStyle = theme.frameBorder;
+          ctx.lineWidth = 2.5;
+          drawRoundedRectPath(ctx, cardX, cardY, cardW, totalCardH, 38);
+          ctx.stroke();
+          ctx.restore();
+
+          // Top Badge: "03 • LANGKAH PRAKTIS"
+          let curY = cardY + innerTopPad;
+          const badgeText = `${numStr} • LANGKAH PRAKTIS`;
+          ctx.save();
+          ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
+          const bW = ctx.measureText(badgeText).width + 52;
+          const bX = W / 2 - bW / 2;
+
+          ctx.fillStyle = theme.bg;
+          drawRoundedRectPath(ctx, bX, curY, bW, badgeH, badgeH / 2);
+          ctx.fill();
+
+          ctx.strokeStyle = theme.accentGold;
+          ctx.lineWidth = 2;
+          drawRoundedRectPath(ctx, bX, curY, bW, badgeH, badgeH / 2);
+          ctx.stroke();
+
+          ctx.fillStyle = theme.accentGold;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(badgeText, W / 2, curY + badgeH / 2 + 1);
+          ctx.restore();
+
+          curY += badgeH + 48 + headlineLH * 0.42;
+
+          // Centered Serif Headline
+          const usedHH = drawRichCenteredBlock(ctx, {
+            text: headline,
+            highlightPhrase: highlightPhrase,
+            centerX: W / 2,
+            startY: curY,
+            maxWidth: cardW - 110,
+            lineHeight: headlineLH,
+            baseColor: theme.primaryText,
+            highlightColor: theme.accentGold,
+            baseFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
+            highlightFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
+          });
+
+          if (showMicroNote && microNote) {
+            curY += usedHH - headlineLH * 0.42 + 24;
+            ctx.fillStyle = theme.accentGold;
+            drawRoundedRectPath(ctx, W / 2 - 44, curY, 88, 4, 2);
+            ctx.fill();
+            curY += 48;
+
+            drawRichCenteredBlock(ctx, {
+              text: microNote,
+              centerX: W / 2,
+              startY: curY,
+              maxWidth: cardW - 120,
+              lineHeight: 52,
+              baseColor: theme.secondaryText,
+              highlightColor: theme.accentGold,
+              baseFont: '400 34px "Plus Jakarta Sans", sans-serif',
+              highlightFont: '600 34px "Plus Jakarta Sans", sans-serif',
+            });
+          }
+        }
+
+        // LAYOUT VARIATION 2 (AND FALLBACK): Classic Centered Editorial + Highlight Pill Backdrop
+        else {
+          const headlineFontSize = showMicroNote ? 68 : 76;
+          const headlineLineHeight = showMicroNote ? 86 : 96;
+
+          ctx.font = `700 ${headlineFontSize}px "Playfair Display", serif`;
+          const hLines = wrapTextIntoLines(ctx, headline, 830);
+          const headlineH = hLines.length * headlineLineHeight;
+
+          ctx.font = '400 35px "Plus Jakarta Sans", sans-serif';
+          const mLines = showMicroNote && microNote ? wrapTextIntoLines(ctx, microNote, 810) : [];
+          const microH = mLines.length * 54;
+
+          const numBlockH = 95;
+          const totalH = numBlockH + 56 + headlineH + (microH > 0 ? 22 + 4 + 46 + microH : 0);
+          let curY = Math.max(200, 625 - totalH / 2);
+
+          // Centered Gold Number with Flanking Star-Lines: ✦ ──── 02 ──── ✦
+          const numCenterY = curY + numBlockH / 2;
+          ctx.save();
+          ctx.font = '700 106px "Playfair Display", serif';
+          ctx.fillStyle = theme.accentGold;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(numStr, W / 2, numCenterY);
+
+          ctx.strokeStyle = theme.frameBorder;
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(W / 2 - 220, numCenterY);
+          ctx.lineTo(W / 2 - 92, numCenterY);
+          ctx.moveTo(W / 2 + 92, numCenterY);
+          ctx.lineTo(W / 2 + 220, numCenterY);
+          ctx.stroke();
+
+          ctx.font = '700 26px "Plus Jakarta Sans", sans-serif';
+          ctx.fillStyle = theme.accentGold;
+          ctx.fillText('✦', W / 2 - 245, numCenterY);
+          ctx.fillText('✦', W / 2 + 245, numCenterY);
+          ctx.restore();
+
+          curY += numBlockH + 56 + headlineLineHeight * 0.42;
+
+          // Large Serif Point Headline with Optional Gold-Tinted Pill Backdrop on Highlight Phrase
+          const usedHeadlineH = drawRichCenteredBlock(ctx, {
+            text: headline,
+            highlightPhrase: highlightPhrase,
+            centerX: W / 2,
+            startY: curY,
+            maxWidth: 830,
+            lineHeight: headlineLineHeight,
+            baseColor: theme.primaryText,
+            highlightColor: theme.accentGold,
+            baseFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
+            highlightFont: `700 ${headlineFontSize}px "Playfair Display", serif`,
+            pillBackdropColor: showLayoutVariation ? theme.highlightBg : null,
+          });
+
+          // Optional 2-Line MicroNote
+          if (showMicroNote && microNote) {
+            const sepY = curY + usedHeadlineH - headlineLineHeight * 0.42 + 22;
+            ctx.fillStyle = theme.frameBorder;
+            drawRoundedRectPath(ctx, W / 2 - 42, sepY, 84, 4, 2);
+            ctx.fill();
+
+            drawRichCenteredBlock(ctx, {
+              text: microNote,
+              centerX: W / 2,
+              startY: sepY + 52,
+              maxWidth: 810,
+              lineHeight: 54,
+              baseColor: theme.secondaryText,
+              highlightColor: theme.accentGold,
+              baseFont: '400 35px "Plus Jakarta Sans", sans-serif',
+              highlightFont: '600 35px "Plus Jakarta Sans", sans-serif',
+            });
+          }
+        }
+
+        // Open-Loop Curiosity Bridge Cue at Bottom-Right Above Footer
         if (showBridgeCue && bridgeCue) {
           ctx.save();
           ctx.font = '700 28px "Plus Jakarta Sans", sans-serif';
@@ -1857,7 +2708,7 @@
           ctx.restore();
         }
 
-        // Bottom-Left @handle + Bottom-Right Pagination Dots
+        // Bottom-Left @handle + Bottom-Right Progress Pill & Pagination Dots
         ctx.save();
         ctx.font = '600 31px "Plus Jakarta Sans", sans-serif';
         ctx.fillStyle = theme.secondaryText;
@@ -1866,14 +2717,15 @@
         ctx.fillText(handle, 96, H - 102);
         ctx.restore();
 
-        drawPaginationDotsCanvas(ctx, W - 96, H - 102, totalSlides, slideIndex, theme);
+        drawFooterProgressAndDots(ctx, W - 96, H - 102, totalSlides, slideIndex, theme, showProgressBar);
       }
 
       // =======================================================================
-      // DALIL SLIDE (AL-QUR'AN OR HADITS) WITH AUTO-FIT ARABIC & TRANSLATION
+      // DALIL SLIDE (AL-QUR'AN OR HADITS) WITH SMART EXCERPT & ANTI-OVERLOAD
       // =======================================================================
       else if (slideObj.type === 'dalil') {
         const { arabicText, translation, highlightPhrase, source, amalTip } = slideObj.data;
+        const excerpt = formatSmartDalilExcerpt(arabicText, translation);
 
         // Top-Left Category Label
         ctx.save();
@@ -1887,7 +2739,7 @@
 
         // Large Rounded Dark Emerald Card
         const cardX = 76;
-        const cardY = 175;
+        const cardY = 172;
         const cardW = W - 152;
         const cardH = showAmalTip && amalTip ? 875 : 980;
 
@@ -1909,7 +2761,7 @@
         ctx.restore();
 
         // Card Top Header: ──── ♦ AL-QUR'AN ♦ ──── or ──── ♦ HADITS ♦ ────
-        const headerY = cardY + 72;
+        const headerY = cardY + 70;
         ctx.save();
         ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
         ctx.fillStyle = theme.dalilBadgeText;
@@ -1929,38 +2781,51 @@
         ctx.stroke();
         ctx.restore();
 
-        // Adaptive Font Scaling so Arabic + Translation Never Clip Above Bottom Source Pill
-        const hasArabic = Boolean(arabicText && arabicText.trim());
-        const pillY = cardY + cardH - 98;
-        const availableBodyHeight = pillY - (headerY + 68);
+        // Adaptive Font Scaling with High Minimum Readability Thresholds (arabic >= 44px, trans >= 30px)
+        const hasArabic = Boolean(excerpt.arabic && excerpt.arabic.trim());
+        const pillY = cardY + cardH - 96;
+        const bodyTopLimit = headerY + 64;
+        const availableBodyHeight = pillY - bodyTopLimit - 24;
 
-        let arabicSize = 54;
-        let transSize = 34;
+        let arabicSize = 56;
+        let transSize = 35;
 
-        for (let scaleStep = 0; scaleStep < 5; scaleStep++) {
+        for (let scaleStep = 0; scaleStep < 6; scaleStep++) {
           let estimatedH = 0;
           if (hasArabic) {
             ctx.font = `700 ${arabicSize}px "Amiri", serif`;
-            const aLines = wrapTextIntoLines(ctx, arabicText, cardW - 116);
-            estimatedH += aLines.length * Math.round(arabicSize * 1.6) + 64;
+            const aLines = wrapTextIntoLines(ctx, excerpt.arabic, cardW - 116);
+            estimatedH += aLines.length * Math.round(arabicSize * 1.58) + 62;
           }
           ctx.font = `400 ${transSize}px "Plus Jakarta Sans", sans-serif`;
-          const tLines = wrapTextIntoLines(ctx, translation, cardW - 120);
+          const tLines = wrapTextIntoLines(ctx, excerpt.translation, cardW - 120);
           estimatedH += tLines.length * Math.round(transSize * 1.46);
 
           if (estimatedH <= availableBodyHeight) break;
-          arabicSize = Math.max(36, arabicSize - 4);
-          transSize = Math.max(25, transSize - 2);
+          arabicSize = Math.max(44, arabicSize - 3);
+          transSize = Math.max(30, transSize - 1);
         }
 
-        const arabicLH = Math.round(arabicSize * 1.6);
+        const arabicLH = Math.round(arabicSize * 1.58);
         const transLH = Math.round(transSize * 1.46);
 
-        let curY = headerY + 82;
+        // Compute exact body height to center Arabic + Divider + Translation vertically inside card
+        let totalInnerBodyH = 0;
+        if (hasArabic) {
+          ctx.font = `700 ${arabicSize}px "Amiri", serif`;
+          const aLines = wrapTextIntoLines(ctx, excerpt.arabic, cardW - 116);
+          totalInnerBodyH += aLines.length * arabicLH + 62;
+        }
+        ctx.font = `400 ${transSize}px "Plus Jakarta Sans", sans-serif`;
+        const tLines = wrapTextIntoLines(ctx, excerpt.translation, cardW - 120);
+        totalInnerBodyH += tLines.length * transLH;
+
+        let curY = Math.max(bodyTopLimit + 28, bodyTopLimit + (availableBodyHeight - totalInnerBodyH) / 2 + 26);
+
         if (hasArabic) {
           const usedArabicH = drawArabicCenteredBlock(
             ctx,
-            arabicText,
+            excerpt.arabic,
             W / 2,
             curY,
             cardW - 116,
@@ -1984,12 +2849,12 @@
           ctx.restore();
 
           drawDiamond(ctx, W / 2, curY, 14, null, theme.dalilBadgeBorder);
-          curY += 48;
+          curY += 46;
         }
 
         // Indonesian Translation with Warm Golden Highlight on Key Phrase
         drawRichCenteredBlock(ctx, {
-          text: translation,
+          text: excerpt.translation,
           highlightPhrase: highlightPhrase,
           centerX: W / 2,
           startY: curY,
@@ -2008,7 +2873,7 @@
         ctx.font = '700 27px "Plus Jakarta Sans", sans-serif';
         const pillTextW = ctx.measureText(badgeText).width;
         const pillW = Math.min(cardW - 80, pillTextW + 76);
-        const pillH = 58;
+        const pillH = 56;
         const pillX = W / 2 - pillW / 2;
 
         ctx.fillStyle = theme.dalilBadgeBg;
@@ -2050,7 +2915,7 @@
           });
         }
 
-        // Bottom-Left @handle + Bottom-Right Pagination Dots
+        // Bottom-Left @handle + Bottom-Right Progress Pill & Pagination Dots
         ctx.save();
         ctx.font = '600 31px "Plus Jakarta Sans", sans-serif';
         ctx.fillStyle = theme.secondaryText;
@@ -2059,23 +2924,48 @@
         ctx.fillText(handle, 96, H - 102);
         ctx.restore();
 
-        drawPaginationDotsCanvas(ctx, W - 96, H - 102, totalSlides, slideIndex, theme);
+        drawFooterProgressAndDots(ctx, W - 96, H - 102, totalSlides, slideIndex, theme, showProgressBar);
       }
 
       // =======================================================================
-      // CLOSING SLIDE
+      // CLOSING SLIDE (DYNAMIC VERTICAL CENTERING + COMMENT PROMPT)
       // =======================================================================
       else if (slideObj.type === 'closing') {
         const { ctaTitle, ctaSubtitle, commentPrompt } = slideObj.data;
 
+        ctx.font = '700 94px "Playfair Display", serif';
+        const ctaLines = wrapTextIntoLines(ctx, ctaTitle, 740);
+        const ctaBlockH = ctaLines.length * 108;
+
+        const iconH = 74;
+        const subH = 44;
+        const divH = 5;
+        const handleH = 40;
+        const promptH = showCommentPrompt && commentPrompt ? 128 : 0;
+
+        const totalClosingH =
+          iconH +
+          52 +
+          ctaBlockH +
+          18 +
+          subH +
+          54 +
+          divH +
+          52 +
+          handleH +
+          (promptH > 0 ? 58 + promptH : 0);
+
+        let curY = Math.max(210, 645 - totalClosingH / 2);
+
         // Gold Bookmark + Share Icons
-        drawBookmarkAndShareIcons(ctx, W / 2, 375, theme.accentGold);
+        drawBookmarkAndShareIcons(ctx, W / 2, curY + iconH / 2, theme.accentGold);
+        curY += iconH + 52 + 46;
 
         // Large Serif CTA Heading ("Simpan & bagikan")
         const usedCtaH = drawRichCenteredBlock(ctx, {
           text: ctaTitle,
           centerX: W / 2,
-          startY: 505,
+          startY: curY,
           maxWidth: 740,
           lineHeight: 108,
           baseColor: theme.primaryText,
@@ -2083,56 +2973,55 @@
           baseFont: '700 94px "Playfair Display", serif',
           highlightFont: '700 94px "Playfair Display", serif',
         });
+        curY += usedCtaH - 46 + 24;
 
         // Subtitle ("ke yang sedang butuh")
-        const subY = 505 + usedCtaH + 6;
         ctx.save();
         ctx.font = '600 40px "Plus Jakarta Sans", sans-serif';
         ctx.fillStyle = theme.secondaryText;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(ctaSubtitle, W / 2, subY);
+        ctx.fillText(ctaSubtitle, W / 2, curY + subH / 2);
         ctx.restore();
+        curY += subH + 50;
 
         // Gold Divider
-        const divY = subY + 64;
         ctx.fillStyle = theme.accentGold;
-        drawRoundedRectPath(ctx, W / 2 - 42, divY, 84, 5, 2.5);
+        drawRoundedRectPath(ctx, W / 2 - 42, curY, 84, divH, 2.5);
         ctx.fill();
+        curY += divH + 48;
 
         // Centered @handle
-        const handleY = divY + 58;
         ctx.save();
         ctx.font = '700 36px "Plus Jakarta Sans", sans-serif';
         ctx.fillStyle = theme.categoryColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(handle, W / 2, handleY);
+        ctx.fillText(handle, W / 2, curY + handleH / 2);
         ctx.restore();
+        curY += handleH + 54;
 
         // Optional Interactive Pemicu Komentar Box
         if (showCommentPrompt && commentPrompt) {
-          const promptY = handleY + 68;
           const promptW = 790;
-          const promptH = 128;
           const promptX = W / 2 - promptW / 2;
 
           ctx.save();
           ctx.fillStyle = theme.highlightBg;
-          drawRoundedRectPath(ctx, promptX, promptY, promptW, promptH, 28);
+          drawRoundedRectPath(ctx, promptX, curY, promptW, promptH, 28);
           ctx.fill();
 
           ctx.setLineDash([8, 8]);
           ctx.strokeStyle = theme.frameBorder;
           ctx.lineWidth = 2.5;
-          drawRoundedRectPath(ctx, promptX, promptY, promptW, promptH, 28);
+          drawRoundedRectPath(ctx, promptX, curY, promptW, promptH, 28);
           ctx.stroke();
           ctx.restore();
 
           drawRichCenteredBlock(ctx, {
             text: commentPrompt,
             centerX: W / 2,
-            startY: promptY + 44,
+            startY: curY + 44,
             maxWidth: promptW - 64,
             lineHeight: 42,
             baseColor: theme.primaryText,
@@ -2142,13 +3031,13 @@
           });
         }
 
-        // Bottom-Right Pagination Dots
-        drawPaginationDotsCanvas(ctx, W - 96, H - 102, totalSlides, slideIndex, theme);
+        // Bottom-Right Progress Pill & Pagination Dots
+        drawFooterProgressAndDots(ctx, W - 96, H - 102, totalSlides, slideIndex, theme, showProgressBar);
       }
     }
 
     // =========================================================================
-    // 8. WORKSPACE VIEW RENDERING & NAVIGATION
+    // 10. WORKSPACE VIEW RENDERING & NAVIGATION
     // =========================================================================
     function renderWorkspace() {
       const slides = getSlidesList();
@@ -2313,7 +3202,7 @@
     }
 
     // =========================================================================
-    // 9. LIVE SLIDE EDITOR
+    // 11. LIVE SLIDE EDITOR
     // =========================================================================
     function escapeHtml(str) {
       if (!str) return '';
@@ -2403,7 +3292,7 @@
               class="w-full px-3 py-2 text-xs bg-white border border-[#DCD4C0] rounded-lg">${escapeHtml(pt.microNote || '')}</textarea>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Curiosity Bridge Sudut Kanan Bawah</label>
+            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Open-Loop Curiosity Bridge Sudut Kanan Bawah</label>
             <input type="text" value="${escapeHtml(pt.bridgeCue || '')}"
               oninput="appState.carouselData.points[${idx}].bridgeCue = this.value; renderWorkspace();"
               class="w-full px-3 py-2 text-xs bg-white border border-[#DCD4C0] rounded-lg" />
@@ -2430,13 +3319,13 @@
             </div>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Teks Arab Berharakat (Font Amiri)</label>
+            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Teks Arab Berharakat Ringkas (Maks. 18 Kata Arab)</label>
             <textarea rows="2" dir="rtl"
               oninput="appState.carouselData.dalil.arabicText = this.value; renderWorkspace();"
               class="w-full px-3 py-2 text-sm font-arabic bg-white border border-[#DCD4C0] rounded-lg">${escapeHtml(appState.carouselData.dalil.arabicText || '')}</textarea>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Terjemahan Indonesia</label>
+            <label class="block text-[11px] font-bold text-[#4A5D50] mb-1">Terjemahan Indonesia Selaras (Maks. 28 Kata)</label>
             <textarea rows="2"
               oninput="appState.carouselData.dalil.translation = this.value; renderWorkspace();"
               class="w-full px-3 py-2 text-xs bg-white border border-[#DCD4C0] rounded-lg">${escapeHtml(appState.carouselData.dalil.translation || '')}</textarea>
@@ -2481,7 +3370,7 @@
     }
 
     // =========================================================================
-    // 10. GOOGLE GEMINI API + EXPONENTIAL BACKOFF RETRY + FREE TIER FALLBACK
+    // 12. GOOGLE GEMINI API + EXPONENTIAL BACKOFF RETRY + FREE TIER FALLBACK
     // =========================================================================
     const GEMINI_FREE_TIER_CHAIN = [
       'gemini-4-hydrogen',
@@ -2527,9 +3416,7 @@
     }
 
     /**
-     * Defensive JSON Parser for Google Gemini API responses:
-     * Strips markdown code fences, extracts the first balanced JSON object {...},
-     * validates all fields, and provides clean fallback defaults.
+     * Defensive JSON Parser for Google Gemini API responses
      */
     function safeParseGeminiJSON(rawText, pointCount, rawInput) {
       if (!rawText || typeof rawText !== 'string') {
@@ -2593,6 +3480,12 @@
       const canonicalDalilType = normalizeDalilType(parsed.dalilType || parsed.jenis_dalil);
       const canonicalCategory = normalizeCanonicalCategory(parsed.category || parsed.kategori);
 
+      const defaultOpenLoops = [
+        'Tapi kenapa hati masih sering gelisah? →',
+        'Di sinilah letak titik baliknya →',
+        canonicalDalilType === "AL-QUR'AN" ? 'Ini jaminan langsung dari Allah →' : 'Ini jaminan sabda Nabi ﷺ →',
+      ];
+
       const rawPoints = Array.isArray(parsed.points || parsed.poin) ? (parsed.points || parsed.poin) : [];
       const normalizedPoints = [];
       for (let i = 0; i < pointCount; i++) {
@@ -2608,11 +3501,7 @@
           bridgeCue: String(
             src.bridgeCue ||
               src.bridge ||
-              (i === pointCount - 1
-                ? canonicalDalilType === "AL-QUR'AN"
-                  ? "Ini dalil Al-Qur'annya →"
-                  : 'Ini dalil shahihnya →'
-                : 'Lanjut →')
+              (i === pointCount - 1 ? defaultOpenLoops[2] : defaultOpenLoops[i] || 'Tapi ada satu rahasia lagi →')
           ).trim(),
         });
       }
@@ -2621,6 +3510,11 @@
       const srcDalil = parsed.dalil || {};
       const srcClosing = parsed.closing || {};
       const srcCaptions = parsed.captions || {};
+
+      const smartExcerpt = formatSmartDalilExcerpt(
+        String(srcDalil.arabicText || parsed.dalil_arab || '').trim(),
+        String(srcDalil.translation || parsed.dalil_terjemah || rawInput.slice(0, 220)).trim()
+      );
 
       const normalized = {
         dalilType: canonicalDalilType,
@@ -2645,10 +3539,8 @@
         },
         points: normalizedPoints,
         dalil: {
-          arabicText: String(srcDalil.arabicText || parsed.dalil_arab || '').trim(),
-          translation: String(
-            srcDalil.translation || parsed.dalil_terjemah || rawInput.slice(0, 220)
-          ).trim(),
+          arabicText: smartExcerpt.arabic,
+          translation: smartExcerpt.translation,
           highlightPhrase: String(srcDalil.highlightPhrase || parsed.dalil_highlight || '').trim(),
           source: String(
             srcDalil.source ||
@@ -2701,7 +3593,7 @@
       if (!rawInput) {
         showStatusBanner(
           'error',
-          '<strong>Kolom dalil masih kosong.</strong> Silakan tempel teks Hadits atau Ayat Al-Qur\'an terlebih dahulu, atau pilih salah satu dari 4 Preset Cepat di atas.'
+          '<strong>Kolom dalil masih kosong.</strong> Silakan tempel teks Hadits atau Ayat Al-Qur\'an terlebih dahulu, pilih dari Bank Ide Dalil Harian, atau klik salah satu Preset Cepat.'
         );
         return;
       }
@@ -2727,26 +3619,27 @@
     /**
      * Calls Google Gemini REST API with:
      * - Primary model `gemini-4-hydrogen`
-     * - Exponential Backoff Auto-Retry (up to 3 attempts per model on HTTP 503 / 429 / 5xx)
-     * - Multi-Model Free Tier Automatic Fallback Chain:
-     *   gemini-4-hydrogen -> gemini-3.5-flash-lite -> gemini-3.1-flash-lite -> gemini-3.8-flash -> gemini-3.6-flash
+     * - Exponential Backoff Auto-Retry (up to 3 attempts per model on HTTP 429/500/502/503/504)
+     * - Multi-Model Free Tier Automatic Fallback Chain
      */
     async function generateWithGeminiAPI(apiKey, rawInput, pointCount) {
       const selectedModel = document.getElementById('gemini-model-select')?.value || 'auto';
+      const hookAngle = document.getElementById('hook-angle-select')?.value || 'Validasi Luka Batin';
       const modelsToTry = selectedModel === 'auto' ? [...GEMINI_FREE_TIER_CHAIN] : [selectedModel];
 
       setGenerateLoading(true, 'Menghubungkan ke Gemini AI...');
 
-      const systemPrompt = `Anda adalah pakar konten dakwah Islam, ahli tafsir & hadits, serta strategist carousel Instagram/TikTok ber-retensi tinggi (gaya visual editorial minimalis elegan seperti @lightofhijrah).
+      const systemPrompt = `Anda adalah pakar konten dakwah Islam, ahli tafsir & hadits, serta strategist retensi carousel Instagram/TikTok (gaya visual editorial minimalis elegan @lightofhijrah) yang fokus memaksimalkan dwell time dan swipe-to-end completion rate.
 
 Tugas Anda terhadap INPUT PENGGUNA (bisa berupa Ayat Al-Qur'an, Hadits, terjemahan saja, atau rujukan ayat/hadits):
 1) Deteksi jenis dalil secara otomatis: "AL-QUR'AN" atau "HADITS".
-2) Klasifikasikan isi dalil secara tepat ke dalam SALAH SATU dari 3 cabang ilmu dalam Islam:
-   - "TAUHID (AKIDAH)" -> jika membahas keimanan, takdir/qadar, tawakal, keyakinan kepada Allah, hari akhir, rukun iman.
-   - "FIQIH" -> jika membahas hukum syariat, tata cara/syarat/waktu ibadah (shalat, wudhu, puasa, zakat, haji, sedekah), muamalah, halal-haram.
-   - "TASAWUF (AKHLAK)" -> jika membahas penyucian jiwa (tazkiyatun nafs), sabar, syukur, ikhlas, ridha, adab sosial, pengendalian amarah & lisan.
-3) Lengkapi teks Arab berharakat lengkap & akurat (jika pengguna hanya menempel terjemahan atau rujukan ayat/hadits, tuliskan matan Arab aslinya secara ringkas dan shahih maksimal 28 kata Arab agar proporsional di kartu).
-4) Susun konten carousel yang menyentuh hati dan mempertahankan pembaca hingga slide terakhir.
+2) Klasifikasikan isi dalil ke dalam SALAH SATU dari 3 cabang ilmu dalam Islam:
+   - "TAUHID (AKIDAH)" -> keimanan, takdir/qadar, tawakal, keyakinan kepada Allah, hari akhir, rukun iman.
+   - "FIQIH" -> hukum syariat, tata cara/syarat/waktu ibadah (shalat, wudhu, puasa, zakat, haji, sedekah), muamalah, halal-haram.
+   - "TASAWUF (AKHLAK)" -> penyucian jiwa (tazkiyatun nafs), sabar, syukur, ikhlas, ridha, adab sosial, pengendalian amarah & lisan.
+3) Terapkan Gaya Hook Pembuka pilihan pengguna: "${hookAngle}".
+4) Buat Open-Loop Curiosity Bridges ("bridgeCue") di setiap slide poin yang menciptakan rasa penasaran spesifik agar pembaca menggeser hingga akhir (CONTOH BAGUS: "Tapi kenapa hati masih sesak? →", "Di sinilah letak kekeliruannya →", "Ini jaminan langsung dari Allah →"; HINDARI kalimat datar seperti "Lanjut →").
+5) ANTI-OVERLOAD SLIDE DALIL (Slide 5): Jika hadits atau ayat cukup panjang, ringkas kutipan Arab (12–18 kata Arab berharakat lengkap) dan terjemahan Indonesia (20–26 kata) HANYA pada potongan inti (maqtha') yang paling selaras dengan topik utama (tambahkan "..." jika dipotong dari teks panjang), agar kartu tetap lapang dan mudah dibaca di layar ponsel.
 
 Kembalikan HANYA JSON valid dengan struktur persis berikut:
 {
@@ -2754,7 +3647,7 @@ Kembalikan HANYA JSON valid dengan struktur persis berikut:
   "category": "TAUHID (AKIDAH)" | "FIQIH" | "TASAWUF (AKHLAK)",
   "categoryReason": "1 kalimat penjelasan singkat mengapa dalil ini masuk ke kategori ilmu tersebut",
   "cover": {
-    "hookTitle": "Judul hook serif singkat & menggugah emosi (maksimal 4-7 kata)",
+    "hookTitle": "Judul hook serif singkat sesuai gaya '${hookAngle}' (maksimal 4-7 kata)",
     "highlightWord": "1-2 kata kunci dari hookTitle untuk diberi aksen emas miring",
     "subHook": "Sub-hook 2 baris yang relevan dengan keseharian pembaca (maksimal 15 kata)"
   },
@@ -2763,12 +3656,12 @@ Kembalikan HANYA JSON valid dengan struktur persis berikut:
       "headline": "Judul poin utama yang tegas & berima (maksimal 8-10 kata)",
       "highlightPhrase": "1-3 kata kunci dalam headline untuk disorot emas",
       "microNote": "Penjelasan mikro 2 baris (maksimal 22 kata) agar pembaca berhenti sejenak dan merenung",
-      "bridgeCue": "Curiosity bridge singkat di kanan bawah diakhiri panah → (maksimal 4 kata)"
+      "bridgeCue": "Open-loop curiosity bridge singkat di kanan bawah diakhiri panah → (maksimal 5 kata)"
     }
   ],
   "dalil": {
-    "arabicText": "Teks Arab berharakat lengkap (maksimal 28 kata Arab)",
-    "translation": "Terjemahan Bahasa Indonesia yang akurat dan mengalir (maksimal 34 kata)",
+    "arabicText": "Potongan inti teks Arab berharakat lengkap (12-18 kata Arab)",
+    "translation": "Terjemahan Bahasa Indonesia yang akurat dan selaras (20-26 kata)",
     "highlightPhrase": "4-8 kata kunci paling inti dalam translation untuk disorot warna emas hangat",
     "source": "Rujukan sumber resmi (contoh: 'QS. Al-Insyirah: 5–6' atau 'HR. Muslim no. 2664')",
     "amalTip": "1 kalimat singkat diawali 'INTISARI AMAL: ' tentang langkah konkret hari ini"
@@ -2779,7 +3672,7 @@ Kembalikan HANYA JSON valid dengan struktur persis berikut:
     "commentPrompt": "1 pertanyaan pemicu interaksi komentar yang lembut & relevan dengan tema ayat/hadits (maksimal 13 kata)"
   },
   "captions": {
-    "storytelling": "Caption storytelling lengkap berisi hook pembuka, label kajian ilmu, poin-poin bernomor + penjelasan, kutipan terjemahan dalil & rujukan sumber, pertanyaan interaksi komentar, serta 6-8 hashtag Islami relevan",
+    "storytelling": "Caption storytelling lengkap berisi hook pembuka, label kajian ilmu, poin-poin bernomor + penjelasan, kutipan terjemahan dalil lengkap & rujukan sumber, pertanyaan interaksi komentar, serta 6-8 hashtag Islami relevan",
     "short": "Versi caption ringkas & padat beserta rujukan sumber dan hashtag"
   }
 }
@@ -2826,14 +3719,14 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                     {
                       parts: [
                         {
-                          text: `${systemPrompt}\n\nINPUT DALIL PENGGUNA (Jumlah slide poin: ${pointCount}):\n${rawInput}`,
+                          text: `${systemPrompt}\n\nINPUT DALIL PENGGUNA (Jumlah slide poin: ${pointCount} | Gaya Hook: ${hookAngle}):\n${rawInput}`,
                         },
                       ],
                     },
                   ],
                   generationConfig: {
                     responseMimeType: 'application/json',
-                    temperature: 0.7,
+                    temperature: 0.72,
                   },
                 }),
               });
@@ -2844,7 +3737,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                 const rawErrMsg = result?.error?.message || `HTTP Error ${response.status}`;
                 lastFriendlyError = rawErrMsg;
 
-                // Invalid API Key -> Stop immediately
                 if (
                   response.status === 400 &&
                   (rawErrMsg.includes('API_KEY_INVALID') || rawErrMsg.toLowerCase().includes('api key not valid'))
@@ -2854,7 +3746,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                   );
                 }
 
-                // Model not found / deprecated -> Skip retries on this model and jump to next model immediately
                 if (
                   response.status === 404 ||
                   rawErrMsg.toLowerCase().includes('no longer available') ||
@@ -2863,7 +3754,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                   break;
                 }
 
-                // Transient High Demand (503) / Rate Limit (429) / 500 / 502 / 504 -> Exponential Backoff Retry
                 const isTransient = [429, 500, 502, 503, 504].includes(response.status);
                 if (isTransient && attempt < maxRetriesPerModel) {
                   const backoffMs = baseDelayMs * Math.pow(2, attempt - 1);
@@ -2879,7 +3769,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                   continue;
                 }
 
-                // Exhausted retries for this model -> move to next Free Tier model in fallback chain
                 break;
               }
 
@@ -2923,7 +3812,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           throw new Error(lastFriendlyError);
         }
 
-        // Apply normalized data and update UI
         appState.carouselData = finalNormalizedData;
         highlightPresetButton(null);
         appState.activeSlideIndex = 0;
@@ -2971,12 +3859,13 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
 
     /**
      * Offline Local Synthesis Fallback:
-     * Automatically detects Al-Qur'an vs Hadits and classifies into Tauhid / Fiqih / Tasawuf
-     * from user input text so the app works reliably even without an API key.
+     * Automatically detects Al-Qur'an vs Hadits, classifies into Tauhid / Fiqih / Tasawuf,
+     * applies Hook Angle, smart-excerpts Dalil, and crafts open-loop curiosity bridges.
      */
     function runInstantLocalFallback() {
       const rawInput = document.getElementById('dalil-input').value.trim();
       const pointCount = parseInt(document.getElementById('point-count-select').value, 10) || 3;
+      const hookAngle = document.getElementById('hook-angle-select')?.value || 'Validasi Luka Batin';
 
       if (!rawInput) {
         applyPreset('hadits_takdir', true);
@@ -2998,6 +3887,8 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         lower.includes('ali imran') ||
         lower.includes('al-mulk') ||
         lower.includes('al-kahfi') ||
+        lower.includes('ar-ra\'d') ||
+        lower.includes('al-ankabut') ||
         lower.includes('allah berfirman') ||
         lower.includes('ayat');
       const detectedType = isQuran ? "AL-QUR'AN" : 'HADITS';
@@ -3015,7 +3906,9 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         lower.includes('tauhid') ||
         lower.includes('akidah') ||
         lower.includes('kemudahan') ||
-        lower.includes('pertolongan allah')
+        lower.includes('pertolongan allah') ||
+        lower.includes('kesanggupan') ||
+        lower.includes('penolong')
       ) {
         detectedCat = 'TAUHID (AKIDAH)';
         reason =
@@ -3030,6 +3923,8 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         lower.includes('niat') ||
         lower.includes('fiqih') ||
         lower.includes('wajib') ||
+        lower.includes('sedekah') ||
+        lower.includes('fajar') ||
         lower.includes('halal') ||
         lower.includes('haram')
       ) {
@@ -3043,11 +3938,14 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         .map((l) => l.trim())
         .filter(Boolean);
       const arabicLines = lines.filter((l) => /[\u0600-\u06FF]/.test(l));
-      const nonArabicLines = lines.filter((l) => !/[\u0600-\u06FF]/.test(l));
+      const nonArabicLines = lines.filter((l) => !/[\u0600-\u06FF]/.test(l) && !l.endsWith(':'));
 
-      const arabicText = arabicLines.join(' ');
-      const translationText =
-        nonArabicLines.join(' ').replace(/^["']|["']$/g, '').slice(0, 230) || rawInput.slice(0, 230);
+      const rawArabic = arabicLines.join(' ').replace(/^["']|["']$/g, '');
+      const fullTrans =
+        nonArabicLines.join(' ').replace(/^["']|["']$/g, '').trim() || rawInput.slice(0, 220);
+
+      // Apply smart excerpting for Slide 5 anti-overload
+      const smartExcerpt = formatSmartDalilExcerpt(rawArabic, fullTrans);
 
       const sourceMatch = rawInput.match(/\((QS\.[^)]+|HR\.[^)]+)\)/i) || rawInput.match(/(QS\.[^\n,]+|HR\.[^\n,]+)/i);
       const sourceText = sourceMatch
@@ -3056,27 +3954,49 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         ? "Al-Qur'anul Karim"
         : 'Hadits Shahih';
 
+      // Craft Hook Title tailored to Hook Angle
+      let hookTitle =
+        detectedType === "AL-QUR'AN"
+          ? 'Pesan Penyejuk Hati dari Al-Qur’an'
+          : 'Nasihat Berharga dari Rasulullah ﷺ';
+      let highlightWord = detectedType === "AL-QUR'AN" ? 'Al-Qur’an' : 'Rasulullah ﷺ';
+
+      if (hookAngle === 'Teguran Lembut') {
+        hookTitle = 'Sudahkah Hati Kita Benar-Benar Hadir Hari Ini?';
+        highlightWord = 'Benar-Benar Hadir';
+      } else if (hookAngle === 'Rahasia Tafsir & Hadits') {
+        hookTitle =
+          detectedType === "AL-QUR'AN"
+            ? 'Pesan Mendalam di Balik Ayat Agung Ini'
+            : 'Hikmah Tersembunyi dalam Sabda Nabi ﷺ';
+        highlightWord = detectedType === "AL-QUR'AN" ? 'Ayat Agung' : 'Sabda Nabi ﷺ';
+      } else if (hookAngle === 'Pertanyaan Reflektif') {
+        hookTitle = 'Mengapa Hati Masih Sering Merasa Gelisah?';
+        highlightWord = 'Merasa Gelisah';
+      }
+
       const defaultPoints = [
         {
           headline: 'Renungkan makna dalil ini dengan hati yang hadir',
           highlightPhrase: 'hati yang hadir',
           microNote:
             'Setiap firman Allah dan sabda Nabi ﷺ membawa petunjuk hidup yang relevan untuk menenangkan kegelisahan hari ini.',
-          bridgeCue: 'Langkah berikutnya →',
+          bridgeCue: 'Tapi kenapa sering terlewat? →',
         },
         {
           headline: 'Jadikan ilmu sebagai landasan sikap dan keputusan',
           highlightPhrase: 'landasan sikap',
           microNote:
             'Kualitas amal seorang mukmin lahir dari pemahaman yang lurus terhadap dalil sebelum melangkah.',
-          bridgeCue: 'Poin ketiganya →',
+          bridgeCue: 'Kunci ketenangannya ada di sini →',
         },
         {
           headline: 'Mulai amalkan dari langkah kecil yang konsisten',
           highlightPhrase: 'konsisten',
           microNote:
             'Keberkahan ilmu tampak saat ia turun dari bacaan menuju akhlak dan amal nyata dalam keseharian.',
-          bridgeCue: detectedType === "AL-QUR'AN" ? "Simak ayatnya →" : 'Simak haditsnya →',
+          bridgeCue:
+            detectedType === "AL-QUR'AN" ? 'Ini jaminan langsung dari Allah →' : 'Ini jaminan sabda Nabi ﷺ →',
         },
       ];
 
@@ -3085,18 +4005,15 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         category: detectedCat,
         categoryReason: reason,
         cover: {
-          hookTitle:
-            detectedType === "AL-QUR'AN"
-              ? 'Pesan Penyejuk Hati dari Al-Qur’an'
-              : 'Nasihat Berharga dari Rasulullah ﷺ',
-          highlightWord: detectedType === "AL-QUR'AN" ? 'Al-Qur’an' : 'Rasulullah ﷺ',
+          hookTitle: hookTitle,
+          highlightWord: highlightWord,
           subHook: 'Sejenak berhenti dari riuh dunia untuk merenungi petunjuk yang menenangkan jiwa.',
         },
         points: defaultPoints.slice(0, pointCount),
         dalil: {
-          arabicText: arabicText,
-          translation: translationText,
-          highlightPhrase: translationText.split(' ').slice(0, 5).join(' '),
+          arabicText: smartExcerpt.arabic,
+          translation: smartExcerpt.translation,
+          highlightPhrase: smartExcerpt.translation.split(' ').slice(0, 5).join(' '),
           source: sourceText,
           amalTip: 'INTISARI AMAL: Niatkan dengan tulus untuk mengamalkan pesan dalil ini dalam keseharian hari ini.',
         },
@@ -3111,7 +4028,13 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         },
       };
 
-      synthesized.captions.storytelling = buildFallbackCaption(synthesized, detectedCat, detectedType, true);
+      synthesized.captions.storytelling = buildFallbackCaption(
+        synthesized,
+        detectedCat,
+        detectedType,
+        true,
+        fullTrans
+      );
       synthesized.captions.short = buildFallbackCaption(synthesized, detectedCat, detectedType, false);
 
       appState.carouselData = synthesized;
@@ -3126,7 +4049,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
       showToast(`⚡ Mode Demo Lokal: Carousel ${detectedType} (${detectedCat}) berhasil disusun!`);
     }
 
-    function buildFallbackCaption(d, cat, dType, isFull) {
+    function buildFallbackCaption(d, cat, dType, isFull, fullTranslationOverride = null) {
       const pts = (d.points || [])
         .map((p, idx) => `${idx + 1}️⃣ ${p.headline}${isFull && p.microNote ? `\n${p.microNote}` : ''}`)
         .join('\n\n');
@@ -3137,7 +4060,8 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           ? '#fiqih #fiqihibadah #ilmuislam #dakwahvisual'
           : '#tasawuf #akhlakmulia #tazkiyatunnafs #muhasabahdiri';
       const labelHeader = dType === "AL-QUR'AN" ? "Tadabbur Al-Qur'an" : 'Kajian Hadits';
-      return `${d.cover.hookTitle} 🌙\n[${labelHeader} • ${cat}]\n\n${pts}\n\n📖 Dalil:\n"${d.dalil.translation}" (${d.dalil.source})\n\n💬 ${d.closing.ctaTitle} ${d.closing.ctaSubtitle} 🤍\n\n${tag}`;
+      const dalilQuote = isFull && fullTranslationOverride ? fullTranslationOverride : d.dalil.translation;
+      return `${d.cover.hookTitle} 🌙\n[${labelHeader} • ${cat}]\n\n${pts}\n\n📖 Dalil:\n"${dalilQuote}" (${d.dalil.source})\n\n💬 ${d.closing.ctaTitle} ${d.closing.ctaSubtitle} 🤍\n\n${tag}`;
     }
 
     function setGenerateLoading(isLoading, labelText) {
@@ -3157,7 +4081,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
     }
 
     // =========================================================================
-    // 11. SEQUENTIAL HIGH-RESOLUTION PNG EXPORT (NO ZIP — 1080 x 1350 PX)
+    // 13. SEQUENTIAL HIGH-RESOLUTION PNG EXPORT (NO ZIP — 1080 x 1350 PX)
     // =========================================================================
     function triggerBlobDownload(blob, filename) {
       const url = URL.createObjectURL(blob);
@@ -3262,7 +4186,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
     }
 
     // =========================================================================
-    // 12. CAPTION MANAGEMENT & ONE-CLICK COPY
+    // 14. CAPTION MANAGEMENT & ONE-CLICK COPY
     // =========================================================================
     function setCaptionTab(tab) {
       appState.captionTab = tab;
@@ -3348,7 +4272,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
     }
 
     // =========================================================================
-    // 13. MODAL & TOAST NOTIFICATIONS
+    // 15. MODAL & TOAST NOTIFICATIONS
     // =========================================================================
     function toggleInfoModal(show) {
       const modal = document.getElementById('info-modal');
