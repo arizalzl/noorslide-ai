@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NoorSlide AI — Islamic Carousel & Caption Generator (Powered by Claude AI)</title>
+  <title>NoorSlide AI — Islamic Carousel & Caption Generator (Gemini Edition)</title>
 
-  <!-- Google Fonts: Playfair Display (Editorial Serif), Plus Jakarta Sans (Clean UI), Amiri (Arabic Calligraphy) -->
+  <!-- Google Fonts: Playfair Display (Editorial Serif), Plus Jakarta Sans (Clean UI), Amiri (Arabic Script) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -115,8 +115,8 @@
             <h1 class="font-serif font-bold text-base sm:text-xl text-forest-800 tracking-tight">
               NoorSlide AI
             </h1>
-            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-900/10 text-amber-900 border border-amber-700/25">
-              Powered by Claude AI
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-900/10 text-forest-800 border border-forest-800/20">
+              Gemini Edition
             </span>
           </div>
           <p class="text-xs text-[#596B60] hidden sm:block">
@@ -178,22 +178,22 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
       <!-- =================================================================== -->
-      <!-- LEFT COLUMN: Claude AI Config, Universal Dalil Input & Controls     -->
+      <!-- LEFT COLUMN: Google Gemini API Config, Universal Dalil Input        -->
       <!-- =================================================================== -->
       <section class="lg:col-span-5 flex flex-col gap-5">
 
-        <!-- Card 1: Anthropic Claude API Setup & Auto-Fallback Config -->
+        <!-- Card 1: Google Gemini API Setup & Free Tier Auto-Fallback Config -->
         <div class="bg-white rounded-2xl p-5 shadow-xs border border-[#E3DCC9]">
           <div class="flex items-center justify-between mb-3 gap-2 flex-wrap">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-amber-400 transition-colors" id="api-status-dot"></span>
-              <h2 class="font-bold text-sm text-forest-800">Konfigurasi Anthropic Claude API</h2>
+              <h2 class="font-bold text-sm text-forest-800">Konfigurasi Google Gemini API</h2>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 text-forest-800 border border-emerald-200">
-                Auto-Retry + Fallback
+                Free Tier Fallback
               </span>
             </div>
             <a
-              href="https://console.anthropic.com/settings/keys"
+              href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
               class="text-xs font-semibold text-gold-700 hover:text-gold-600 underline underline-offset-2"
@@ -204,15 +204,15 @@
 
           <div class="space-y-3">
             <div>
-              <label for="claude-api-key" class="block text-xs font-semibold text-[#4A5D50] mb-1">
-                Claude API Key (Tersimpan Lokal di Browser Anda)
+              <label for="gemini-api-key" class="block text-xs font-semibold text-[#4A5D50] mb-1">
+                Gemini API Key (Tersimpan Lokal di Browser Anda)
               </label>
               <div class="flex items-center gap-2">
                 <div class="relative flex-1 flex items-center">
                   <input
                     type="password"
-                    id="claude-api-key"
-                    placeholder="sk-ant-api03-..."
+                    id="gemini-api-key"
+                    placeholder="AIzaSy..."
                     class="w-full pl-3.5 pr-10 py-2.5 text-sm bg-[#FAF8F3] border border-[#DCD4C0] rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-600/35 focus:border-gold-600 transition"
                   />
                   <button
@@ -238,26 +238,26 @@
               </div>
             </div>
 
-            <!-- Claude Model Selector -->
+            <!-- Gemini Model Mode Selector -->
             <div>
-              <label for="claude-model-select" class="block text-[11px] font-semibold text-[#4A5D50] mb-1">
-                Pilihan Model Claude AI:
+              <label for="gemini-model-select" class="block text-[11px] font-semibold text-[#4A5D50] mb-1">
+                Pilihan Mode Model Gemini (Anti-High Demand / HTTP 503):
               </label>
               <select
-                id="claude-model-select"
+                id="gemini-model-select"
                 class="w-full px-3 py-2 text-xs font-semibold bg-[#FAF8F3] border border-[#DCD4C0] rounded-xl text-forest-800 focus:outline-none focus:border-gold-600"
               >
-                <option value="auto" selected>Auto-Fallback Claude (Paling Stabil)</option>
-                <option value="claude-sonnet-4-5-20250929">claude-sonnet-4-5-20250929 (Utama • Kualitas Terbaik)</option>
-                <option value="claude-sonnet-4-20250514">claude-sonnet-4-20250514 (Claude Sonnet 4)</option>
-                <option value="claude-3-7-sonnet-20250219">claude-3-7-sonnet-20250219 (Claude 3.7 Sonnet)</option>
-                <option value="claude-haiku-4-5-20251001">claude-haiku-4-5-20251001 (Claude Haiku 4.5 • Cepat)</option>
-                <option value="claude-3-5-sonnet-20241022">claude-3-5-sonnet-20241022 (Claude 3.5 Sonnet)</option>
+                <option value="auto" selected>Auto-Fallback (Prioritas gemini-4-hydrogen)</option>
+                <option value="gemini-4-hydrogen">gemini-4-hydrogen (Utama • Free Tier)</option>
+                <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Cepat &amp; Ringan • Free Tier)</option>
+                <option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (Alternatif Stabil • Free Tier)</option>
+                <option value="gemini-3.8-flash">gemini-3.8-flash (Generasi 3.8 Flash • Free Tier)</option>
+                <option value="gemini-3.6-flash">gemini-3.6-flash (Generasi 3.6 Flash • Free Tier)</option>
               </select>
             </div>
 
             <p id="api-status-text" class="text-[11px] text-[#66786D] leading-relaxed">
-              Status: Belum ada API Key Claude tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.
+              Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.
             </p>
           </div>
         </div>
@@ -281,13 +281,13 @@
           <!-- 4 One-Click Presets Covering Hadits & Al-Qur'an Across All 3 Categories -->
           <div>
             <span class="block text-[11px] font-semibold text-[#596B60] mb-1.5">
-              4 Preset Contoh Cepat (Hadits & Al-Qur'an • 3 Cabang Ilmu):
+              4 Preset Contoh Cepat (2 Hadits &amp; 2 Ayat Al-Qur'an):
             </span>
             <div class="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onclick="applyPreset('hadits_tauhid')"
-                id="preset-btn-hadits_tauhid"
+                onclick="applyPreset('hadits_takdir')"
+                id="preset-btn-hadits_takdir"
                 class="preset-btn p-2.5 rounded-xl border text-left transition bg-forest-800 text-ivory-100 border-forest-800 shadow-xs"
               >
                 <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-400">HADITS • TAUHID</div>
@@ -297,8 +297,8 @@
 
               <button
                 type="button"
-                onclick="applyPreset('quran_tauhid')"
-                id="preset-btn-quran_tauhid"
+                onclick="applyPreset('quran_insyirah')"
+                id="preset-btn-quran_insyirah"
                 class="preset-btn p-2.5 rounded-xl border text-left transition bg-[#FAF8F3] hover:bg-[#F1ECE0] text-forest-800 border-[#DCD4C0]"
               >
                 <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-700">AL-QUR'AN • TAUHID</div>
@@ -308,24 +308,24 @@
 
               <button
                 type="button"
-                onclick="applyPreset('quran_fiqih')"
-                id="preset-btn-quran_fiqih"
+                onclick="applyPreset('hadits_niat')"
+                id="preset-btn-hadits_niat"
                 class="preset-btn p-2.5 rounded-xl border text-left transition bg-[#FAF8F3] hover:bg-[#F1ECE0] text-forest-800 border-[#DCD4C0]"
               >
-                <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-700">AL-QUR'AN • FIQIH</div>
-                <div class="text-xs font-bold truncate mt-0.5">Menjaga Shalat Tepat Waktu</div>
-                <div class="text-[10px] text-[#596B60] truncate">QS. An-Nisa: 103</div>
+                <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-700">HADITS • FIQIH</div>
+                <div class="text-xs font-bold truncate mt-0.5">Setiap Amal Tergantung Niatnya</div>
+                <div class="text-[10px] text-[#596B60] truncate">HR. Bukhari no. 1</div>
               </button>
 
               <button
                 type="button"
-                onclick="applyPreset('hadits_tasawuf')"
-                id="preset-btn-hadits_tasawuf"
+                onclick="applyPreset('quran_lisan')"
+                id="preset-btn-quran_lisan"
                 class="preset-btn p-2.5 rounded-xl border text-left transition bg-[#FAF8F3] hover:bg-[#F1ECE0] text-forest-800 border-[#DCD4C0]"
               >
-                <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-700">HADITS • TASAWUF</div>
-                <div class="text-xs font-bold truncate mt-0.5">Kuat Menahan Amarah</div>
-                <div class="text-[10px] text-[#596B60] truncate">HR. Bukhari no. 6116</div>
+                <div class="text-[9.5px] font-bold tracking-wider uppercase text-gold-700">AL-QUR'AN • TASAWUF</div>
+                <div class="text-xs font-bold truncate mt-0.5">Menjaga Lisan dari Mengolok</div>
+                <div class="text-[10px] text-[#596B60] truncate">QS. Al-Hujurat: 11</div>
               </button>
             </div>
           </div>
@@ -338,7 +338,7 @@
             <textarea
               id="dalil-input"
               rows="5"
-              placeholder="Tempel teks Hadits atau Ayat Al-Qur'an di sini (misal: QS. Al-Insyirah: 5-6 atau HR. Muslim no. 2664)... Claude AI akan otomatis mendeteksi jenis dalil, melengkapi teks Arab berharakat, dan mengelompokkannya ke TAUHID (AKIDAH), FIQIH, atau TASAWUF (AKHLAK)."
+              placeholder="Tempel teks Hadits atau Ayat Al-Qur'an di sini (misal: QS. Al-Insyirah: 5-6 atau HR. Muslim no. 2664)... Gemini AI akan otomatis mendeteksi jenis dalil, melengkapi teks Arab berharakat, dan mengelompokkannya ke TAUHID (AKIDAH), FIQIH, atau TASAWUF (AKHLAK)."
               class="w-full p-3.5 text-sm bg-[#FAF8F3] border border-[#DCD4C0] rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-600/35 focus:border-gold-600 transition leading-relaxed"
             ></textarea>
           </div>
@@ -375,7 +375,7 @@
               <svg class="w-3.5 h-3.5 text-gold-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span>Fitur Peningkat Dwell Time & Retensi</span>
+              <span>Fitur Peningkat Dwell Time &amp; Retensi</span>
             </div>
 
             <label class="flex items-center justify-between cursor-pointer gap-2">
@@ -437,7 +437,7 @@
               <svg id="generate-icon" class="w-4 h-4 text-gold-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" />
               </svg>
-              <span id="generate-btn-text">Generate dengan Claude AI</span>
+              <span id="generate-btn-text">Generate Carousel &amp; Caption</span>
             </button>
 
             <button
@@ -483,7 +483,7 @@
                 </span>
               </div>
               <p id="ai-category-reason" class="text-xs text-[#4A5D50] mt-1 leading-relaxed">
-                Hadits ini membahas keimanan terhadap qadar (takdir Allah) dan larangan berandai-andai yang membuka pintu bisikan setan.
+                Hadits ini membahas fondasi keimanan terhadap takdir (qadar) Allah dan larangan berandai-andai yang membuka pintu bisikan setan.
               </p>
             </div>
           </div>
@@ -538,7 +538,7 @@
               <svg class="w-3.5 h-3.5 text-gold-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
               </svg>
-              <span id="toggle-editor-label">Edit Slide & Konten</span>
+              <span id="toggle-editor-label">Edit Slide &amp; Konten</span>
             </button>
           </div>
 
@@ -684,7 +684,7 @@
             <div>
               <h2 class="font-bold text-sm text-forest-800 flex items-center gap-2">
                 <span class="w-6 h-6 rounded-lg bg-forest-800 text-gold-400 text-xs flex items-center justify-center font-serif">2</span>
-                <span>Caption Otomatis (Siap Salin & Posting)</span>
+                <span>Caption Otomatis (Siap Salin &amp; Posting)</span>
               </h2>
               <p class="text-[11px] text-[#596B60] mt-0.5">
                 Dirangkai otomatis dari hook, poin refleksi, dalil Al-Qur'an/Hadits, serta kategori ilmu Islam.
@@ -746,7 +746,7 @@
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto p-6 shadow-2xl border border-[#DDD4C0] space-y-4">
       <div class="flex items-center justify-between border-b border-[#EFEAE0] pb-3">
         <div>
-          <h3 class="font-serif font-bold text-lg text-forest-800">Panduan NoorSlide AI (Powered by Claude AI)</h3>
+          <h3 class="font-serif font-bold text-lg text-forest-800">Panduan NoorSlide AI (Gemini Edition)</h3>
           <p class="text-xs text-[#596B60]">Otomatisasi konten dakwah visual dengan klasifikasi 3 cabang ilmu Islam</p>
         </div>
         <button type="button" onclick="toggleInfoModal(false)" class="p-2 rounded-lg hover:bg-[#F2EDE2] text-forest-800 font-bold text-sm">
@@ -755,17 +755,17 @@
       </div>
 
       <div class="space-y-3 text-xs sm:text-sm text-[#3A4D40] leading-relaxed">
-        <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80">
-          <p class="font-bold text-forest-800 mb-1">1. Mesin Anthropic Claude Messages API + Auto-Fallback</p>
+        <div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80">
+          <p class="font-bold text-forest-800 mb-1">1. Mesin Google Gemini API Free Tier + Rantai Auto-Fallback</p>
           <p class="text-xs">
-            Aplikasi ini terhubung langsung ke <code>https://api.anthropic.com/v1/messages</code> menggunakan API Key Anda (<code>sk-ant-...</code>). Dilengkapi <strong>Auto-Retry (3x Exponential Backoff)</strong> jika server sibuk (HTTP 429/529) serta <strong>Multi-Model Fallback Chain</strong> otomatis antar seri Claude Sonnet & Haiku agar proses generate selalu berjalan lancar.
+            Menggunakan model utama <code>gemini-4-hydrogen</code> yang didukung gratis di Google AI Studio tanpa kartu kredit. Jika server sedang padat (HTTP 503 <em>high demand</em> / 429 <em>rate limit</em>), sistem otomatis mencoba ulang hingga 3x lalu berpindah ke rantai cadangan Free Tier: <code>gemini-3.5-flash-lite</code> → <code>gemini-3.1-flash-lite</code> → <code>gemini-3.8-flash</code> → <code>gemini-3.6-flash</code>.
           </p>
         </div>
 
-        <div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80">
-          <p class="font-bold text-forest-800 mb-1">2. Deteksi Dalil Otomatis & Klasifikasi 3 Cabang Ilmu Islam</p>
+        <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80">
+          <p class="font-bold text-forest-800 mb-1">2. Deteksi Dalil Otomatis &amp; Klasifikasi 3 Cabang Ilmu Islam</p>
           <p class="text-xs">
-            Tempel teks <strong>Hadits</strong> atau <strong>Ayat Al-Qur'an</strong> (teks Arab + terjemahan, terjemahan saja, atau cukup rujukannya seperti <em>"QS. Al-Insyirah: 5-6"</em> atau <em>"HR. Muslim no. 2664"</em>). Claude AI otomatis mendeteksi label kartu (<strong>♦ AL-QUR'AN ♦</strong> / <strong>♦ HADITS ♦</strong>) dan mengelompokkannya ke <strong>TAUHID (AKIDAH)</strong>, <strong>FIQIH</strong>, atau <strong>TASAWUF (AKHLAK)</strong>.
+            Tempel teks <strong>Hadits</strong> atau <strong>Ayat Al-Qur'an</strong> (teks Arab + terjemahan, terjemahan saja, atau cukup rujukannya seperti <em>"QS. Al-Insyirah: 5-6"</em> atau <em>"HR. Muslim no. 2664"</em>). Gemini AI otomatis mendeteksi label kartu (<strong>♦ AL-QUR'AN ♦</strong> / <strong>♦ HADITS ♦</strong>) dan mengelompokkannya ke <strong>TAUHID (AKIDAH)</strong>, <strong>FIQIH</strong>, atau <strong>TASAWUF (AKHLAK)</strong>.
           </p>
         </div>
 
@@ -860,16 +860,16 @@
     };
 
     // =========================================================================
-    // 2. FOUR ONE-CLICK PRESETS (HADITS & AL-QUR'AN ACROSS ALL 3 CATEGORIES)
+    // 2. FOUR ONE-CLICK PRESETS (2 HADITS & 2 AL-QUR'AN ACROSS ALL 3 CATEGORIES)
     // =========================================================================
     const PRESETS = {
-      hadits_tauhid: {
+      hadits_takdir: {
         dalilInput: `Dari Abu Hurairah radhiyallahu 'anhu, Rasulullah ﷺ bersabda:\n"...وَإِنْ أَصَابَكَ شَيْءٌ فَلاَ تَقُلْ لَوْ أَنِّي فَعَلْتُ كَانَ كَذَا وَكَذَا وَلَكِنْ قُلْ قَدَرُ اللَّهِ وَمَا شَاءَ فَعَلَ فَإِنَّ لَوْ تَفْتَحُ عَمَلَ الشَّيْطَانِ"\n"...Jika sesuatu (musibah) menimpamu, janganlah berkata: 'Seandainya aku berbuat begini, tentu jadinya begini dan begitu.' Tetapi katakanlah: 'Qadarullah wa maa syaa-a fa'ala (Ini takdir Allah, dan apa yang Dia kehendaki pasti Dia lakukan).' Karena kata 'seandainya' membuka pintu perbuatan setan." (HR. Muslim no. 2664)`,
         data: {
           dalilType: 'HADITS',
           category: 'TAUHID (AKIDAH)',
           categoryReason:
-            'Hadits ini membahas fondasi keimanan terhadap takdir (qadar) Allah dan larangan berandai-andai yang membuka celah bisikan setan.',
+            'Hadits ini membahas fondasi keimanan terhadap takdir (qadar) Allah dan larangan berandai-andai yang membuka pintu bisikan setan.',
           cover: {
             hookTitle: 'Jangan Terjebak Kata Seandainya',
             highlightWord: 'Seandainya',
@@ -920,7 +920,7 @@
         },
       },
 
-      quran_tauhid: {
+      quran_insyirah: {
         dalilInput: `Allah Subhanahu wa Ta'ala berfirman dalam QS. Al-Insyirah ayat 5–6:\n"فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا"\n"Maka sesungguhnya bersama kesulitan itu ada kemudahan. Sesungguhnya bersama kesulitan itu ada kemudahan." (QS. Al-Insyirah: 5–6)`,
         data: {
           dalilType: "AL-QUR'AN",
@@ -967,7 +967,7 @@
           },
           closing: {
             ctaTitle: 'Simpan & bagikan',
-            ctaSubtitle: 'ke yang sedang diuji',
+            ctaSubtitle: 'ke yang sedang butuh',
             commentPrompt: 'Tulis doa singkatmu untuk kelapangan urusan hari ini di kolom komentar 🤍',
           },
           captions: {
@@ -977,116 +977,116 @@
         },
       },
 
-      quran_fiqih: {
-        dalilInput: `Allah Subhanahu wa Ta'ala berfirman dalam QS. An-Nisa ayat 103:\n"إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا"\n"Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman." (QS. An-Nisa: 103)`,
+      hadits_niat: {
+        dalilInput: `Dari Amirul Mukminin Abu Hafsh 'Umar bin Al-Khaththab radhiyallahu 'anhu, ia berkata: Aku mendengar Rasulullah ﷺ bersabda:\n"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى"\n"Sesungguhnya setiap amalan itu tergantung pada niatnya, dan sesungguhnya setiap orang akan mendapatkan balasan sesuai dengan apa yang ia niatkan." (HR. Bukhari no. 1 & Muslim no. 1907)`,
         data: {
-          dalilType: "AL-QUR'AN",
+          dalilType: 'HADITS',
           category: 'FIQIH',
           categoryReason:
-            'Ayat ini menetapkan hukum wajibnya shalat fardhu serta ketentuan waktu pelaksanaannya sebagai pilar utama dalam ilmu Fiqih Ibadah.',
+            'Hadits ini merupakan kaidah agung dalam ilmu Fiqih Ibadah sebagai penentu sah tidaknya suatu amal serta pembeda antara ibadah dan kebiasaan rutin.',
           cover: {
-            hookTitle: 'Jangan Sisa-Sisakan Waktu untuk Shalat',
-            highlightWord: 'Waktu untuk Shalat',
-            subHook: 'Bukan shalat yang mengikuti jadwal sibuk kita, tapi jadwal kitalah yang mengelilingi waktu shalat.',
+            hookTitle: 'Lelahmu Bisa Jadi Ibadah Jika Niatnya Benar',
+            highlightWord: 'Niatnya Benar',
+            subHook: 'Bekerja, belajar, hingga mengurus keluarga—semuanya bernilai pahala saat diniatkan karena Allah.',
           },
           points: [
             {
-              headline: 'Shalat memiliki batas waktu syar’i yang tidak boleh dilalaikan',
-              highlightPhrase: 'batas waktu syar’i',
+              headline: 'Niat adalah syarat sah yang membedakan ibadah dan rutinitas',
+              highlightPhrase: 'syarat sah',
               microNote:
-                'Dalam kaidah fiqih, menunda shalat hingga keluar waktunya tanpa uzur syar’i termasuk pelanggaran besar terhadap amanah ibadah.',
-              bridgeCue: 'Keutamaan awal waktu →',
+                'Dalam kaidah fiqih, gerakan fisik yang tampak sama bisa bernilai sah atau sia-sia bergantung pada niat yang tertanam di hati.',
+              bridgeCue: 'Keajaiban niat berikutnya →',
             },
             {
-              headline: 'Menjaga awal waktu adalah wujud memuliakan panggilan Allah',
-              highlightPhrase: 'awal waktu',
+              headline: 'Aktivitas duniawi berubah jadi pahala dengan niat lillah',
+              highlightPhrase: 'niat lillah',
               microNote:
-                'Ketika adzan berkumandang, bersegera berwudhu membuat hati lebih khusyuk dan terbebas dari rasa terburu-buru.',
-              bridgeCue: 'Dampaknya bagi hidup →',
+                'Mencari nafkah, menuntut ilmu, bahkan istirahat malam pun dicatat sebagai amal saleh ketika diniatkan untuk taat kepada Allah.',
+              bridgeCue: 'Cara menjaganya →',
             },
             {
-              headline: 'Jadikan adzan sebagai penanda utama ritme aktivitas harian',
-              highlightPhrase: 'ritme aktivitas harian',
+              headline: 'Perbarui niat sebelum memulai setiap pekerjaan hari ini',
+              highlightPhrase: 'Perbarui niat',
               microNote:
-                'Rancang jadwal kerja, rapat, dan istirahat di antara waktu shalat agar keberkahan menyertai setiap urusan.',
-              bridgeCue: 'Baca firman Allah ini →',
+                'Luangkan 3 detik sebelum melangkah: luruskan tujuan hanya mengharap ridha Allah, bukan sekadar pujian manusia.',
+              bridgeCue: 'Ini hadits shahihnya →',
             },
           ],
           dalil: {
             arabicText:
-              'إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا',
+              'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
             translation:
-              'Sesungguhnya shalat itu adalah kewajiban yang telah ditentukan waktunya atas orang-orang yang beriman.',
-            highlightPhrase: 'kewajiban yang telah ditentukan waktunya',
-            source: 'QS. An-Nisa: 103',
+              'Sesungguhnya setiap amalan itu tergantung pada niatnya, dan sesungguhnya setiap orang akan mendapatkan balasan sesuai dengan apa yang ia niatkan.',
+            highlightPhrase: 'tergantung pada niatnya',
+            source: 'HR. Bukhari no. 1 & Muslim no. 1907',
             amalTip:
-              'INTISARI AMAL: Pasang pengingat 5 menit sebelum adzan berikutnya agar siap berwudhu dan shalat di awal waktu.',
+              'INTISARI AMAL: Sebelum membuka pekerjaan hari ini, ucapkan Bismillah dan niatkan ikhlas karena Allah Ta’ala.',
           },
           closing: {
             ctaTitle: 'Simpan & bagikan',
             ctaSubtitle: 'ke yang sedang butuh',
-            commentPrompt: 'Waktu shalat mana yang paling sering menantang untuk dijaga tepat waktu? Sharing di komentar 🤍',
+            commentPrompt: 'Aktivitas harian apa yang ingin kamu niatkan sebagai ibadah hari ini? Tulis di komentar 🤍',
           },
           captions: {
-            storytelling: `Jangan Sisa-Sisakan Waktu untuk Shalat 🌙\n[Tadabbur Al-Qur'an • Fiqih Ibadah]\n\nSering kali kita merapikan jadwal rapat, janji temu, hingga hiburan dengan sangat disiplin—namun shalat justru dikerjakan di ujung waktu saat tenaga sudah habis.\n\n1️⃣ Shalat memiliki batas waktu syar’i yang tidak boleh dilalaikan.\nSetiap shalat fardhu punya awal dan akhir waktu yang menjadi syarat sah pelaksanaannya dalam ilmu fiqih.\n\n2️⃣ Menjaga awal waktu adalah wujud memuliakan panggilan Allah.\nBersegera menyambut adzan menghadirkan ketenangan dan kekhusyukan yang jauh berbeda.\n\n3️⃣ Jadikan adzan sebagai penanda utama ritme aktivitas harian.\nSusun kesibukan kita mengelilingi waktu shalat, bukan sebaliknya.\n\n📖 Firman Allah Ta'ala:\n"Sesungguhnya shalat itu adalah kewajiban yang telah ditentukan waktunya atas orang-orang yang beriman." (QS. An-Nisa: 103)\n\n💬 Simpan pengingat fiqih ini & bagikan ke sahabat terdekatmu agar saling menguatkan dalam menjaga shalat 🤍\n\n#fiqih #fiqihshalat #tadabburquran #shalattepatwaktu #dakwahvisual #pengingatshalat #muslimproduktif`,
-            short: `Jangan Sisa-Sisakan Waktu untuk Shalat 🌙\n\n1. Shalat memiliki batas waktu syar’i yang wajib dijaga.\n2. Menjaga awal waktu adalah wujud memuliakan panggilan Allah.\n3. Jadikan adzan sebagai penanda utama ritme aktivitas harian.\n\n"Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya." — QS. An-Nisa: 103\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#fiqih #shalat #alquran #annisa103 #dakwahislam`,
+            storytelling: `Lelahmu Bisa Jadi Ibadah Jika Niatnya Benar 🌙\n[Kajian Hadits • Fiqih Ibadah]\n\nSering kali kita merasa waktu habis hanya untuk urusan dunia—padahal semua kelelahan itu bisa berubah menjadi tabungan akhirat hanya dengan meluruskan niat.\n\n1️⃣ Niat adalah syarat sah yang membedakan ibadah dan rutinitas.\nDalam kaidah fiqih, niat menjadi penentu arah dan keabsahan setiap amal seorang muslim.\n\n2️⃣ Aktivitas duniawi berubah jadi pahala dengan niat lillah.\nBekerja, belajar, hingga mengurus keluarga tercatat sebagai ibadah saat diniatkan untuk mencari ridha Allah.\n\n3️⃣ Perbarui niat sebelum memulai setiap pekerjaan hari ini.\nLuangkan sejenak sebelum beraktivitas agar langkah kita tetap lurus dan ikhlas.\n\n📖 Dalil Hadits:\n"Sesungguhnya setiap amalan itu tergantung pada niatnya, dan sesungguhnya setiap orang akan mendapatkan balasan sesuai dengan apa yang ia niatkan." (HR. Bukhari no. 1 & Muslim no. 1907)\n\n💬 Simpan pengingat ini & bagikan ke sahabatmu agar setiap lelah hari ini bernilai pahala 🤍\n\n#fiqih #fiqihibadah #haditsbukhari #niatikhlas #dakwahvisual #muslimproduktif #pengingatdiri`,
+            short: `Lelahmu Bisa Jadi Ibadah Jika Niatnya Benar 🌙\n\n1. Niat adalah syarat sah yang membedakan ibadah & rutinitas.\n2. Aktivitas duniawi jadi pahala dengan niat lillah.\n3. Perbarui niat sebelum memulai aktivitas hari ini.\n\n"Sesungguhnya setiap amalan itu tergantung pada niatnya." — HR. Bukhari no. 1\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#fiqih #hadits #niat #bukhari #dakwahislam`,
           },
         },
       },
 
-      hadits_tasawuf: {
-        dalilInput: `Dari Abu Hurairah radhiyallahu 'anhu, ada seorang laki-laki berkata kepada Nabi ﷺ: "Berilah aku wasiat." Beliau bersabda:\n"لاَ تَغْضَبْ" فَرَدَّدَ مِرَارًا، قَالَ: "لاَ تَغْضَبْ"\n"Janganlah engkau marah." Laki-laki itu mengulangi permintaannya beberapa kali, namun beliau tetap bersabda: "Janganlah engkau marah." (HR. Bukhari no. 6116)`,
+      quran_lisan: {
+        dalilInput: `Allah Subhanahu wa Ta'ala berfirman dalam QS. Al-Hujurat ayat 11:\n"يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِنْ قَوْمٍ عَسَىٰ أَنْ يَكُونُوا خَيْرًا مِنْهُمْ وَلَا نِسَاءٌ مِنْ نِسَاءٍ عَسَىٰ أَنْ يَكُنَّ خَيْرًا مِنْهُنَّ وَلَا تَلْمِزُوا أَنْفُسَكُمْ وَلَا تَنَابَزُوا بِالْأَلْقَابِ"\n"Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, (karena) boleh jadi mereka (yang diolok-olok) lebih baik dari mereka (yang mengolok-olok)... dan janganlah saling memanggil dengan gelar-gelar yang buruk." (QS. Al-Hujurat: 11)`,
         data: {
-          dalilType: 'HADITS',
+          dalilType: "AL-QUR'AN",
           category: 'TASAWUF (AKHLAK)',
           categoryReason:
-            'Hadits ini berfokus pada penyucian jiwa (tazkiyatun nafs), pengendalian hawa nafsu, dan pembinaan akhlak mulia dalam berinteraksi.',
+            'Ayat ini membina adab pergaulan, penyucian hati dari kesombongan, serta penjagaan lisan dan jari dari merendahkan sesama manusia.',
           cover: {
-            hookTitle: 'Kuat Bukan Soal Otot, Tapi Menahan Amarah',
-            highlightWord: 'Menahan Amarah',
-            subHook: 'Satu kalimat emosi bisa meruntuhkan kebaikan yang lama kita bangun.',
+            hookTitle: 'Jangan Merasa Lebih Baik dari Orang Lain',
+            highlightWord: 'Lebih Baik',
+            subHook: 'Bisa jadi orang yang diremehkan hari ini justru jauh lebih mulia kedudukannya di sisi Allah.',
           },
           points: [
             {
-              headline: 'Amarah yang tidak terkendali sering berujung penyesalan',
-              highlightPhrase: 'penyesalan',
+              headline: 'Merendahkan orang lain lahir dari hati yang merasa lebih tinggi',
+              highlightPhrase: 'merasa lebih tinggi',
               microNote:
-                'Saat emosi memuncak, akal sehat tertutup dan lisan mudah melukai orang-orang terdekat yang sebenarnya kita sayangi.',
-              bridgeCue: 'Cara meredamnya →',
+                'Dalam ilmu tasawuf, mengolok-olok sesama adalah cermin penyakit ujub yang diam-diam menggerogoti kebersihan jiwa.',
+              bridgeCue: 'Peringatan Al-Qur’an →',
             },
             {
-              headline: 'Ubah posisi, diam sejenak, dan berlindung kepada Allah',
-              highlightPhrase: 'diam sejenak',
+              headline: 'Ukuran kemuliaan di sisi Allah bukan rupa atau status dunia',
+              highlightPhrase: 'kemuliaan di sisi Allah',
               microNote:
-                'Ucapkan ta’awudz, tahan lisan dari membalas, lalu duduk atau berwudhu untuk memadamkan bara emosi.',
-              bridgeCue: 'Buah dari sabar →',
+                'Boleh jadi seseorang yang tampak sederhana di mata manusia memiliki ketulusan amal tersembunyi yang dicintai Allah.',
+              bridgeCue: 'Adab menjaga lisan →',
             },
             {
-              headline: 'Menahan marah adalah tanda kelapangan jiwa seorang mukmin',
-              highlightPhrase: 'kelapangan jiwa',
+              headline: 'Jaga lisan dan ketikan jari dari candaan yang melukai hati',
+              highlightPhrase: 'lisan dan ketikan jari',
               microNote:
-                'Orang yang mampu menguasai dirinya saat sanggup membalas adalah pemenang sejati dalam perjalanan tazkiyatun nafs.',
-              bridgeCue: 'Ini wasiat Nabi ﷺ →',
+                'Saring setiap ucapan dan komentar di media sosial: jika tidak membawa kebaikan atau empati, lebih baik diam.',
+              bridgeCue: 'Simak firman Allah →',
             },
           ],
           dalil: {
             arabicText:
-              'قَالَ رَجُلٌ لِلنَّبِيِّ ﷺ: أَوْصِنِي. قَالَ: «لاَ تَغْضَبْ» فَرَدَّدَ مِرَارًا، قَالَ: «لاَ تَغْضَبْ»',
+              'يَا أَيُّهَا الَّذِينَ آمَنُوا لَا يَسْخَرْ قَوْمٌ مِنْ قَوْمٍ عَسَىٰ أَنْ يَكُونُوا خَيْرًا مِنْهُمْ... وَلَا تَنَابَزُوا بِالْأَلْقَابِ',
             translation:
-              'Seorang laki-laki berkata kepada Nabi ﷺ: "Berilah aku wasiat." Beliau bersabda: "Janganlah engkau marah." Ia mengulanginya beberapa kali, dan beliau tetap bersabda: "Janganlah engkau marah."',
-            highlightPhrase: 'Janganlah engkau marah',
-            source: 'HR. Bukhari no. 6116',
+              'Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka... dan janganlah saling memanggil dengan gelar yang buruk.',
+            highlightPhrase: 'boleh jadi mereka lebih baik dari mereka',
+            source: 'QS. Al-Hujurat: 11',
             amalTip:
-              'INTISARI AMAL: Saat tersulut emosi hari ini, pilih diam 10 detik dan ucapkan "A’udzu billahi minasy-syaithanir-rajim".',
+              'INTISARI AMAL: Tahan diri dari berkomentar negatif atau bercanda merendahkan orang lain, baik secara lisan maupun di media sosial.',
           },
           closing: {
             ctaTitle: 'Simpan & bagikan',
             ctaSubtitle: 'ke yang sedang butuh',
-            commentPrompt: 'Apa cara paling ampuh yang biasa kamu lakukan untuk meredam amarah? Berbagi di komentar 🤍',
+            commentPrompt: 'Tulis "Allahumma tahhir qalbi" (Ya Allah sucikan hatiku) di kolom komentar 🤍',
           },
           captions: {
-            storytelling: `Kuat Bukan Soal Otot, Tapi Menahan Amarah 🌙\n[Kajian Tasawuf & Akhlak]\n\nBetapa banyak hubungan baik retak bukan karena masalah besar, melainkan karena amarah yang tak sempat diredam dalam hitungan detik.\n\nTiga kali sahabat meminta wasiat terbaik, dan tiga kali pula Rasulullah ﷺ mengulang jawaban yang sama:\n\n1️⃣ Amarah yang tidak terkendali sering berujung penyesalan.\nKetika emosi naik, kebijaksanaan turun dan lisan mudah melukai.\n\n2️⃣ Ubah posisi, diam sejenak, dan berlindung kepada Allah.\nTahan diri dari membalas saat hati masih panas; diam menyelamatkan kita dari dosa lisan.\n\n3️⃣ Menahan marah adalah tanda kelapangan jiwa seorang mukmin.\nKebersihan hati terlihat saat kita mampu bersabar di tengah situasi yang memancing emosi.\n\n📖 Dalil Hadits:\nSeorang laki-laki berkata kepada Nabi ﷺ: "Berilah aku wasiat." Beliau bersabda: "Janganlah engkau marah." Ia mengulanginya beberapa kali, dan beliau tetap bersabda: "Janganlah engkau marah." (HR. Bukhari no. 6116)\n\n💬 Simpan pengingat akhlak ini & bagikan ke orang terdekatmu 🤍\n\n#tasawuf #akhlakmulia #tazkiyatunnafs #janganmarah #haditsbukhari #muhasabahdiri #dakwahislam`,
-            short: `Kuat Bukan Soal Otot, Tapi Menahan Amarah 🌙\n\n1. Amarah yang tak terkendali sering berujung penyesalan.\n2. Ubah posisi, diam sejenak, dan berlindung kepada Allah.\n3. Menahan marah adalah tanda kelapangan jiwa seorang mukmin.\n\n"Janganlah engkau marah." — HR. Bukhari no. 6116\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#tasawuf #akhlak #janganmarah #haditsbukhari #pengingatdiri`,
+            storytelling: `Jangan Merasa Lebih Baik dari Orang Lain 🌙\n[Tadabbur Al-Qur'an • Tasawuf & Akhlak]\n\nDi era media sosial yang serba cepat, begitu mudah jari dan lisan melontarkan candaan yang merendahkan orang lain tanpa sadar bahwa hati sedang terjangkit rasa ujub.\n\n1️⃣ Merendahkan orang lain lahir dari hati yang merasa lebih tinggi.\nMengolok-olok sesama berawal dari kesombongan halus di dalam dada.\n\n2️⃣ Ukuran kemuliaan di sisi Allah bukan rupa atau status dunia.\nBoleh jadi orang yang diremehkan manusia justru jauh lebih mulia di hadapan Allah.\n\n3️⃣ Jaga lisan dan ketikan jari dari candaan yang melukai hati.\nSaring setiap ucapan: jika tidak menenangkan atau bermanfaat, memilih diam jauh lebih selamat.\n\n📖 Firman Allah Ta'ala:\n"Wahai orang-orang yang beriman! Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka... dan janganlah saling memanggil dengan gelar yang buruk." (QS. Al-Hujurat: 11)\n\n💬 Simpan pengingat akhlak ini & bagikan ke sahabatmu agar kita saling menjaga lisan dan hati 🤍\n\n#tasawuf #akhlakmulia #menjagalisandanhati #alhujurat11 #tadabburquran #muhasabahdiri #dakwahvisual`,
+            short: `Jangan Merasa Lebih Baik dari Orang Lain 🌙\n\n1. Merendahkan orang lain lahir dari hati yang merasa lebih tinggi.\n2. Kemuliaan di sisi Allah bukan diukur dari status dunia.\n3. Jaga lisan dan ketikan jari dari candaan yang melukai.\n\n"Janganlah suatu kaum mengolok-olok kaum yang lain, boleh jadi mereka lebih baik dari mereka." — QS. Al-Hujurat: 11\n\nSimpan & bagikan ke yang sedang butuh 🤍\n\n#tasawuf #akhlak #menjagalisan #alquran #pengingatdiri`,
           },
         },
       },
@@ -1102,30 +1102,29 @@
       isEditorOpen: false,
       captionTab: 'lengkap', // 'lengkap' | 'ringkas'
       username: '@lightofhijrah',
-      carouselData: JSON.parse(JSON.stringify(PRESETS.hadits_tauhid.data)),
+      carouselData: JSON.parse(JSON.stringify(PRESETS.hadits_takdir.data)),
     };
 
     // =========================================================================
-    // 4. INITIALIZATION & API KEY STORAGE
+    // 4. INITIALIZATION & API KEY STORAGE (noorslide_gemini_api_key)
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      // Load saved Claude API Key from localStorage
-      const savedKey = localStorage.getItem('noorslide_claude_api_key') || '';
-      const apiInput = document.getElementById('claude-api-key');
+      const savedKey = localStorage.getItem('noorslide_gemini_api_key') || '';
+      const apiInput = document.getElementById('gemini-api-key');
       apiInput.value = savedKey;
       updateApiKeyStatus(savedKey);
 
       apiInput.addEventListener('input', (e) => {
         const val = e.target.value.trim();
-        localStorage.setItem('noorslide_claude_api_key', val);
+        localStorage.setItem('noorslide_gemini_api_key', val);
         updateApiKeyStatus(val);
       });
 
-      // Initialize default preset
-      applyPreset('hadits_tauhid', false);
+      // Load default preset
+      applyPreset('hadits_takdir', false);
       setupKeyboardAndTouchNavigation();
 
-      // Re-paint canvas once Google Fonts finish loading
+      // Re-paint canvas after Google Fonts finish loading
       document.fonts.ready.then(() => {
         renderWorkspace();
       });
@@ -1134,28 +1133,28 @@
     function updateApiKeyStatus(key) {
       const dot = document.getElementById('api-status-dot');
       const statusText = document.getElementById('api-status-text');
-      if (key && key.length > 15) {
+      if (key && key.length > 20) {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 transition-colors';
         statusText.textContent =
-          'Status: Claude API Key tersimpan di browser Anda (Auto-Retry + Fallback Chain siap digunakan).';
+          'Status: Gemini API Key tersimpan lokal (Model utama gemini-4-hydrogen + Auto-Fallback Free Tier siap digunakan).';
       } else {
         dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 transition-colors';
         statusText.textContent =
-          'Status: Belum ada API Key Claude tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.';
+          'Status: Belum ada API Key Gemini tersimpan. Anda tetap dapat mencoba 4 Preset Cepat atau Mode Demo Lokal tanpa API Key.';
       }
     }
 
     function toggleApiKeyVisibility() {
-      const input = document.getElementById('claude-api-key');
+      const input = document.getElementById('gemini-api-key');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
 
     function clearStoredApiKey() {
-      localStorage.removeItem('noorslide_claude_api_key');
-      const input = document.getElementById('claude-api-key');
+      localStorage.removeItem('noorslide_gemini_api_key');
+      const input = document.getElementById('gemini-api-key');
       input.value = '';
       updateApiKeyStatus('');
-      showToast('API Key Claude dihapus dari penyimpanan browser.');
+      showToast('API Key Gemini dihapus dari penyimpanan browser.');
     }
 
     function clearDalilInput() {
@@ -1188,7 +1187,7 @@
     }
 
     function highlightPresetButton(activeKey) {
-      ['hadits_tauhid', 'quran_tauhid', 'quran_fiqih', 'hadits_tasawuf'].forEach((k) => {
+      ['hadits_takdir', 'quran_insyirah', 'hadits_niat', 'quran_lisan'].forEach((k) => {
         const btn = document.getElementById(`preset-btn-${k}`);
         if (!btn) return;
         const labelSpan = btn.querySelector('div:first-child');
@@ -1215,11 +1214,11 @@
       document.getElementById('dalil-input').value = preset.dalilInput;
       appState.carouselData = JSON.parse(JSON.stringify(preset.data));
 
-      // Adjust point count select to match preset
       const ptsLen = appState.carouselData.points.length;
       document.getElementById('point-count-select').value = String(ptsLen);
 
       appState.activeSlideIndex = 0;
+      hideStatusBanner();
       syncClassificationUI();
       syncCaptionBox();
       renderWorkspace();
@@ -1290,7 +1289,7 @@
         bridgeCue: 'Simak dalilnya →',
       });
       document.getElementById('point-count-select').value = String(appState.carouselData.points.length);
-      appState.activeSlideIndex = newNum; // Focus the newly added point slide
+      appState.activeSlideIndex = newNum;
       renderWorkspace();
       if (appState.isEditorOpen) renderEditorFields();
       showToast(`Poin ${newNum} ditambahkan.`);
@@ -1602,7 +1601,48 @@
     }
 
     /**
-     * Master Canvas 2D Slide Renderer at 1080x1350 px
+     * Subtle deterministic paper grain + sacred geometry watermark
+     */
+    function drawPaperTextureAndWatermark(ctx, W, H, theme) {
+      // Subtle paper fiber speckles
+      ctx.save();
+      ctx.fillStyle = theme.accentGold;
+      ctx.globalAlpha = 0.025;
+      for (let i = 0; i < 160; i++) {
+        const px = ((i * 197 + 43) % (W - 120)) + 60;
+        const py = ((i * 313 + 71) % (H - 120)) + 60;
+        const r = (i % 3) + 1;
+        ctx.beginPath();
+        ctx.arc(px, py, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // Faint Islamic Sacred Geometry Watermark
+      ctx.save();
+      ctx.globalAlpha = theme.watermarkAlpha;
+      ctx.strokeStyle = theme.accentGold;
+      ctx.lineWidth = 2.5;
+      const cx = W / 2;
+      const cy = H / 2;
+      [430, 325].forEach((r) => {
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - 460);
+      ctx.lineTo(cx + 330, cy);
+      ctx.lineTo(cx, cy + 460);
+      ctx.lineTo(cx - 330, cy);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.strokeRect(cx - 330, cy - 330, 660, 660);
+      ctx.restore();
+    }
+
+    /**
+     * Master Canvas 2D Slide Renderer at 1080x1350 px (4:5 Ratio)
      */
     function renderSlideToCanvas(canvas, slideObj, slideIndex, totalSlides) {
       const ctx = canvas.getContext('2d');
@@ -1626,27 +1666,8 @@
       ctx.fillStyle = theme.bg;
       ctx.fillRect(0, 0, W, H);
 
-      // 2. Subtle Islamic Geometric Sacred Geometry Watermark
-      ctx.save();
-      ctx.globalAlpha = theme.watermarkAlpha;
-      ctx.strokeStyle = theme.accentGold;
-      ctx.lineWidth = 2.5;
-      const cx = W / 2;
-      const cy = H / 2;
-      [430, 325].forEach((r) => {
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.stroke();
-      });
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 460);
-      ctx.lineTo(cx + 330, cy);
-      ctx.lineTo(cx, cy + 460);
-      ctx.lineTo(cx - 330, cy);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.strokeRect(cx - 330, cy - 330, 660, 660);
-      ctx.restore();
+      // 2. Subtle Paper Grain & Islamic Sacred Geometry Watermark
+      drawPaperTextureAndWatermark(ctx, W, H, theme);
 
       // 3. Outer Thin Rounded Editorial Frame + Top & Bottom Diamond Ornaments
       const inset = 44;
@@ -1849,7 +1870,7 @@
       }
 
       // =======================================================================
-      // DALIL SLIDE (AL-QUR'AN OR HADITS)
+      // DALIL SLIDE (AL-QUR'AN OR HADITS) WITH AUTO-FIT ARABIC & TRANSLATION
       // =======================================================================
       else if (slideObj.type === 'dalil') {
         const { arabicText, translation, highlightPhrase, source, amalTip } = slideObj.data;
@@ -1908,13 +1929,35 @@
         ctx.stroke();
         ctx.restore();
 
-        // Crisp RTL Arabic Script in Amiri Font
-        const arabicLen = (arabicText || '').length;
-        const arabicSize = arabicLen > 170 ? 44 : arabicLen > 115 ? 50 : 56;
-        const arabicLH = Math.round(arabicSize * 1.65);
+        // Adaptive Font Scaling so Arabic + Translation Never Clip Above Bottom Source Pill
+        const hasArabic = Boolean(arabicText && arabicText.trim());
+        const pillY = cardY + cardH - 98;
+        const availableBodyHeight = pillY - (headerY + 68);
 
-        let curY = headerY + 86;
-        if (arabicText && arabicText.trim()) {
+        let arabicSize = 54;
+        let transSize = 34;
+
+        for (let scaleStep = 0; scaleStep < 5; scaleStep++) {
+          let estimatedH = 0;
+          if (hasArabic) {
+            ctx.font = `700 ${arabicSize}px "Amiri", serif`;
+            const aLines = wrapTextIntoLines(ctx, arabicText, cardW - 116);
+            estimatedH += aLines.length * Math.round(arabicSize * 1.6) + 64;
+          }
+          ctx.font = `400 ${transSize}px "Plus Jakarta Sans", sans-serif`;
+          const tLines = wrapTextIntoLines(ctx, translation, cardW - 120);
+          estimatedH += tLines.length * Math.round(transSize * 1.46);
+
+          if (estimatedH <= availableBodyHeight) break;
+          arabicSize = Math.max(36, arabicSize - 4);
+          transSize = Math.max(25, transSize - 2);
+        }
+
+        const arabicLH = Math.round(arabicSize * 1.6);
+        const transLH = Math.round(transSize * 1.46);
+
+        let curY = headerY + 82;
+        if (hasArabic) {
           const usedArabicH = drawArabicCenteredBlock(
             ctx,
             arabicText,
@@ -1925,7 +1968,7 @@
             theme.dalilArabic,
             `700 ${arabicSize}px "Amiri", serif`
           );
-          curY += usedArabicH + 14;
+          curY += usedArabicH + 10;
 
           // Hollow Gold Diamond Divider
           ctx.save();
@@ -1941,14 +1984,10 @@
           ctx.restore();
 
           drawDiamond(ctx, W / 2, curY, 14, null, theme.dalilBadgeBorder);
-          curY += 54;
+          curY += 48;
         }
 
         // Indonesian Translation with Warm Golden Highlight on Key Phrase
-        const transLen = (translation || '').length;
-        const transSize = transLen > 210 ? 31 : 35;
-        const transLH = Math.round(transSize * 1.48);
-
         drawRichCenteredBlock(ctx, {
           text: translation,
           highlightPhrase: highlightPhrase,
@@ -1968,10 +2007,9 @@
         ctx.save();
         ctx.font = '700 27px "Plus Jakarta Sans", sans-serif';
         const pillTextW = ctx.measureText(badgeText).width;
-        const pillW = pillTextW + 76;
+        const pillW = Math.min(cardW - 80, pillTextW + 76);
         const pillH = 58;
         const pillX = W / 2 - pillW / 2;
-        const pillY = cardY + cardH - 98;
 
         ctx.fillStyle = theme.dalilBadgeBg;
         drawRoundedRectPath(ctx, pillX, pillY, pillW, pillH, pillH / 2);
@@ -2443,15 +2481,14 @@
     }
 
     // =========================================================================
-    // 10. ANTHROPIC CLAUDE MESSAGES API + AUTO-RETRY + MULTI-MODEL FALLBACK
+    // 10. GOOGLE GEMINI API + EXPONENTIAL BACKOFF RETRY + FREE TIER FALLBACK
     // =========================================================================
-    const CLAUDE_FALLBACK_CHAIN = [
-      'claude-sonnet-4-5-20250929',
-      'claude-sonnet-4-20250514',
-      'claude-3-7-sonnet-20250219',
-      'claude-haiku-4-5-20251001',
-      'claude-3-5-sonnet-20241022',
-      'claude-3-5-haiku-20241022',
+    const GEMINI_FREE_TIER_CHAIN = [
+      'gemini-4-hydrogen',
+      'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-3.8-flash',
+      'gemini-3.6-flash',
     ];
 
     function sleep(ms) {
@@ -2460,9 +2497,23 @@
 
     function showStatusBanner(type, htmlContent) {
       const banner = document.getElementById('status-banner');
-      banner.classList.remove('hidden', 'bg-red-50', 'border-red-200', 'text-red-700', 'bg-amber-50', 'border-amber-200', 'text-amber-900', 'border');
+      banner.classList.remove(
+        'hidden',
+        'bg-red-50',
+        'border-red-200',
+        'text-red-700',
+        'bg-amber-50',
+        'border-amber-200',
+        'text-amber-900',
+        'bg-emerald-50',
+        'border-emerald-200',
+        'text-forest-800',
+        'border'
+      );
       if (type === 'error') {
         banner.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
+      } else if (type === 'success') {
+        banner.classList.add('bg-emerald-50', 'border', 'border-emerald-200', 'text-forest-800');
       } else {
         banner.classList.add('bg-amber-50', 'border', 'border-amber-200', 'text-amber-900');
       }
@@ -2476,14 +2527,13 @@
     }
 
     /**
-     * Defensive JSON Parser for Claude API responses:
-     * Reads response.content[0].text, strips markdown code fences,
-     * extracts the first balanced JSON object {...}, validates all fields,
-     * and provides clean fallback defaults so the canvas never crashes.
+     * Defensive JSON Parser for Google Gemini API responses:
+     * Strips markdown code fences, extracts the first balanced JSON object {...},
+     * validates all fields, and provides clean fallback defaults.
      */
-    function safeParseClaudeJSON(rawText, pointCount, rawInput) {
+    function safeParseGeminiJSON(rawText, pointCount, rawInput) {
       if (!rawText || typeof rawText !== 'string') {
-        throw new Error('Respons teks dari Claude API kosong.');
+        throw new Error('Respons teks dari Gemini API kosong.');
       }
 
       let cleaned = rawText
@@ -2491,7 +2541,6 @@
         .replace(/```\s*/g, '')
         .trim();
 
-      // Extract first balanced JSON object {...} safely
       const firstBrace = cleaned.indexOf('{');
       if (firstBrace !== -1) {
         let depth = 0;
@@ -2534,11 +2583,11 @@
       try {
         parsed = JSON.parse(cleaned);
       } catch (e) {
-        throw new Error('Format JSON dari Claude AI tidak terbaca utuh. Silakan coba Generate ulang.');
+        throw new Error('Format JSON dari Gemini AI tidak terbaca utuh. Silakan coba Generate ulang.');
       }
 
       if (!parsed || typeof parsed !== 'object') {
-        throw new Error('Struktur respons JSON dari Claude AI tidak valid.');
+        throw new Error('Struktur respons JSON dari Gemini AI tidak valid.');
       }
 
       const canonicalDalilType = normalizeDalilType(parsed.dalilType || parsed.jenis_dalil);
@@ -2643,7 +2692,7 @@
     }
 
     async function handleGenerateCarousel() {
-      const apiKey = document.getElementById('claude-api-key').value.trim();
+      const apiKey = document.getElementById('gemini-api-key').value.trim();
       const rawInput = document.getElementById('dalil-input').value.trim();
       const pointCount = parseInt(document.getElementById('point-count-select').value, 10) || 3;
 
@@ -2661,7 +2710,7 @@
         showStatusBanner(
           'info',
           `<div class="space-y-2">
-            <div><strong>API Key Claude belum diisi.</strong> Masukkan Claude API Key (<code>sk-ant-...</code>) di atas untuk generate dengan AI, atau gunakan Mode Demo Lokal di bawah.</div>
+            <div><strong>API Key Gemini belum diisi.</strong> Masukkan Gemini API Key (<code>AIzaSy...</code>) di atas untuk generate dengan AI, atau gunakan Mode Demo Lokal di bawah.</div>
             <div class="pt-0.5">
               <button type="button" onclick="runInstantLocalFallback()" class="px-3 py-1.5 rounded-lg bg-forest-800 hover:bg-forest-700 text-ivory-100 font-bold text-[11px] transition">
                 ⚡ Gunakan Mode Demo Lokal Sekarang
@@ -2672,19 +2721,21 @@
         return;
       }
 
-      await generateWithClaudeAPI(apiKey, rawInput, pointCount);
+      await generateWithGeminiAPI(apiKey, rawInput, pointCount);
     }
 
     /**
-     * Calls Anthropic Claude Messages API (https://api.anthropic.com/v1/messages)
-     * with direct browser CORS headers, 3x exponential backoff retry on HTTP 429/529,
-     * and automatic multi-model fallback chain.
+     * Calls Google Gemini REST API with:
+     * - Primary model `gemini-4-hydrogen`
+     * - Exponential Backoff Auto-Retry (up to 3 attempts per model on HTTP 503 / 429 / 5xx)
+     * - Multi-Model Free Tier Automatic Fallback Chain:
+     *   gemini-4-hydrogen -> gemini-3.5-flash-lite -> gemini-3.1-flash-lite -> gemini-3.8-flash -> gemini-3.6-flash
      */
-    async function generateWithClaudeAPI(apiKey, rawInput, pointCount) {
-      const selectedModel = document.getElementById('claude-model-select')?.value || 'auto';
-      const modelsToTry = selectedModel === 'auto' ? [...CLAUDE_FALLBACK_CHAIN] : [selectedModel];
+    async function generateWithGeminiAPI(apiKey, rawInput, pointCount) {
+      const selectedModel = document.getElementById('gemini-model-select')?.value || 'auto';
+      const modelsToTry = selectedModel === 'auto' ? [...GEMINI_FREE_TIER_CHAIN] : [selectedModel];
 
-      setGenerateLoading(true, 'Menghubungkan ke Claude AI...');
+      setGenerateLoading(true, 'Menghubungkan ke Gemini AI...');
 
       const systemPrompt = `Anda adalah pakar konten dakwah Islam, ahli tafsir & hadits, serta strategist carousel Instagram/TikTok ber-retensi tinggi (gaya visual editorial minimalis elegan seperti @lightofhijrah).
 
@@ -2697,7 +2748,7 @@ Tugas Anda terhadap INPUT PENGGUNA (bisa berupa Ayat Al-Qur'an, Hadits, terjemah
 3) Lengkapi teks Arab berharakat lengkap & akurat (jika pengguna hanya menempel terjemahan atau rujukan ayat/hadits, tuliskan matan Arab aslinya secara ringkas dan shahih maksimal 28 kata Arab agar proporsional di kartu).
 4) Susun konten carousel yang menyentuh hati dan mempertahankan pembaca hingga slide terakhir.
 
-Kembalikan HANYA JSON valid (tanpa blok markdown \`\`\`json dan tanpa penjelasan tambahan) dengan struktur persis berikut:
+Kembalikan HANYA JSON valid dengan struktur persis berikut:
 {
   "dalilType": "AL-QUR'AN" | "HADITS",
   "category": "TAUHID (AKIDAH)" | "FIQIH" | "TASAWUF (AKHLAK)",
@@ -2736,8 +2787,8 @@ Kembalikan HANYA JSON valid (tanpa blok markdown \`\`\`json dan tanpa penjelasan
 Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
 
       const maxRetriesPerModel = 3;
-      const baseDelayMs = 1200;
-      let lastFriendlyError = 'Terjadi gangguan sementara saat menghubungi Claude AI.';
+      const baseDelayMs = 1100;
+      let lastFriendlyError = 'Server Gemini sedang mengalami lonjakan trafik sementara.';
       let succeededModel = null;
       let finalNormalizedData = null;
 
@@ -2748,7 +2799,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           if (mIdx > 0) {
             showStatusBanner(
               'info',
-              `<strong>Beralih otomatis ke model cadangan Claude:</strong> <code>${escapeHtml(
+              `<strong>Beralih otomatis ke model Free Tier cadangan:</strong> <code>${escapeHtml(
                 currentModel
               )}</code> (${mIdx + 1}/${modelsToTry.length})...`
             );
@@ -2763,25 +2814,27 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
             );
 
             try {
-              const response = await fetch('https://api.anthropic.com/v1/messages', {
+              const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(
+                currentModel
+              )}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+              const response = await fetch(endpoint, {
                 method: 'POST',
-                headers: {
-                  'x-api-key': apiKey,
-                  'anthropic-version': '2023-06-01',
-                  'content-type': 'application/json',
-                  'anthropic-dangerous-direct-browser-access': 'true',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  model: currentModel,
-                  max_tokens: 2400,
-                  temperature: 0.7,
-                  system: systemPrompt,
-                  messages: [
+                  contents: [
                     {
-                      role: 'user',
-                      content: `Buat carousel dakwah Islami dari input dalil berikut (jumlah slide poin: ${pointCount}):\n\n${rawInput}`,
+                      parts: [
+                        {
+                          text: `${systemPrompt}\n\nINPUT DALIL PENGGUNA (Jumlah slide poin: ${pointCount}):\n${rawInput}`,
+                        },
+                      ],
                     },
                   ],
+                  generationConfig: {
+                    responseMimeType: 'application/json',
+                    temperature: 0.7,
+                  },
                 }),
               });
 
@@ -2789,47 +2842,34 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
 
               if (!response.ok) {
                 const rawErrMsg = result?.error?.message || `HTTP Error ${response.status}`;
+                lastFriendlyError = rawErrMsg;
 
-                // HTTP 401: Invalid API Key -> Stop immediately
-                if (response.status === 401 || rawErrMsg.toLowerCase().includes('invalid x-api-key')) {
-                  throw new Error(
-                    'FATAL_AUTH: API Key Claude tidak valid (HTTP 401). Pastikan kunci diawali "sk-ant-..." dan masih aktif di console.anthropic.com.'
-                  );
-                }
-
-                // HTTP 400/402: Insufficient credits / billing -> Stop immediately
+                // Invalid API Key -> Stop immediately
                 if (
-                  response.status === 402 ||
-                  (response.status === 400 &&
-                    (rawErrMsg.toLowerCase().includes('credit') ||
-                      rawErrMsg.toLowerCase().includes('billing') ||
-                      rawErrMsg.toLowerCase().includes('balance')))
+                  response.status === 400 &&
+                  (rawErrMsg.includes('API_KEY_INVALID') || rawErrMsg.toLowerCase().includes('api key not valid'))
                 ) {
                   throw new Error(
-                    `FATAL_BILLING: Saldo kredit Anthropic API Anda tidak mencukupi (${rawErrMsg}). Silakan isi saldo kredit di console.anthropic.com/settings/billing.`
+                    'FATAL_AUTH: API Key Gemini tidak valid. Periksa kembali kunci API Anda di Google AI Studio.'
                   );
                 }
 
-                // HTTP 404: Model not found / deprecated -> Skip retries and jump to next model in fallback chain
-                if (response.status === 404 || rawErrMsg.toLowerCase().includes('not_found')) {
-                  lastFriendlyError = `Model ${currentModel} tidak tersedia pada akun ini.`;
+                // Model not found / deprecated -> Skip retries on this model and jump to next model immediately
+                if (
+                  response.status === 404 ||
+                  rawErrMsg.toLowerCase().includes('no longer available') ||
+                  rawErrMsg.toLowerCase().includes('not found')
+                ) {
                   break;
                 }
 
-                // HTTP 429 (Rate Limit) or HTTP 529 (Claude Server Overloaded) or 5xx -> Exponential Backoff Retry
-                const isTransient = [429, 500, 502, 503, 504, 529].includes(response.status);
-                lastFriendlyError =
-                  response.status === 529
-                    ? 'Server Claude AI sedang mengalami lonjakan trafik sementara (Overloaded 529).'
-                    : response.status === 429
-                    ? 'Batas kecepatan permintaan API tercapai (Rate Limit 429).'
-                    : rawErrMsg;
-
+                // Transient High Demand (503) / Rate Limit (429) / 500 / 502 / 504 -> Exponential Backoff Retry
+                const isTransient = [429, 500, 502, 503, 504].includes(response.status);
                 if (isTransient && attempt < maxRetriesPerModel) {
                   const backoffMs = baseDelayMs * Math.pow(2, attempt - 1);
                   showStatusBanner(
                     'info',
-                    `<strong>Claude AI (${escapeHtml(currentModel)}) sedang padat</strong> (HTTP ${
+                    `<strong>Server Gemini (${escapeHtml(currentModel)}) sedang padat</strong> (HTTP ${
                       response.status
                     }), mencoba ulang otomatis <strong>${attempt}/${maxRetriesPerModel}</strong> dalam ${(
                       backoffMs / 1000
@@ -2839,16 +2879,11 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                   continue;
                 }
 
-                // Exhausted retries for this model -> move to next model in fallback chain
+                // Exhausted retries for this model -> move to next Free Tier model in fallback chain
                 break;
               }
 
-              // Extract text from Claude Messages response: response.content[0].text
-              const textBlock = Array.isArray(result?.content)
-                ? result.content.find((b) => b.type === 'text') || result.content[0]
-                : null;
-              const rawText = textBlock?.text;
-
+              const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
               if (!rawText) {
                 lastFriendlyError = `Respons kosong dari model ${currentModel}.`;
                 if (attempt < maxRetriesPerModel) {
@@ -2858,17 +2893,14 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
                 break;
               }
 
-              finalNormalizedData = safeParseClaudeJSON(rawText, pointCount, rawInput);
+              finalNormalizedData = safeParseGeminiJSON(rawText, pointCount, rawInput);
               succeededModel = currentModel;
               break;
             } catch (innerErr) {
-              if (
-                innerErr.message &&
-                (innerErr.message.startsWith('FATAL_AUTH:') || innerErr.message.startsWith('FATAL_BILLING:'))
-              ) {
+              if (innerErr.message && innerErr.message.startsWith('FATAL_AUTH:')) {
                 throw innerErr;
               }
-              lastFriendlyError = innerErr.message || 'Gangguan koneksi jaringan ke server Claude API.';
+              lastFriendlyError = innerErr.message || 'Gangguan koneksi jaringan ke server Gemini API.';
               if (attempt < maxRetriesPerModel) {
                 const backoffMs = baseDelayMs * Math.pow(2, attempt - 1);
                 showStatusBanner(
@@ -2891,7 +2923,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           throw new Error(lastFriendlyError);
         }
 
-        // Success! Update state and re-render
+        // Apply normalized data and update UI
         appState.carouselData = finalNormalizedData;
         highlightPresetButton(null);
         appState.activeSlideIndex = 0;
@@ -2900,10 +2932,10 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         renderWorkspace();
         if (appState.isEditorOpen) renderEditorFields();
 
-        if (selectedModel === 'auto' && succeededModel !== CLAUDE_FALLBACK_CHAIN[0]) {
+        if (selectedModel === 'auto' && succeededModel !== GEMINI_FREE_TIER_CHAIN[0]) {
           showStatusBanner(
-            'info',
-            `<strong>Berhasil melalui Auto-Fallback:</strong> Konten otomatis dibuat menggunakan model cadangan <code>${escapeHtml(
+            'success',
+            `<strong>Berhasil melalui Auto-Fallback Free Tier:</strong> Server utama sedang padat sehingga konten otomatis dibuat menggunakan <code>${escapeHtml(
               succeededModel
             )}</code>.`
           );
@@ -2912,23 +2944,23 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         }
 
         showToast(
-          `✨ Carousel ${finalNormalizedData.dalilType} (${finalNormalizedData.category}) berhasil dibuat oleh Claude AI!`
+          `✨ Carousel ${finalNormalizedData.dalilType} (${finalNormalizedData.category}) berhasil dibuat (${succeededModel})!`
         );
       } catch (err) {
-        console.error('Claude API Pipeline Error:', err);
-        const cleanMsg = String(err.message || 'Gagal menghubungi Claude AI.').replace(
-          /^(FATAL_AUTH|FATAL_BILLING):\s*/,
+        console.error('Gemini API Pipeline Error:', err);
+        const cleanMsg = String(err.message || 'Server Gemini sedang mengalami antrean trafik.').replace(
+          /^FATAL_AUTH:\s*/,
           ''
         );
         showStatusBanner(
           'error',
           `<div class="space-y-2">
-            <div><strong>Gagal Generate Claude AI:</strong> ${escapeHtml(cleanMsg)}</div>
+            <div><strong>Gagal Generate Gemini AI:</strong> ${escapeHtml(cleanMsg)}</div>
             <div class="flex flex-wrap items-center gap-2 pt-1">
               <button type="button" onclick="runInstantLocalFallback()" class="px-3 py-1.5 rounded-lg bg-forest-800 hover:bg-forest-700 text-ivory-100 font-bold text-[11px] transition">
                 ⚡ Gunakan Mode Demo Lokal Sekarang
               </button>
-              <span class="text-[11px] text-red-700/80">untuk menyusun carousel langsung tanpa kuota API.</span>
+              <span class="text-[11px] text-red-700/80">atau tunggu sebentar lalu klik Generate ulang.</span>
             </div>
           </div>`
         );
@@ -2947,7 +2979,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
       const pointCount = parseInt(document.getElementById('point-count-select').value, 10) || 3;
 
       if (!rawInput) {
-        applyPreset('hadits_tauhid', true);
+        applyPreset('hadits_takdir', true);
         return;
       }
 
@@ -2961,6 +2993,7 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
         lower.includes('surat') ||
         lower.includes('al-baqarah') ||
         lower.includes('al-insyirah') ||
+        lower.includes('al-hujurat') ||
         lower.includes('an-nisa') ||
         lower.includes('ali imran') ||
         lower.includes('al-mulk') ||
@@ -3005,7 +3038,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           'Diklasifikasikan dalam cabang ilmu FIQIH karena berkaitan dengan hukum syariat dan tata cara pelaksanaan ibadah.';
       }
 
-      // Extract Arabic lines if present in user input
       const lines = rawInput
         .split('\n')
         .map((l) => l.trim())
@@ -3017,7 +3049,6 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
       const translationText =
         nonArabicLines.join(' ').replace(/^["']|["']$/g, '').slice(0, 230) || rawInput.slice(0, 230);
 
-      // Extract source citation if found (e.g. QS. ... or HR. ...)
       const sourceMatch = rawInput.match(/\((QS\.[^)]+|HR\.[^)]+)\)/i) || rawInput.match(/(QS\.[^\n,]+|HR\.[^\n,]+)/i);
       const sourceText = sourceMatch
         ? sourceMatch[1].trim()
@@ -3116,11 +3147,11 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
       btn.disabled = isLoading;
       if (isLoading) {
         btn.classList.add('opacity-80', 'cursor-wait');
-        textEl.textContent = labelText || 'Memproses dengan Claude AI...';
+        textEl.textContent = labelText || 'Memproses dengan Gemini AI...';
         iconEl.classList.add('animate-spin');
       } else {
         btn.classList.remove('opacity-80', 'cursor-wait');
-        textEl.textContent = 'Generate dengan Claude AI';
+        textEl.textContent = 'Generate Carousel & Caption';
         iconEl.classList.remove('animate-spin');
       }
     }
@@ -3209,9 +3240,9 @@ Pastikan array "points" berisi TEPAT ${pointCount} objek.`;
           const blob = await renderSlideToBlob(slides[i], i, total);
           triggerBlobDownload(blob, filename);
 
-          // 450ms interval between downloads so browsers queue every PNG cleanly without dropping files
+          // 500ms interval between sequential PNG downloads
           if (i < total - 1) {
-            await sleep(450);
+            await sleep(500);
           }
         }
 
