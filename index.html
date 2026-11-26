@@ -96,6 +96,12 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#A38A48]/25 selection:text-[#10261B]">
 
+  <!-- Hidden Font Preloader so Arabic Amiri & Display Fonts load before Slide 5 is opened -->
+  <div aria-hidden="true" class="sr-only pointer-events-none select-none">
+    <span class="font-amiri font-bold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+    <span class="font-playfair font-bold italic">NoorSlide</span>
+  </div>
+
   <!-- Toast Notification Container (Replaces alert/confirm) -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
@@ -1545,6 +1551,7 @@ Format JSON wajib:
           kind: 'point',
           pointIndex: idx,
           label: `Poin ${idx + 1}`,
+          category: data.category,
           title: pt.title,
           body: pt.body,
           microExplanation: pt.microExplanation,
@@ -1557,6 +1564,7 @@ Format JSON wajib:
       slides.push({
         kind: 'dalil',
         label: 'Dalil',
+        category: data.category,
         dalilType: data.dalil.type,
         arabicText: data.dalil.arabicText,
         translation: data.dalil.translation,
@@ -1570,6 +1578,7 @@ Format JSON wajib:
       slides.push({
         kind: 'closing',
         label: 'Penutup',
+        category: data.category,
         headline: data.closing.headline,
         subheadline: data.closing.subheadline,
         commentPrompt: data.closing.commentPrompt,
@@ -1918,40 +1927,71 @@ Format JSON wajib:
     }
 
     /**
+     * Renders Top Category Pill (e.g., TASAWUF (AKHLAK), TAUHID (AKIDAH), FIQIH) on every slide
+     */
+    function renderSlideTopCategoryBadge(ctx, theme, category) {
+      const catText = String(category || 'TASAWUF (AKHLAK)').toUpperCase().trim();
+      if (!catText) return;
+
+      const centerX = 540;
+      const pillY = 66;
+      const pillH = 40;
+
+      ctx.save();
+      ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+      const label = `✦  ${catText}  ✦`;
+      const textW = ctx.measureText(label).width;
+      const pillW = Math.min(860, textW + 44);
+      const pillX = centerX - pillW / 2;
+
+      ctx.fillStyle = theme.pillBg;
+      drawRoundRect(ctx, pillX, pillY, pillW, pillH, 20);
+      ctx.fill();
+
+      ctx.strokeStyle = theme.cardBorder;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = theme.gold;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, centerX, pillY + pillH / 2 + 1);
+      ctx.restore();
+    }
+
+    /**
      * SLIDE 1: COVER HOOK RENDERER
      */
     function renderCoverSlide(ctx, slide, theme) {
       const W = 1080;
       const centerX = W / 2;
-      const maxTitleW = 900;
-      const maxSubW = 860;
 
-      const titleFontSize = slide.title.length > 52 ? 74 : 84;
-      const titleLineHeight = Math.round(titleFontSize * 1.22);
+      const titleFontSize = slide.title.length > 52 ? 64 : 74;
+      const titleLineHeight = Math.round(titleFontSize * 1.24);
       ctx.font = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
-      const estTitleLines = wrapLatinText(ctx, slide.title, maxTitleW).length;
+      const estTitleLines = wrapLatinText(ctx, slide.title, 880).length;
       const titleBlockH = estTitleLines * titleLineHeight;
 
-      const subFontSize = 38;
-      const subLineHeight = 54;
+      const subFontSize = 35;
+      const subLineHeight = 50;
       ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
-      const subLines = wrapLatinText(ctx, slide.subHook, maxSubW);
+      const subLines = wrapLatinText(ctx, slide.subHook, 820);
       const subBlockH = subLines.length * subLineHeight;
 
       const totalBlockH = 112 + 78 + titleBlockH + 42 + 40 + subBlockH;
-      let curY = Math.max(120, (1170 - totalBlockH) / 2 + 28);
+      let curY = Math.max(135, (1175 - totalBlockH) / 2 + 20);
 
       // 1. Crescent Moon Emblem Crest
       ctx.save();
       ctx.strokeStyle = theme.frameBorder;
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 2.2;
       ctx.beginPath();
-      ctx.arc(centerX, curY + 42, 48, 0, Math.PI * 2);
+      ctx.arc(centerX, curY + 42, 46, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.fillStyle = theme.gold;
       ctx.beginPath();
-      ctx.arc(centerX - 3, curY + 42, 23, 0.25 * Math.PI, 1.75 * Math.PI, false);
+      ctx.arc(centerX - 4, curY + 42, 22, 0.25 * Math.PI, 1.75 * Math.PI, false);
       ctx.arc(centerX + 8, curY + 36, 18, 1.65 * Math.PI, 0.35 * Math.PI, true);
       ctx.closePath();
       ctx.fill();
@@ -1960,33 +2000,33 @@ Format JSON wajib:
 
       // 2. Category Pill + Reading Time Pill
       ctx.save();
-      const catText = slide.category.toUpperCase();
-      const timeText = `⏱ ${slide.readingTime}`;
-      ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
-      const catW = ctx.measureText(catText).width + 42;
-      const timeW = ctx.measureText(timeText).width + 42;
+      const catText = String(slide.category || 'TASAWUF (AKHLAK)').toUpperCase();
+      const timeText = `⏱ ${slide.readingTime || 'Baca 30 Detik'}`;
+      ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
+      const catW = ctx.measureText(catText).width + 40;
+      const timeW = ctx.measureText(timeText).width + 40;
       const gap = 16;
       const totalPillsW = catW + gap + timeW;
       const startPillsX = centerX - totalPillsW / 2;
 
       ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, startPillsX, curY, catW, 50, 25);
+      drawRoundRect(ctx, startPillsX, curY, catW, 46, 23);
       ctx.fill();
       ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
       ctx.fillStyle = theme.gold;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(catText, startPillsX + catW / 2, curY + 26);
+      ctx.fillText(catText, startPillsX + catW / 2, curY + 24);
 
       ctx.fillStyle = theme.cardSurface;
-      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, 50, 25);
+      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, 46, 23);
       ctx.fill();
       ctx.fillStyle = theme.mutedInk;
-      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + 26);
+      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + 24);
       ctx.restore();
-      curY += 84;
+      curY += 80;
 
       // 3. Playfair Display Main Hook Title with Italic Gold Keyword
       const renderedTitleH = drawCoverTitleWithGoldHighlight(
@@ -1995,7 +2035,7 @@ Format JSON wajib:
         slide.highlightKeyword,
         centerX,
         curY,
-        maxTitleW,
+        880,
         titleFontSize,
         titleLineHeight,
         theme.primaryInk,
@@ -2003,19 +2043,19 @@ Format JSON wajib:
       );
       curY += renderedTitleH + 38;
 
-      // 4. Short Gold Divider Rule with Diamond
+      // 4. Short Gold Divider Rule with Diamond Ornament
       ctx.save();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3.2;
+      ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(centerX - 95, curY);
-      ctx.lineTo(centerX + 95, curY);
+      ctx.moveTo(centerX - 90, curY);
+      ctx.lineTo(centerX + 90, curY);
       ctx.stroke();
       drawDiamond(ctx, centerX, curY, 7, theme.gold);
       ctx.restore();
       curY += 40;
 
-      // 5. Sub-Hook
+      // 5. Sub-Hook Text
       ctx.save();
       ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = theme.mutedInk;
@@ -2043,7 +2083,7 @@ Format JSON wajib:
       const showBridge = appState.toggles.curiosityBridge && Boolean(slide.curiosityBridge?.trim());
 
       const bottomLimitY = showBridge ? 1110 : 1170;
-      const topLimitY = 96;
+      const topLimitY = 126;
       const availableH = bottomLimitY - topLimitY;
 
       if (layoutVariant === 0) {
@@ -2358,7 +2398,7 @@ Format JSON wajib:
 
     /**
      * DALIL SLIDE (SLIDE 5): DARK EMERALD CARD + AMIRI ARABIC + TRANSLATION + CLEAN SOURCE + INTISARI AMAL
-     * (Internal creator tags such as "Al-Qur'an Terverifikasi" / "Shahih" are completely omitted from the public slide)
+     * Spacious header-to-Arabic clearance so Arabic ascenders/harakat never overlap the title above
      */
     function renderDalilSlide(ctx, slide, theme, slideIndex, totalSlides) {
       const W = 1080;
@@ -2368,39 +2408,61 @@ Format JSON wajib:
 
       const excerptedArabic = smartExcerptArabic(slide.arabicText, 225);
 
-      let arabicFontSize = 60;
-      if (excerptedArabic.length > 155) arabicFontSize = 50;
-      else if (excerptedArabic.length > 100) arabicFontSize = 54;
-      const arabicLineHeight = Math.round(arabicFontSize * 1.82);
-
       const cardX = 68;
       const cardW = W - cardX * 2;
       const innerTextMaxW = cardW - 96;
+      const minCardY = 124;
+      const maxBottomY = 1182;
+      const maxTotalBudgetH = maxBottomY - minCardY;
 
-      ctx.save();
-      ctx.direction = 'rtl';
-      ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
-      const arabicLines = wrapArabicText(ctx, excerptedArabic, innerTextMaxW);
-      ctx.restore();
+      // Determine optimal font sizes so the card + Intisari Amal fits cleanly without crowding
+      let arabicFontSize = excerptedArabic.length > 155 ? 48 : (excerptedArabic.length > 100 ? 52 : 56);
+      let transFontSize = 35;
 
-      const transFontSize = 36;
-      const transLineHeight = 50;
-      ctx.font = `500 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
-      const transLines = wrapLatinText(ctx, slide.translation, innerTextMaxW);
-
-      const arabicH = arabicLines.length * arabicLineHeight;
-      const transH = transLines.length * transLineHeight;
-
-      const cardH = 92 + arabicH + 52 + transH + 92;
-
-      const intisariFont = 31;
-      const intisariLH = 43;
+      const intisariFont = 30;
+      const intisariLH = 42;
       ctx.font = `500 ${intisariFont}px "Plus Jakarta Sans", sans-serif`;
       const intisariLines = showIntisari ? wrapLatinText(ctx, slide.intisariAmal, cardW - 64) : [];
-      const intisariBoxH = showIntisari ? (intisariLines.length * intisariLH + 82) : 0;
+      const intisariBoxH = showIntisari ? (intisariLines.length * intisariLH + 80) : 0;
 
-      const totalGroupH = cardH + (showIntisari ? 24 + intisariBoxH : 0);
-      const cardY = Math.max(76, (1175 - totalGroupH) / 2 + 16);
+      let arabicLines = [];
+      let transLines = [];
+      let arabicLineHeight = 0;
+      let transLineHeight = 0;
+      let arabicH = 0;
+      let transH = 0;
+      let cardH = 0;
+
+      const headerClearanceTop = 114; // Generous space below "♦ AL-QUR'AN ♦" + hairline divider
+      const midDividerBlockH = 54;
+      const bottomSourceBlockH = 110;
+
+      for (let scaleStep = 0; scaleStep < 3; scaleStep++) {
+        arabicLineHeight = Math.round(arabicFontSize * 1.85);
+        transLineHeight = Math.round(transFontSize * 1.42);
+
+        ctx.save();
+        ctx.direction = 'rtl';
+        ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
+        arabicLines = wrapArabicText(ctx, excerptedArabic, innerTextMaxW);
+        ctx.restore();
+
+        ctx.font = `500 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
+        transLines = wrapLatinText(ctx, slide.translation, innerTextMaxW);
+
+        arabicH = arabicLines.length * arabicLineHeight;
+        transH = transLines.length * transLineHeight;
+        cardH = headerClearanceTop + arabicH + midDividerBlockH + transH + bottomSourceBlockH;
+
+        const neededH = cardH + (showIntisari ? 22 + intisariBoxH : 0);
+        if (neededH <= maxTotalBudgetH || scaleStep === 2) break;
+
+        arabicFontSize = Math.max(44, arabicFontSize - 5);
+        transFontSize = Math.max(30, transFontSize - 3);
+      }
+
+      const totalGroupH = cardH + (showIntisari ? 22 + intisariBoxH : 0);
+      const cardY = Math.max(minCardY, minCardY + (maxTotalBudgetH - totalGroupH) / 2);
 
       // 1. Draw Rich Dark Emerald Card with Subtle Depth Gradient
       ctx.save();
@@ -2419,15 +2481,23 @@ Format JSON wajib:
 
       // Header: ♦ AL-QUR'AN ♦ or ♦ HADITS ♦
       const headerLabel = `♦  ${slide.dalilType}  ♦`;
-      ctx.font = '700 26px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
       ctx.fillStyle = '#F2D16B';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(headerLabel, centerX, cardY + 52);
+      ctx.fillText(headerLabel, centerX, cardY + 50);
+
+      // Subtle gold hairline separating header title from Arabic verse
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 150, cardY + 78);
+      ctx.lineTo(centerX + 150, cardY + 78);
+      ctx.stroke();
       ctx.restore();
 
-      // 2. Render Arabic Text in Amiri (50px-60px, RTL)
-      let curY = cardY + 92;
+      // 2. Render Arabic Text in Amiri with ample clearance below header hairline
+      let curY = cardY + headerClearanceTop;
       ctx.save();
       ctx.direction = 'rtl';
       ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
@@ -2438,7 +2508,7 @@ Format JSON wajib:
         ctx.fillText(line, centerX, curY + i * arabicLineHeight);
       });
       ctx.restore();
-      curY += arabicH + 24;
+      curY += arabicH + 26;
 
       // 3. Gold Diamond Divider
       ctx.save();
@@ -2454,7 +2524,7 @@ Format JSON wajib:
       ctx.restore();
       curY += 28;
 
-      // 4. Indonesian Translation (36px) with Golden Highlight Phrase
+      // 4. Indonesian Translation with Golden Highlight Phrase
       drawDalilTranslationWithGoldPhrase(
         ctx,
         slide.translation,
@@ -2469,7 +2539,7 @@ Format JSON wajib:
       );
       curY += transH + 28;
 
-      // 5. Clean Source Reference Pill ONLY (No internal verification tags)
+      // 5. Clean Source Reference Pill
       ctx.save();
       const sourceBadgeText = String(slide.sourceRef || '').trim();
       if (sourceBadgeText) {
@@ -2520,7 +2590,6 @@ Format JSON wajib:
 
     /**
      * CLOSING SLIDE (SLIDE 6): GOLD BOOKMARK & SHARE ICONS + CTA + CLEAN REFLECTION BOX
-     * (Internal label "PEMICU KOMENTAR" removed for clean, organic reader engagement)
      */
     function renderClosingSlide(ctx, slide, theme, slideIndex, totalSlides) {
       const W = 1080;
@@ -2535,7 +2604,7 @@ Format JSON wajib:
       const promptBoxH = showComment ? (promptLines.length * promptLH + 68) : 0;
 
       const totalH = 122 + 90 + 62 + 76 + (showComment ? 46 + promptBoxH : 0);
-      let curY = Math.max(130, (1165 - totalH) / 2 + 20);
+      let curY = Math.max(138, (1175 - totalH) / 2 + 24);
 
       // 1. Gold Bookmark & Share Vector Icons inside circular badges
       ctx.save();
@@ -2545,6 +2614,7 @@ Format JSON wajib:
       const rightCircleX = centerX + circleR + iconGap / 2;
       const iconCenterY = curY + circleR;
 
+      // Left Circle: Gold Bookmark Icon
       ctx.fillStyle = theme.cardSurface;
       ctx.beginPath();
       ctx.arc(leftCircleX, iconCenterY, circleR, 0, Math.PI * 2);
@@ -2563,6 +2633,7 @@ Format JSON wajib:
       ctx.closePath();
       ctx.fill();
 
+      // Right Circle: Gold Share Nodes Icon
       ctx.fillStyle = theme.cardSurface;
       ctx.beginPath();
       ctx.arc(rightCircleX, iconCenterY, circleR, 0, Math.PI * 2);
@@ -2634,7 +2705,7 @@ Format JSON wajib:
       ctx.restore();
       curY += 94;
 
-      // 5. Clean Reflective Question Card (No internal creator label)
+      // 5. Clean Reflective Question Card
       if (showComment) {
         const boxW = 890;
         const boxX = centerX - boxW / 2;
@@ -2677,6 +2748,10 @@ Format JSON wajib:
 
       ctx.clearRect(0, 0, 1080, 1350);
       renderSlideFrameAndBackground(ctx, theme, safeIndex, totalSlides);
+
+      if (slide.kind !== 'cover') {
+        renderSlideTopCategoryBadge(ctx, theme, slide.category);
+      }
 
       if (slide.kind === 'cover') {
         renderCoverSlide(ctx, slide, theme);
@@ -3228,18 +3303,44 @@ Format JSON wajib:
       });
     }
 
+    // Preload all Canvas Fonts (especially Arabic Amiri unicode-range subset)
+    function preloadCanvasFonts() {
+      if (!document.fonts) return;
+
+      const fontSpecs = [
+        ['700 54px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'],
+        ['400 54px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'],
+        ['700 72px "Playfair Display"', 'NoorSlide'],
+        ['italic 700 72px "Playfair Display"', 'NoorSlide'],
+        ['400 36px "Plus Jakarta Sans"', 'NoorSlide'],
+        ['600 36px "Plus Jakarta Sans"', 'NoorSlide'],
+        ['700 36px "Plus Jakarta Sans"', 'NoorSlide']
+      ];
+
+      Promise.allSettled(
+        fontSpecs.map(([spec, sample]) => document.fonts.load(spec, sample))
+      ).then(() => {
+        refreshAllCanvasAndEditors();
+      });
+
+      document.fonts.ready.then(() => {
+        refreshAllCanvasAndEditors();
+      });
+
+      if (typeof document.fonts.addEventListener === 'function') {
+        document.fonts.addEventListener('loadingdone', () => {
+          refreshAllCanvasAndEditors();
+        });
+      }
+    }
+
     // Boot Application
     window.addEventListener('DOMContentLoaded', () => {
       detectRealTimeHijriAndGregorian();
       initializeEventListeners();
       updateCaptionTextarea();
       refreshAllCanvasAndEditors();
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => {
-          refreshAllCanvasAndEditors();
-        });
-      }
+      preloadCanvasFonts();
     });
   </script>
 </body>
