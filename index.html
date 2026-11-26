@@ -1966,67 +1966,83 @@ Format JSON wajib:
       const W = 1080;
       const centerX = W / 2;
 
-      const titleFontSize = slide.title.length > 52 ? 64 : 74;
-      const titleLineHeight = Math.round(titleFontSize * 1.24);
+      let titleFontSize = slide.title.length > 55 ? 92 : 106;
+      let titleLineHeight = Math.round(titleFontSize * 1.16);
       ctx.font = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
-      const estTitleLines = wrapLatinText(ctx, slide.title, 880).length;
+      let estTitleLines = wrapLatinText(ctx, slide.title, 948).length;
+      if (estTitleLines >= 4) {
+        titleFontSize = 84;
+        titleLineHeight = Math.round(titleFontSize * 1.16);
+        ctx.font = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+        estTitleLines = wrapLatinText(ctx, slide.title, 948).length;
+      }
       const titleBlockH = estTitleLines * titleLineHeight;
 
-      const subFontSize = 35;
-      const subLineHeight = 50;
+      let subFontSize = 51;
+      let subLineHeight = 68;
       ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
-      const subLines = wrapLatinText(ctx, slide.subHook, 820);
-      const subBlockH = subLines.length * subLineHeight;
+      let subLines = wrapLatinText(ctx, slide.subHook, 930);
+      let subBlockH = subLines.length * subLineHeight;
 
-      const totalBlockH = 112 + 78 + titleBlockH + 42 + 40 + subBlockH;
-      let curY = Math.max(135, (1175 - totalBlockH) / 2 + 20);
+      let totalBlockH = 132 + 94 + titleBlockH + 34 + 38 + subBlockH;
+      if (totalBlockH > 1080) {
+        titleFontSize = Math.max(78, titleFontSize - 10);
+        titleLineHeight = Math.round(titleFontSize * 1.16);
+        subFontSize = 46;
+        subLineHeight = 62;
+        ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
+        subLines = wrapLatinText(ctx, slide.subHook, 930);
+        subBlockH = subLines.length * subLineHeight;
+        totalBlockH = 132 + 94 + (estTitleLines * titleLineHeight) + 34 + 38 + subBlockH;
+      }
+      let curY = Math.max(82, 78 + (1100 - totalBlockH) / 2);
 
       // 1. Crescent Moon Emblem Crest
       ctx.save();
       ctx.strokeStyle = theme.frameBorder;
-      ctx.lineWidth = 2.2;
+      ctx.lineWidth = 2.8;
       ctx.beginPath();
-      ctx.arc(centerX, curY + 42, 46, 0, Math.PI * 2);
+      ctx.arc(centerX, curY + 54, 56, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.fillStyle = theme.gold;
       ctx.beginPath();
-      ctx.arc(centerX - 4, curY + 42, 22, 0.25 * Math.PI, 1.75 * Math.PI, false);
-      ctx.arc(centerX + 8, curY + 36, 18, 1.65 * Math.PI, 0.35 * Math.PI, true);
+      ctx.arc(centerX - 4, curY + 54, 27, 0.25 * Math.PI, 1.75 * Math.PI, false);
+      ctx.arc(centerX + 10, curY + 46, 22, 1.65 * Math.PI, 0.35 * Math.PI, true);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
-      curY += 116;
+      curY += 132;
 
       // 2. Category Pill + Reading Time Pill
       ctx.save();
       const catText = String(slide.category || 'TASAWUF (AKHLAK)').toUpperCase();
       const timeText = `⏱ ${slide.readingTime || 'Baca 30 Detik'}`;
-      ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
-      const catW = ctx.measureText(catText).width + 40;
-      const timeW = ctx.measureText(timeText).width + 40;
-      const gap = 16;
+      ctx.font = '700 30px "Plus Jakarta Sans", sans-serif';
+      const catW = ctx.measureText(catText).width + 52;
+      const timeW = ctx.measureText(timeText).width + 52;
+      const gap = 18;
       const totalPillsW = catW + gap + timeW;
       const startPillsX = centerX - totalPillsW / 2;
 
       ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, startPillsX, curY, catW, 46, 23);
+      drawRoundRect(ctx, startPillsX, curY, catW, 62, 31);
       ctx.fill();
       ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 1.6;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
       ctx.fillStyle = theme.gold;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(catText, startPillsX + catW / 2, curY + 24);
+      ctx.fillText(catText, startPillsX + catW / 2, curY + 32);
 
       ctx.fillStyle = theme.cardSurface;
-      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, 46, 23);
+      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, 62, 31);
       ctx.fill();
       ctx.fillStyle = theme.mutedInk;
-      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + 24);
+      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + 32);
       ctx.restore();
-      curY += 80;
+      curY += 94;
 
       // 3. Playfair Display Main Hook Title with Italic Gold Keyword
       const renderedTitleH = drawCoverTitleWithGoldHighlight(
@@ -2035,25 +2051,25 @@ Format JSON wajib:
         slide.highlightKeyword,
         centerX,
         curY,
-        880,
+        948,
         titleFontSize,
         titleLineHeight,
         theme.primaryInk,
         theme.goldBright
       );
-      curY += renderedTitleH + 38;
+      curY += renderedTitleH + 34;
 
       // 4. Short Gold Divider Rule with Diamond Ornament
       ctx.save();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3.6;
       ctx.beginPath();
-      ctx.moveTo(centerX - 90, curY);
-      ctx.lineTo(centerX + 90, curY);
+      ctx.moveTo(centerX - 112, curY);
+      ctx.lineTo(centerX + 112, curY);
       ctx.stroke();
-      drawDiamond(ctx, centerX, curY, 7, theme.gold);
+      drawDiamond(ctx, centerX, curY, 9, theme.gold);
       ctx.restore();
-      curY += 40;
+      curY += 38;
 
       // 5. Sub-Hook Text
       ctx.save();
@@ -2597,19 +2613,45 @@ Format JSON wajib:
       const progressStr = `${String(slideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
       const showComment = appState.toggles.commentTrigger && Boolean(slide.commentPrompt?.trim());
 
-      const promptFont = 34;
-      const promptLH = 48;
-      ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
-      const promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 800) : [];
-      const promptBoxH = showComment ? (promptLines.length * promptLH + 68) : 0;
+      let headlineFont = 108;
+      let headlineLH = 124;
+      ctx.font = `700 ${headlineFont}px "Playfair Display", Georgia, serif`;
+      const estHeadlineLines = wrapLatinText(ctx, slide.headline, 948).length;
+      let estHeadlineH = estHeadlineLines * headlineLH;
 
-      const totalH = 122 + 90 + 62 + 76 + (showComment ? 46 + promptBoxH : 0);
-      let curY = Math.max(138, (1175 - totalH) / 2 + 24);
+      let subFont = 60;
+      let subLH = 78;
+      ctx.font = `500 ${subFont}px "Plus Jakarta Sans", sans-serif`;
+      let subLines = wrapLatinText(ctx, slide.subheadline, 930);
+      let subBlockH = subLines.length * subLH;
+
+      let promptFont = 48;
+      let promptLH = 65;
+      ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
+      let promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 880) : [];
+      let promptBoxH = showComment ? (promptLines.length * promptLH + 76) : 0;
+
+      let totalH = 140 + estHeadlineH + 20 + subBlockH + 34 + 76 + (showComment ? 44 + promptBoxH : 0);
+      if (totalH > 1055) {
+        headlineFont = 96;
+        headlineLH = 112;
+        estHeadlineH = estHeadlineLines * headlineLH;
+        subFont = 54;
+        subLH = 70;
+        subBlockH = subLines.length * subLH;
+        promptFont = 44;
+        promptLH = 60;
+        ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
+        promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 880) : [];
+        promptBoxH = showComment ? (promptLines.length * promptLH + 72) : 0;
+        totalH = 140 + estHeadlineH + 20 + subBlockH + 34 + 76 + (showComment ? 44 + promptBoxH : 0);
+      }
+      let curY = Math.max(124, 122 + (1062 - totalH) / 2);
 
       // 1. Gold Bookmark & Share Vector Icons inside circular badges
       ctx.save();
-      const iconGap = 32;
-      const circleR = 46;
+      const iconGap = 38;
+      const circleR = 56;
       const leftCircleX = centerX - circleR - iconGap / 2;
       const rightCircleX = centerX + circleR + iconGap / 2;
       const iconCenterY = curY + circleR;
@@ -2620,16 +2662,16 @@ Format JSON wajib:
       ctx.arc(leftCircleX, iconCenterY, circleR, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 3;
       ctx.stroke();
 
       ctx.fillStyle = theme.gold;
       ctx.beginPath();
-      ctx.moveTo(leftCircleX - 14, iconCenterY - 19);
-      ctx.lineTo(leftCircleX + 14, iconCenterY - 19);
-      ctx.lineTo(leftCircleX + 14, iconCenterY + 20);
-      ctx.lineTo(leftCircleX, iconCenterY + 9);
-      ctx.lineTo(leftCircleX - 14, iconCenterY + 20);
+      ctx.moveTo(leftCircleX - 18, iconCenterY - 24);
+      ctx.lineTo(leftCircleX + 18, iconCenterY - 24);
+      ctx.lineTo(leftCircleX + 18, iconCenterY + 25);
+      ctx.lineTo(leftCircleX, iconCenterY + 12);
+      ctx.lineTo(leftCircleX - 18, iconCenterY + 25);
       ctx.closePath();
       ctx.fill();
 
@@ -2639,85 +2681,87 @@ Format JSON wajib:
       ctx.arc(rightCircleX, iconCenterY, circleR, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 3;
       ctx.stroke();
 
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3.2;
+      ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(rightCircleX + 11, iconCenterY - 13);
-      ctx.lineTo(rightCircleX - 12, iconCenterY);
-      ctx.lineTo(rightCircleX + 11, iconCenterY + 13);
+      ctx.moveTo(rightCircleX + 14, iconCenterY - 16);
+      ctx.lineTo(rightCircleX - 15, iconCenterY);
+      ctx.lineTo(rightCircleX + 14, iconCenterY + 16);
       ctx.stroke();
 
       [
-        [rightCircleX + 11, iconCenterY - 13],
-        [rightCircleX - 12, iconCenterY],
-        [rightCircleX + 11, iconCenterY + 13]
+        [rightCircleX + 14, iconCenterY - 16],
+        [rightCircleX - 15, iconCenterY],
+        [rightCircleX + 14, iconCenterY + 16]
       ].forEach(([nx, ny]) => {
         ctx.fillStyle = theme.gold;
         ctx.beginPath();
-        ctx.arc(nx, ny, 6, 0, Math.PI * 2);
+        ctx.arc(nx, ny, 7.5, 0, Math.PI * 2);
         ctx.fill();
       });
       ctx.restore();
-      curY += 126;
+      curY += 140;
 
       // 2. Headline: "Simpan & bagikan"
-      drawCoverTitleWithGoldHighlight(
+      const renderedHeadlineH = drawCoverTitleWithGoldHighlight(
         ctx,
         slide.headline,
         'bagikan',
         centerX,
         curY,
-        880,
-        76,
-        90,
+        948,
+        headlineFont,
+        headlineLH,
         theme.primaryInk,
         theme.goldBright
       );
-      curY += 94;
+      curY += renderedHeadlineH + 20;
 
       // 3. Subheadline: "ke yang sedang butuh"
       ctx.save();
-      ctx.font = '500 42px "Plus Jakarta Sans", sans-serif';
+      ctx.font = `500 ${subFont}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = theme.mutedInk;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      ctx.fillText(slide.subheadline, centerX, curY);
+      subLines.forEach((line, i) => {
+        ctx.fillText(line, centerX, curY + i * subLH);
+      });
       ctx.restore();
-      curY += 74;
+      curY += subBlockH + 34;
 
       // 4. Creator Handle Pill (@username)
       ctx.save();
-      ctx.font = '700 30px "Plus Jakarta Sans", sans-serif';
-      const handleW = ctx.measureText(slide.username).width + 60;
+      ctx.font = '700 42px "Plus Jakarta Sans", sans-serif';
+      const handleW = ctx.measureText(slide.username).width + 80;
       ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, centerX - handleW / 2, curY, handleW, 56, 28);
+      drawRoundRect(ctx, centerX - handleW / 2, curY, handleW, 76, 38);
       ctx.fill();
       ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 2.4;
       ctx.stroke();
       ctx.fillStyle = theme.gold;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(slide.username, centerX, curY + 29);
+      ctx.fillText(slide.username, centerX, curY + 39);
       ctx.restore();
-      curY += 94;
+      curY += 120;
 
       // 5. Clean Reflective Question Card
       if (showComment) {
-        const boxW = 890;
+        const boxW = 948;
         const boxX = centerX - boxW / 2;
         ctx.save();
         ctx.fillStyle = theme.cardSurface;
-        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 24);
+        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 28);
         ctx.fill();
 
         ctx.setLineDash([10, 8]);
         ctx.strokeStyle = theme.gold;
-        ctx.lineWidth = 2.6;
-        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 24);
+        ctx.lineWidth = 3.2;
+        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 28);
         ctx.stroke();
         ctx.setLineDash([]);
 
@@ -2726,7 +2770,7 @@ Format JSON wajib:
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         promptLines.forEach((line, i) => {
-          ctx.fillText(line, centerX, curY + 34 + i * promptLH);
+          ctx.fillText(line, centerX, curY + 38 + i * promptLH);
         });
         ctx.restore();
       }
