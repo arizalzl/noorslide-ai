@@ -2163,4 +2163,1695 @@ Format JSON wajib:
 
           layout = {
             scale, badgeH, badgeToTitleGap, titleFontSize, titleLineHeight, baseTitleFont, hlTitleFont,
-            titleLines, t
+            titleLines, titleH, titleToBodyGap, bodyFontSize, bodyLineHeight, bodyLines, bodyH,
+            bodyToMicroGap, microFontSize, microLineHeight, microLines, microBoxH, totalH
+          };
+
+          if (totalH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        let curY = anchorTopY(SAFE_TOP, MAX_H, layout.totalH);
+
+        ctx.save();
+        ctx.font = `700 ${Math.round(136 * layout.scale)}px "Playfair Display", Georgia, serif`;
+        ctx.fillStyle = theme.pillBg;
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'top';
+        ctx.fillText(stepNumStr, W - marginX, curY - 16);
+
+        const badgeText = showStoryArc ? `${stepNumStr} • ${cleanArcLabel}` : `BABAK ${stepNumStr}`;
+        const badgeFontSize = Math.max(28, Math.round(32 * layout.scale));
+        ctx.font = `800 ${badgeFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const badgeW = Math.min(contentW - 148, Math.max(185, ctx.measureText(badgeText).width + 54));
+
+        ctx.fillStyle = theme.gold;
+        drawRoundRect(ctx, marginX, curY, badgeW, layout.badgeH, layout.badgeH / 2);
+        ctx.fill();
+        ctx.fillStyle = theme.id === 'emerald' ? '#10261B' : '#FFFFFF';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(badgeText, marginX + badgeW / 2, curY + layout.badgeH / 2 + 1);
+        ctx.restore();
+        curY += layout.badgeH + layout.badgeToTitleGap;
+
+        drawTokenLines(ctx, layout.titleLines, 'left', marginX, curY, layout.titleLineHeight,
+          layout.baseTitleFont, layout.hlTitleFont, theme.primaryInk, theme.goldBright);
+        curY += layout.titleH + layout.titleToBodyGap;
+
+        ctx.save();
+        ctx.fillStyle = theme.gold;
+        drawRoundRect(ctx, marginX, curY + 4, 8, Math.max(24, layout.bodyH - 8), 4);
+        ctx.fill();
+
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.mutedInk;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, marginX + 34, curY + i * layout.bodyLineHeight);
+        });
+        ctx.restore();
+        curY += layout.bodyH + layout.bodyToMicroGap;
+
+        if (showMicro) {
+          ctx.save();
+          ctx.fillStyle = theme.cardSurface;
+          drawRoundRect(ctx, marginX, curY, contentW, layout.microBoxH, 24);
+          ctx.fill();
+          ctx.strokeStyle = theme.cardBorder;
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+
+          ctx.font = `700 30px "Plus Jakarta Sans", sans-serif`;
+          ctx.fillStyle = theme.gold;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'top';
+          ctx.fillText('✦ REFLEKSI PRAKTIS', marginX + 34, curY + 20);
+
+          ctx.font = `500 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          ctx.fillStyle = theme.primaryInk;
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, marginX + 34, curY + 64 + i * layout.microLineHeight);
+          });
+          ctx.restore();
+        }
+      } else if (layoutVariant === 1) {
+        // LAYOUT B: Rhythmic Contrast Panel — judul di tengah, isi & refleksi rata kiri
+        const centerX = W / 2;
+        const panelX = 86;
+        const panelW = W - panelX * 2;
+        const textX = panelX + 44;
+        const maxW = panelW - 88;
+        let scale = 1.0;
+        let layout = null;
+
+        while (scale >= MIN_SCALE) {
+          const padV = Math.round(42 * scale);
+          const ornamentH = Math.round(56 * scale);
+          const ornamentToTitleGap = Math.round(24 * scale);
+
+          const titleFontSize = Math.max(52, Math.round(64 * scale));
+          const titleLineHeight = Math.round(titleFontSize * 1.2);
+          const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, maxW, baseTitleFont, hlTitleFont);
+          const titleH = titleLines.length * titleLineHeight;
+
+          const titleToBodyGap = Math.round(24 * scale);
+          const bodyFontSize = Math.max(36, Math.round(44 * scale));
+          const bodyLineHeight = Math.round(bodyFontSize * 1.42);
+          ctx.font = `400 ${bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const bodyLines = wrapLatinText(ctx, slide.body, maxW);
+          const bodyH = bodyLines.length * bodyLineHeight;
+
+          const bodyToMicroGap = showMicro ? Math.round(26 * scale) : 0;
+          const microFontSize = Math.max(32, Math.round(36 * scale));
+          const microLineHeight = Math.round(microFontSize * 1.38);
+          ctx.font = `italic 500 ${microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, maxW) : [];
+          const microH = showMicro ? (microLines.length * microLineHeight + Math.round(26 * scale)) : 0;
+
+          const panelH = padV * 2 + ornamentH + ornamentToTitleGap + titleH + titleToBodyGap + bodyH + bodyToMicroGap + microH;
+
+          layout = {
+            scale, padV, ornamentH, ornamentToTitleGap, titleFontSize, titleLineHeight, baseTitleFont, hlTitleFont,
+            titleLines, titleH, titleToBodyGap, bodyFontSize, bodyLineHeight, bodyLines, bodyH,
+            bodyToMicroGap, microFontSize, microLineHeight, microLines, panelH
+          };
+
+          if (panelH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        const panelY = anchorTopY(SAFE_TOP, MAX_H, layout.panelH);
+
+        ctx.save();
+        ctx.fillStyle = theme.cardSurface;
+        drawRoundRect(ctx, panelX, panelY, panelW, layout.panelH, 30);
+        ctx.fill();
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+
+        let curY = panelY + layout.padV;
+
+        ctx.save();
+        const ornamentText = showStoryArc
+          ? `✦  ${stepNumStr} • ${cleanArcLabel}  ✦`
+          : `✦  BABAK ${stepNumStr}  ✦`;
+        const arcBannerSize = Math.max(28, Math.round(33 * layout.scale));
+        ctx.font = `800 ${arcBannerSize}px "Plus Jakarta Sans", sans-serif`;
+        const bannerW = Math.min(maxW, Math.max(190, ctx.measureText(ornamentText).width + 56));
+        const bannerX = centerX - bannerW / 2;
+
+        ctx.fillStyle = theme.pillBg;
+        drawRoundRect(ctx, bannerX, curY, bannerW, layout.ornamentH, layout.ornamentH / 2);
+        ctx.fill();
+        ctx.strokeStyle = theme.gold;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        ctx.fillStyle = theme.gold;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(ornamentText, centerX, curY + layout.ornamentH / 2 + 1);
+        ctx.restore();
+        curY += layout.ornamentH + layout.ornamentToTitleGap;
+
+        drawTokenLines(ctx, layout.titleLines, 'center', centerX, curY, layout.titleLineHeight,
+          layout.baseTitleFont, layout.hlTitleFont, theme.primaryInk, theme.goldBright);
+        curY += layout.titleH + layout.titleToBodyGap;
+
+        ctx.save();
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.mutedInk;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, textX, curY + i * layout.bodyLineHeight);
+        });
+        ctx.restore();
+        curY += layout.bodyH + layout.bodyToMicroGap;
+
+        if (showMicro) {
+          ctx.save();
+          ctx.strokeStyle = theme.gold;
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          ctx.moveTo(textX, curY);
+          ctx.lineTo(textX + 128, curY);
+          ctx.stroke();
+
+          ctx.font = `italic 500 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          ctx.fillStyle = theme.primaryInk;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'top';
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, textX, curY + Math.round(20 * layout.scale) + i * layout.microLineHeight);
+          });
+          ctx.restore();
+        }
+      } else {
+        // LAYOUT C: Framed Actionable Takeaway Card + Story Arc Header Tag
+        const marginX = 102;
+        const contentW = W - marginX * 2;
+        let scale = 1.0;
+        let layout = null;
+
+        while (scale >= MIN_SCALE) {
+          const headerH = Math.round(56 * scale);
+          const headerToTitleGap = Math.round(24 * scale);
+
+          const titleFontSize = Math.max(52, Math.round(64 * scale));
+          const titleLineHeight = Math.round(titleFontSize * 1.2);
+          const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, contentW, baseTitleFont, hlTitleFont);
+          const titleH = titleLines.length * titleLineHeight;
+
+          const titleToBodyGap = Math.round(22 * scale);
+          const bodyFontSize = Math.max(36, Math.round(44 * scale));
+          const bodyLineHeight = Math.round(bodyFontSize * 1.42);
+          ctx.font = `400 ${bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const bodyLines = wrapLatinText(ctx, slide.body, contentW);
+          const bodyH = bodyLines.length * bodyLineHeight;
+
+          const bodyToActionGap = showMicro ? Math.round(26 * scale) : 0;
+          const microFontSize = Math.max(32, Math.round(36 * scale));
+          const microLineHeight = Math.round(microFontSize * 1.38);
+          ctx.font = `600 ${microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, contentW - 68) : [];
+          const actionCardH = showMicro ? (microLines.length * microLineHeight + 96) : 0;
+
+          const totalH = headerH + headerToTitleGap + titleH + titleToBodyGap + bodyH + bodyToActionGap + actionCardH;
+
+          layout = {
+            scale, headerH, headerToTitleGap, titleFontSize, titleLineHeight, baseTitleFont, hlTitleFont,
+            titleLines, titleH, titleToBodyGap, bodyFontSize, bodyLineHeight, bodyLines, bodyH,
+            bodyToActionGap, microFontSize, microLineHeight, microLines, actionCardH, totalH
+          };
+
+          if (totalH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        let curY = anchorTopY(SAFE_TOP, MAX_H, layout.totalH);
+
+        ctx.save();
+        const tagLabel = showStoryArc ? `${stepNumStr} • ${cleanArcLabel}` : `BABAK ${stepNumStr}`;
+        const headerFontSize = Math.max(28, Math.round(32 * layout.scale));
+        ctx.font = `800 ${headerFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const tagW = Math.min(contentW - 60, ctx.measureText(tagLabel).width + 52);
+
+        ctx.fillStyle = theme.pillBg;
+        drawRoundRect(ctx, marginX, curY, tagW, layout.headerH, layout.headerH / 2);
+        ctx.fill();
+        ctx.strokeStyle = theme.gold;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        ctx.fillStyle = theme.gold;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(tagLabel, marginX + tagW / 2, curY + layout.headerH / 2 + 1);
+
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(marginX + tagW + 20, curY + layout.headerH / 2);
+        ctx.lineTo(W - marginX, curY + layout.headerH / 2);
+        ctx.stroke();
+        ctx.restore();
+        curY += layout.headerH + layout.headerToTitleGap;
+
+        drawTokenLines(ctx, layout.titleLines, 'left', marginX, curY, layout.titleLineHeight,
+          layout.baseTitleFont, layout.hlTitleFont, theme.primaryInk, theme.goldBright);
+        curY += layout.titleH + layout.titleToBodyGap;
+
+        ctx.save();
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.mutedInk;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, marginX, curY + i * layout.bodyLineHeight);
+        });
+        ctx.restore();
+        curY += layout.bodyH + layout.bodyToActionGap;
+
+        if (showMicro) {
+          ctx.save();
+          ctx.fillStyle = theme.cardSurface;
+          drawRoundRect(ctx, marginX, curY, contentW, layout.actionCardH, 24);
+          ctx.fill();
+          ctx.strokeStyle = theme.gold;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          ctx.fillStyle = theme.gold;
+          drawRoundRect(ctx, marginX, curY, 12, layout.actionCardH, 6);
+          ctx.fill();
+
+          ctx.font = `700 30px "Plus Jakarta Sans", sans-serif`;
+          ctx.fillStyle = theme.gold;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'top';
+          ctx.fillText('✦ LANGKAH AMAL', marginX + 36, curY + 22);
+
+          ctx.font = `600 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          ctx.fillStyle = theme.primaryInk;
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, marginX + 36, curY + 66 + i * layout.microLineHeight);
+          });
+          ctx.restore();
+        }
+      }
+
+      // Curiosity Bridge Pill + Swipe Arrow (di bawah SAFE_BOTTOM)
+      if (showBridge) {
+        const cleanBridgeText = String(slide.curiosityBridge || '').replace(/\s*[→➔➜]+\s*$/g, '').trim();
+        const bridgeFontSize = 34;
+        const pillH = 60;
+        const pillY = 1084;
+        const pillCenterY = pillY + pillH / 2;
+
+        ctx.save();
+        ctx.font = `600 ${bridgeFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const textW = ctx.measureText(cleanBridgeText).width;
+        const pillW = Math.min(820, textW + 52);
+        const pillX = W - 134 - pillW;
+
+        ctx.fillStyle = theme.cardSurface;
+        drawRoundRect(ctx, pillX, pillY, pillW, pillH, pillH / 2);
+        ctx.fill();
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 1.6;
+        ctx.stroke();
+
+        ctx.fillStyle = theme.primaryInk;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(cleanBridgeText, pillX + pillW / 2, pillCenterY + 1);
+        ctx.restore();
+
+        drawSwipeEdgeCue(ctx, theme, pillCenterY, pillX + pillW);
+      }
+
+      renderSlideFooter(ctx, theme, slide.username, progressStr, false);
+    }
+
+        /**
+     * DALIL SLIDE (v8): kartu zamrud gelap + intisari amal.
+     * Dalil panjang otomatis dipecah jadi dua slide (slide.part = 'arab' lalu 'terjemah')
+     * agar font tidak perlu dikecilkan.
+     */
+    function renderDalilSlide(ctx, slide, theme, slideIndex, totalSlides) {
+      const W = 1080;
+      const centerX = W / 2;
+      const cardX = 84;
+      const cardW = W - cardX * 2;
+      const innerTextW = cardW - 96;
+      const progressStr = `${String(slideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+
+      const part = slide.part || 'full';
+      const showArabic = part !== 'terjemah';
+      const showTrans = part !== 'arab';
+      const isSolo = part !== 'full';
+      const showIntisari = showTrans && appState.toggles.intisariAmal && Boolean(slide.intisariAmal?.trim());
+
+      renderSlideTopCategoryBadge(ctx, theme, slide.category);
+
+      const SAFE_TOP = 134;
+      const SAFE_BOTTOM = 1152;
+      const MAX_TOTAL_H = SAFE_BOTTOM - SAFE_TOP;
+      const MIN_SOLO_CARD_H = 620;
+      const TOP_PADDING = 100; // ruang untuk label jenis dalil + garis
+
+      let scale = 1.0;
+      let layout = null;
+
+      while (scale >= 0.6) {
+        const arabicBase = part === 'arab' ? 68 : 54;
+        const arabicFontSize = Math.max(part === 'arab' ? 44 : 36, Math.round(arabicBase * scale));
+        const arabicLineHeight = Math.round(arabicFontSize * 1.65);
+        let arabicLines = [];
+        let arabicH = 0;
+        if (showArabic) {
+          ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
+          arabicLines = wrapArabicText(ctx, slide.arabicText, innerTextW);
+          arabicH = Math.max(arabicLineHeight, arabicLines.length * arabicLineHeight);
+        }
+
+        const transBase = part === 'terjemah' ? 42 : 38;
+        const transFontSize = Math.max(part === 'terjemah' ? 36 : 34, Math.round(transBase * scale));
+        const transLineHeight = Math.round(transFontSize * 1.42);
+        const baseTransFont = `400 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const hlTransFont = `italic 700 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
+        let transTokenLines = [];
+        let transH = 0;
+        if (showTrans) {
+          transTokenLines = buildHighlightedTokenLines(ctx, slide.translation, slide.highlightPhrase, innerTextW, baseTransFont, hlTransFont);
+          transH = Math.max(transLineHeight, transTokenLines.length * transLineHeight);
+        }
+
+        const both = showArabic && showTrans;
+        const arabicToDividerGap = both ? Math.round(26 * scale) : 0;
+        const dividerToTransGap = both ? Math.round(24 * scale) : 0;
+        const contentToPillGap = Math.round(28 * scale);
+        const pillH = Math.round(56 * scale);
+        const pillFontSize = Math.max(28, Math.round(30 * scale));
+        const bottomCardPadding = Math.round(34 * scale);
+
+        let cardH = TOP_PADDING + arabicH + arabicToDividerGap + dividerToTransGap + transH +
+          contentToPillGap + pillH + bottomCardPadding;
+        let extraPad = 0;
+        if (isSolo && cardH < MIN_SOLO_CARD_H) {
+          extraPad = (MIN_SOLO_CARD_H - cardH) / 2;
+          cardH = MIN_SOLO_CARD_H;
+        }
+
+        const cardToIntisariGap = showIntisari ? Math.round(14 * scale) : 0;
+        const intisariFontSize = Math.max(32, Math.round(36 * scale));
+        const intisariLineHeight = Math.round(intisariFontSize * 1.38);
+        ctx.font = `500 ${intisariFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const intisariLines = showIntisari ? wrapLatinText(ctx, slide.intisariAmal, cardW - 68) : [];
+        const intisariBoxH = showIntisari ? (64 + intisariLines.length * intisariLineHeight + 24) : 0;
+
+        const totalGroupH = cardH + cardToIntisariGap + intisariBoxH;
+
+        layout = {
+          scale, arabicFontSize, arabicLineHeight, arabicLines, transFontSize, transLineHeight,
+          baseTransFont, hlTransFont, transTokenLines, arabicH, transH, both, arabicToDividerGap,
+          dividerToTransGap, contentToPillGap, pillH, pillFontSize, cardH, extraPad, cardToIntisariGap,
+          intisariFontSize, intisariLineHeight, intisariLines, intisariBoxH, totalGroupH
+        };
+
+        if (totalGroupH <= MAX_TOTAL_H) break;
+        scale -= 0.04;
+      }
+
+      const cardY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_TOTAL_H - layout.totalGroupH) / 2);
+
+      // 1. Kartu zamrud gelap + label jenis dalil
+      ctx.save();
+      const cardGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + layout.cardH);
+      cardGrad.addColorStop(0, '#1B3F2D');
+      cardGrad.addColorStop(0.5, '#153224');
+      cardGrad.addColorStop(1, '#10261B');
+      ctx.fillStyle = cardGrad;
+      drawRoundRect(ctx, cardX, cardY, cardW, layout.cardH, 28);
+      ctx.fill();
+
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 2;
+      drawRoundRect(ctx, cardX + 14, cardY + 14, cardW - 28, layout.cardH - 28, 20);
+      ctx.stroke();
+
+      const headerLabel = `♦  ${slide.dalilType}  ♦`;
+      ctx.font = `700 30px "Plus Jakarta Sans", sans-serif`;
+      ctx.fillStyle = '#F2D16B';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(headerLabel, centerX, cardY + 50);
+
+      const headerRuleY = cardY + 80;
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.32)';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(cardX + 110, headerRuleY);
+      ctx.lineTo(cardX + cardW - 110, headerRuleY);
+      ctx.stroke();
+      ctx.restore();
+
+      let curY = cardY + TOP_PADDING + layout.extraPad;
+
+      // 2. Teks Arab (Amiri RTL, tidak pernah dipotong)
+      if (showArabic) {
+        ctx.save();
+        ctx.direction = 'rtl';
+        ctx.font = `700 ${layout.arabicFontSize}px "Amiri", serif`;
+        ctx.fillStyle = '#FCFBF7';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        layout.arabicLines.forEach((line, i) => {
+          ctx.fillText(line, centerX, curY + i * layout.arabicLineHeight);
+        });
+        ctx.restore();
+        curY += layout.arabicH;
+      }
+
+      // 3. Pembatas berlian (hanya jika Arab & terjemah satu slide)
+      if (layout.both) {
+        curY += layout.arabicToDividerGap;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(centerX - 130, curY);
+        ctx.lineTo(centerX - 20, curY);
+        ctx.moveTo(centerX + 20, curY);
+        ctx.lineTo(centerX + 130, curY);
+        ctx.stroke();
+        drawDiamond(ctx, centerX, curY, 6, '#F2D16B');
+        ctx.restore();
+        curY += layout.dividerToTransGap;
+      }
+
+      // 4. Terjemahan dengan frasa emas
+      if (showTrans) {
+        drawTokenLines(ctx, layout.transTokenLines, 'center', centerX, curY, layout.transLineHeight,
+          layout.baseTransFont, layout.hlTransFont, '#E8EFEA', '#F2D16B');
+        curY += layout.transH;
+      }
+      curY += layout.contentToPillGap;
+
+      // 5. Pill sumber dalil
+      ctx.save();
+      const sourceBadgeText = String(slide.sourceRef || '').trim();
+      ctx.font = `700 ${layout.pillFontSize}px "Plus Jakarta Sans", sans-serif`;
+      const badgeW = Math.min(cardW - 80, ctx.measureText(sourceBadgeText).width + 52);
+      const badgeH = layout.pillH;
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.16)';
+      drawRoundRect(ctx, centerX - badgeW / 2, curY, badgeW, badgeH, badgeH / 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#F2D16B';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(sourceBadgeText, centerX, curY + badgeH / 2 + 1);
+      ctx.restore();
+
+      // 6. Kotak INTISARI AMAL di bawah kartu
+      if (showIntisari) {
+        const boxY = cardY + layout.cardH + layout.cardToIntisariGap;
+        ctx.save();
+        ctx.fillStyle = theme.cardSurface;
+        drawRoundRect(ctx, cardX, boxY, cardW, layout.intisariBoxH, 22);
+        ctx.fill();
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+
+        ctx.font = `700 30px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.gold;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText('✦ INTISARI AMAL', cardX + 34, boxY + 20);
+
+        ctx.font = `500 ${layout.intisariFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.primaryInk;
+        layout.intisariLines.forEach((line, i) => {
+          ctx.fillText(line, cardX + 34, boxY + 64 + i * layout.intisariLineHeight);
+        });
+        ctx.restore();
+      }
+
+      if (part === 'arab') {
+        renderSlideFooter(ctx, theme, slide.username, 'Geser', true);
+      } else {
+        renderSlideFooter(ctx, theme, slide.username, progressStr, false);
+      }
+    }
+
+        /**
+     * CLOSING SLIDE (v8): satu ajakan utama (simpan & bagikan) + rangkuman.
+     * Pertanyaan komentar dipindah ke caption (opsional tampil di slide lewat toggle "Komentar di Slide").
+     * Tanpa baris "Follow" dan tanpa "Baca ulang" agar ajakan tidak bersaing.
+     */
+    function renderClosingSlide(ctx, slide, theme, slideIndex, totalSlides) {
+      const W = 1080;
+      const centerX = W / 2;
+      const progressStr = `${String(slideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      const showComment = appState.toggles.commentTrigger && Boolean(slide.commentPrompt?.trim());
+      const recapItems = (appState.carouselData.recap || []).filter(Boolean).slice(0, 3);
+
+      const SAFE_TOP = 112;
+      const SAFE_BOTTOM = 1146;
+      const MAX_H = SAFE_BOTTOM - SAFE_TOP;
+
+      let scale = 1.0;
+      let layout = null;
+
+      while (scale >= 0.6) {
+        const circleR = Math.round(52 * scale);
+        const iconsToHeadGap = Math.round(30 * scale);
+
+        const headFontSize = Math.max(66, Math.round(108 * scale));
+        const headLineHeight = Math.round(headFontSize * 1.14);
+        const baseHeadFont = `700 ${headFontSize}px "Playfair Display", Georgia, serif`;
+        const hlHeadFont = `italic 700 ${headFontSize}px "Playfair Display", Georgia, serif`;
+        const headLines = buildHighlightedTokenLines(ctx, slide.headline, 'bagikan', 860, baseHeadFont, hlHeadFont);
+        const headH = headLines.length * headLineHeight;
+
+        const headToSubGap = Math.round(22 * scale);
+        const subFontSize = Math.max(38, Math.round(60 * scale));
+        const subLineHeight = Math.round(subFontSize * 1.24);
+        ctx.font = `500 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const subLines = wrapLatinText(ctx, slide.subheadline, 840);
+        const subH = subLines.length * subLineHeight;
+
+        // Rangkuman (dibungkus per butir agar tidak melebar)
+        const subToRecapGap = recapItems.length ? Math.round(44 * scale) : 0;
+        const recapFontSize = Math.max(32, Math.round(38 * scale));
+        const recapLineHeight = Math.round(recapFontSize * 1.32);
+        const recapItemGap = Math.round(14 * scale);
+        ctx.font = `600 ${recapFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const recapWrapped = recapItems.map(t => wrapLatinText(ctx, '✓  ' + t, 800));
+        const recapBodyH = recapWrapped.reduce((a, l) => a + l.length * recapLineHeight, 0) +
+          Math.max(0, recapWrapped.length - 1) * recapItemGap;
+        const recapLabelH = 50;
+        const recapH = recapItems.length ? (recapLabelH + recapBodyH) : 0;
+
+        // Pertanyaan komentar (opsional, default mati)
+        const recapToPromptGap = showComment ? Math.round(34 * scale) : 0;
+        const promptFontSize = Math.max(32, Math.round(44 * scale));
+        const promptLineHeight = Math.round(promptFontSize * 1.32);
+        ctx.font = `500 ${promptFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 760) : [];
+        const promptPadV = Math.round(30 * scale);
+        const promptBoxH = showComment ? (promptLines.length * promptLineHeight + promptPadV * 2) : 0;
+
+        const totalH = circleR * 2 + iconsToHeadGap + headH + headToSubGap + subH +
+          subToRecapGap + recapH + recapToPromptGap + promptBoxH;
+
+        layout = {
+          scale, circleR, iconsToHeadGap, headFontSize, headLineHeight, baseHeadFont, hlHeadFont,
+          headLines, headH, headToSubGap, subFontSize, subLineHeight, subLines, subH,
+          subToRecapGap, recapFontSize, recapLineHeight, recapItemGap, recapWrapped, recapLabelH, recapH,
+          recapToPromptGap, promptFontSize, promptLineHeight, promptLines, promptPadV, promptBoxH, totalH
+        };
+
+        if (totalH <= MAX_H) break;
+        scale -= 0.04;
+      }
+
+      let curY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.totalH) / 2);
+
+      // 1. Ikon bookmark & bagikan (ajakan utama)
+      ctx.save();
+      const iconGap = Math.round(32 * layout.scale);
+      const circleR = layout.circleR;
+      const leftCircleX = centerX - circleR - iconGap / 2;
+      const rightCircleX = centerX + circleR + iconGap / 2;
+      const iconCenterY = curY + circleR;
+
+      ctx.fillStyle = theme.cardSurface;
+      ctx.beginPath();
+      ctx.arc(leftCircleX, iconCenterY, circleR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = theme.gold;
+      ctx.lineWidth = 2.4;
+      ctx.stroke();
+
+      const bmW = Math.round(15 * layout.scale);
+      const bmTop = Math.round(20 * layout.scale);
+      const bmBot = Math.round(21 * layout.scale);
+      ctx.fillStyle = theme.gold;
+      ctx.beginPath();
+      ctx.moveTo(leftCircleX - bmW, iconCenterY - bmTop);
+      ctx.lineTo(leftCircleX + bmW, iconCenterY - bmTop);
+      ctx.lineTo(leftCircleX + bmW, iconCenterY + bmBot);
+      ctx.lineTo(leftCircleX, iconCenterY + Math.round(10 * layout.scale));
+      ctx.lineTo(leftCircleX - bmW, iconCenterY + bmBot);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.fillStyle = theme.cardSurface;
+      ctx.beginPath();
+      ctx.arc(rightCircleX, iconCenterY, circleR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = theme.gold;
+      ctx.lineWidth = 2.4;
+      ctx.stroke();
+
+      const shX = Math.round(12 * layout.scale);
+      const shY = Math.round(14 * layout.scale);
+      ctx.strokeStyle = theme.gold;
+      ctx.lineWidth = 3.2;
+      ctx.beginPath();
+      ctx.moveTo(rightCircleX + shX, iconCenterY - shY);
+      ctx.lineTo(rightCircleX - shX, iconCenterY);
+      ctx.lineTo(rightCircleX + shX, iconCenterY + shY);
+      ctx.stroke();
+
+      [
+        [rightCircleX + shX, iconCenterY - shY],
+        [rightCircleX - shX, iconCenterY],
+        [rightCircleX + shX, iconCenterY + shY]
+      ].forEach(([nx, ny]) => {
+        ctx.fillStyle = theme.gold;
+        ctx.beginPath();
+        ctx.arc(nx, ny, Math.max(4.5, 6 * layout.scale), 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.restore();
+      curY += circleR * 2 + layout.iconsToHeadGap;
+
+      // 2. Judul penutup
+      drawTokenLines(ctx, layout.headLines, 'center', centerX, curY, layout.headLineHeight,
+        layout.baseHeadFont, layout.hlHeadFont, theme.primaryInk, theme.goldBright);
+      curY += layout.headH + layout.headToSubGap;
+
+      // 3. Sub-judul
+      ctx.save();
+      ctx.font = `500 ${layout.subFontSize}px "Plus Jakarta Sans", sans-serif`;
+      ctx.fillStyle = theme.mutedInk;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      layout.subLines.forEach((line, i) => {
+        ctx.fillText(line, centerX, curY + i * layout.subLineHeight);
+      });
+      ctx.restore();
+      curY += layout.subH + layout.subToRecapGap;
+
+      // 4. Rangkuman
+      if (recapItems.length) {
+        ctx.save();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.font = '800 30px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = theme.gold;
+        ctx.fillText('✦ RANGKUMAN — SCREENSHOT UNTUK DISIMPAN ✦', centerX, curY);
+        ctx.font = `600 ${layout.recapFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.primaryInk;
+        let ry = curY + layout.recapLabelH;
+        layout.recapWrapped.forEach(lines => {
+          lines.forEach((line, i) => ctx.fillText(line, centerX, ry + i * layout.recapLineHeight));
+          ry += lines.length * layout.recapLineHeight + layout.recapItemGap;
+        });
+        ctx.restore();
+        curY += layout.recapH;
+      }
+
+      // 5. Pertanyaan komentar (opsional)
+      if (showComment) {
+        curY += layout.recapToPromptGap;
+        const boxW = 840;
+        const boxX = centerX - boxW / 2;
+        ctx.save();
+        ctx.fillStyle = theme.cardSurface;
+        drawRoundRect(ctx, boxX, curY, boxW, layout.promptBoxH, 26);
+        ctx.fill();
+
+        ctx.setLineDash([10, 8]);
+        ctx.strokeStyle = theme.gold;
+        ctx.lineWidth = 2.4;
+        drawRoundRect(ctx, boxX, curY, boxW, layout.promptBoxH, 26);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.font = `500 ${layout.promptFontSize}px "Plus Jakarta Sans", sans-serif`;
+        ctx.fillStyle = theme.primaryInk;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        layout.promptLines.forEach((line, i) => {
+          ctx.fillText(line, centerX, curY + layout.promptPadV + i * layout.promptLineHeight);
+        });
+        ctx.restore();
+      }
+
+      renderSlideFooter(ctx, theme, slide.username, progressStr, false);
+    }
+
+    /**
+     * Master Canvas Render Entry Point
+     */
+    // Cover kontras: tema berlawanan untuk slide cover (Emerald <-> Ivory, Sand -> Emerald)
+    const COVER_CONTRAST_PAIR = { emerald: 'ivory', ivory: 'emerald', sand: 'emerald' };
+    function isCoverContrastOn() {
+      const el = document.getElementById('toggleDarkCover');
+      return el ? el.checked : true; // default aktif walau kontrol belum terpasang
+    }
+
+    function isPatternBreakOn() {
+      const el = document.getElementById('togglePatternBreak');
+      return el ? el.checked : true;
+    }
+
+    function renderSlideToCanvas(canvas, slideIndex) {
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const slides = buildSlideDescriptorList();
+      const totalSlides = slides.length;
+      const safeIndex = Math.max(0, Math.min(slideIndex, totalSlides - 1));
+      const slide = slides[safeIndex];
+      let theme = CANVAS_THEMES[appState.themeKey] || CANVAS_THEMES.ivory;
+      if (slide.kind === 'cover' && isCoverContrastOn()) theme = CANVAS_THEMES[COVER_CONTRAST_PAIR[theme.id]] || theme;
+      const nPts = appState.carouselData.points.length;
+      if (slide.kind === 'point' && nPts >= 3 && slide.pointIndex === Math.floor(nPts / 2) && isPatternBreakOn()) theme = CANVAS_THEMES[COVER_CONTRAST_PAIR[theme.id]] || theme;
+
+      ctx.clearRect(0, 0, 1080, 1350);
+      renderSlideFrameAndBackground(ctx, theme, safeIndex, totalSlides);
+
+      if (slide.kind === 'cover') {
+        renderCoverSlide(ctx, slide, theme, totalSlides);
+      } else if (slide.kind === 'point') {
+        renderPointSlide(ctx, slide, theme, safeIndex, totalSlides);
+      } else if (slide.kind === 'dalil') {
+        renderDalilSlide(ctx, slide, theme, safeIndex, totalSlides);
+      } else if (slide.kind === 'closing') {
+        renderClosingSlide(ctx, slide, theme, safeIndex, totalSlides);
+      }
+    }
+
+    // ============================================================================
+    // 10. VIEW MODES (SINGLE & GRID), LIVE SLIDE EDITOR, CAPTIONS & PNG EXPORT
+    // ============================================================================
+
+    function refreshAllCanvasAndEditors() {
+      const slides = buildSlideDescriptorList();
+      if (appState.currentSlideIndex >= slides.length) {
+        appState.currentSlideIndex = slides.length - 1;
+      }
+
+      const mainCanvas = document.getElementById('mainCarouselCanvas');
+      renderSlideToCanvas(mainCanvas, appState.currentSlideIndex);
+
+      const activeSlide = slides[appState.currentSlideIndex];
+      const indicator = document.getElementById('slideIndicatorLabel');
+      if (indicator) {
+        indicator.textContent = `Slide ${String(appState.currentSlideIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')} • ${activeSlide.label}`;
+      }
+
+      const pillsContainer = document.getElementById('slidePillsContainer');
+      if (pillsContainer) {
+        pillsContainer.innerHTML = slides
+          .map((s, idx) => {
+            const isActive = idx === appState.currentSlideIndex;
+            return `
+              <button
+                type="button"
+                onclick="jumpToSlide(${idx})"
+                class="px-2.5 py-1 rounded-lg text-[11px] font-bold transition ${
+                  isActive
+                    ? 'bg-[#163020] text-[#F2D16B] shadow-sm'
+                    : 'bg-[#EFE9DC] text-[#4A5D50] hover:text-[#163020]'
+                }"
+              >
+                ${String(idx + 1).padStart(2, '0')} ${s.label}
+              </button>
+            `;
+          })
+          .join('');
+      }
+
+      if (appState.viewMode === 'grid') {
+        renderGridViewThumbnails();
+      }
+
+      if (appState.isEditorOpen) {
+        renderLiveSlideEditorFields();
+      }
+    }
+
+    window.jumpToSlide = function(idx) {
+      appState.currentSlideIndex = idx;
+      if (appState.viewMode === 'grid') {
+        setViewMode('single');
+      } else {
+        refreshAllCanvasAndEditors();
+      }
+    };
+
+    function setViewMode(mode) {
+      appState.viewMode = mode;
+      const singleBtn = document.getElementById('viewModeSingleBtn');
+      const gridBtn = document.getElementById('viewModeGridBtn');
+      const singleWrap = document.getElementById('singleViewContainer');
+      const gridWrap = document.getElementById('gridViewContainer');
+
+      if (mode === 'single') {
+        singleBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[#163020] text-[#FCFBF7] shadow-sm transition';
+        gridBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-[#4A5D50] hover:text-[#163020] transition';
+        singleWrap.classList.remove('hidden');
+        gridWrap.classList.add('hidden');
+        refreshAllCanvasAndEditors();
+      } else {
+        gridBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-[#163020] text-[#FCFBF7] shadow-sm transition';
+        singleBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-[#4A5D50] hover:text-[#163020] transition';
+        singleWrap.classList.add('hidden');
+        gridWrap.classList.remove('hidden');
+        renderGridViewThumbnails();
+      }
+    }
+
+    function renderGridViewThumbnails() {
+      const wrapper = document.getElementById('gridSlidesWrapper');
+      if (!wrapper) return;
+      const slides = buildSlideDescriptorList();
+      wrapper.innerHTML = '';
+
+      slides.forEach((slide, idx) => {
+        const card = document.createElement('div');
+        card.className = `group cursor-pointer rounded-2xl border p-2 transition ${
+          idx === appState.currentSlideIndex
+            ? 'border-[#A38A48] bg-[#EFE8D8]'
+            : 'border-[#DFD8C8] bg-white hover:border-[#A38A48]'
+        }`;
+        card.onclick = () => jumpToSlide(idx);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 1080;
+        canvas.height = 1350;
+        canvas.className = 'w-full aspect-[4/5] rounded-xl block shadow-sm';
+        renderSlideToCanvas(canvas, idx);
+
+        const caption = document.createElement('div');
+        caption.className = 'mt-1.5 flex items-center justify-between text-[11px] font-bold text-[#163020] px-1';
+        caption.innerHTML = `
+          <span>${String(idx + 1).padStart(2, '0')} • ${escapeHtml(slide.label)}</span>
+          <span class="text-[#A38A48] group-hover:underline">Buka</span>
+        `;
+
+        card.appendChild(canvas);
+        card.appendChild(caption);
+        wrapper.appendChild(card);
+      });
+    }
+
+    function renderLiveSlideEditorFields() {
+      const slides = buildSlideDescriptorList();
+      const slide = slides[appState.currentSlideIndex];
+      const heading = document.getElementById('editorSlideHeading');
+      const fieldsContainer = document.getElementById('liveEditorFields');
+      if (!heading || !fieldsContainer || !slide) return;
+
+      heading.textContent = `Edit Slide ${String(appState.currentSlideIndex + 1).padStart(2, '0')} (${slide.label})`;
+
+      if (slide.kind === 'cover') {
+        fieldsContainer.innerHTML = `
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Judul Hook Cover</label>
+            <input type="text" value="${escapeHtml(appState.carouselData.cover.title)}"
+              oninput="appState.carouselData.cover.title = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Kata Kunci Emas (Italic)</label>
+              <input type="text" value="${escapeHtml(appState.carouselData.cover.highlightKeyword)}"
+                oninput="appState.carouselData.cover.highlightKeyword = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Estimasi Baca</label>
+              <input type="text" value="${escapeHtml(appState.carouselData.readingTime)}"
+                oninput="appState.carouselData.readingTime = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Sub-Hook (2 Baris)</label>
+            <textarea rows="2"
+              oninput="appState.carouselData.cover.subHook = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(appState.carouselData.cover.subHook)}</textarea>
+          </div>
+        `;
+      } else if (slide.kind === 'point') {
+        const pIdx = slide.pointIndex;
+        const pt = appState.carouselData.points[pIdx];
+        fieldsContainer.innerHTML = `
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Penanda Babak Cerita (Slide ${pIdx + 1})</label>
+            <input type="text" value="${escapeHtml(pt.arcLabel || '')}"
+              oninput="appState.carouselData.points[${pIdx}].arcLabel = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Judul Poin ${pIdx + 1}</label>
+              <input type="text" value="${escapeHtml(pt.title)}"
+                oninput="appState.carouselData.points[${pIdx}].title = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Kata Sorotan Emas</label>
+              <input type="text" value="${escapeHtml(pt.highlightKeyword || '')}"
+                oninput="appState.carouselData.points[${pIdx}].highlightKeyword = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Penjelasan Utama</label>
+            <textarea rows="3"
+              oninput="appState.carouselData.points[${pIdx}].body = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(pt.body)}</textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Micro Explanation / Langkah Amal</label>
+            <input type="text" value="${escapeHtml(pt.microExplanation)}"
+              oninput="appState.carouselData.points[${pIdx}].microExplanation = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Curiosity Bridge (Tanpa Panah)</label>
+            <input type="text" value="${escapeHtml(pt.curiosityBridge)}"
+              oninput="appState.carouselData.points[${pIdx}].curiosityBridge = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          </div>
+        `;
+      } else if (slide.kind === 'dalil') {
+        const d = appState.carouselData.dalil;
+        fieldsContainer.innerHTML = `
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Teks Arab (Amiri RTL)</label>
+            <textarea rows="2" dir="rtl"
+              oninput="appState.carouselData.dalil.arabicText = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 font-amiri text-lg text-[#163020]">${escapeHtml(d.arabicText)}</textarea>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Terjemahan Indonesia</label>
+            <textarea rows="2"
+              oninput="appState.carouselData.dalil.translation = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(d.translation)}</textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Frasa Sorotan Emas</label>
+              <input type="text" value="${escapeHtml(d.highlightPhrase)}"
+                oninput="appState.carouselData.dalil.highlightPhrase = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Sumber Dalil</label>
+              <input type="text" value="${escapeHtml(d.sourceRef)}"
+                oninput="appState.carouselData.dalil.sourceRef = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Intisari Amal</label>
+            <input type="text" value="${escapeHtml(d.intisariAmal)}"
+              oninput="appState.carouselData.dalil.intisariAmal = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          </div>
+        `;
+      } else if (slide.kind === 'closing') {
+        const c = appState.carouselData.closing;
+        fieldsContainer.innerHTML = `
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Judul Penutup</label>
+              <input type="text" value="${escapeHtml(c.headline)}"
+                oninput="appState.carouselData.closing.headline = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Sub-Judul Penutup</label>
+              <input type="text" value="${escapeHtml(c.subheadline)}"
+                oninput="appState.carouselData.closing.subheadline = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Pertanyaan Reflektif Penutup</label>
+            <textarea rows="2"
+              oninput="appState.carouselData.closing.commentPrompt = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(c.commentPrompt)}</textarea>
+          </div>
+        `;
+      }
+    }
+
+    function updateCaptionTextarea() {
+      const textarea = document.getElementById('captionOutputTextarea');
+      if (!textarea) return;
+      textarea.value = appState.carouselData.captions[appState.activeCaptionTab] || '';
+    }
+
+    function triggerSinglePngDownload(canvas, filename) {
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    async function downloadAllSlidesSequentially() {
+      const slides = buildSlideDescriptorList();
+      const exportBtn = document.getElementById('downloadAllSlidesBtn');
+      const noteEl = document.getElementById('exportProgressNote');
+      const originalHtml = exportBtn.innerHTML;
+
+      exportBtn.disabled = true;
+
+      const offscreen = document.createElement('canvas');
+      offscreen.width = 1080;
+      offscreen.height = 1350;
+
+      for (let i = 0; i < slides.length; i++) {
+        const slide = slides[i];
+        const numStr = String(i + 1).padStart(2, '0');
+        let slug = 'slide';
+        if (slide.kind === 'cover') slug = 'cover';
+        else if (slide.kind === 'point') slug = `poin-${slide.pointIndex + 1}`;
+        else if (slide.kind === 'dalil') slug = slide.part ? 'dalil-' + slide.part : 'dalil';
+        else if (slide.kind === 'closing') slug = 'penutup';
+
+        const filename = `${numStr}-${slug}.png`;
+        exportBtn.innerHTML = `<span>⏳ Mengunduh ${filename} (${i + 1}/${slides.length})...</span>`;
+        if (noteEl) noteEl.textContent = `Sedang mengekspor ${filename} (1080×1350 px)...`;
+
+        renderSlideToCanvas(offscreen, i);
+        triggerSinglePngDownload(offscreen, filename);
+
+        if (i < slides.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+
+      exportBtn.disabled = false;
+      exportBtn.innerHTML = originalHtml;
+      if (noteEl) noteEl.textContent = `Selesai! ${slides.length} file PNG (1080×1350 px) telah diunduh berurutan.`;
+      showToast(`${slides.length} slide PNG HD berhasil diunduh secara berurutan!`, 'success');
+    }
+
+    // ============================================================================
+    // 11. EVENT LISTENERS & APPLICATION INITIALIZATION
+    // ============================================================================
+
+    function initializeEventListeners() {
+      const apiKeyInput = document.getElementById('geminiApiKeyInput');
+      let autoLoadTimer = null;
+
+      // Load saved API key from device localStorage on boot
+      try {
+        const savedKey = localStorage.getItem(STORAGE_KEY_API);
+        if (savedKey && savedKey.trim()) {
+          appState.apiKey = savedKey.trim();
+          apiKeyInput.value = appState.apiKey;
+          updateModelStatusIndicator('ready', `Siap (${GEMINI_MODEL_CHAIN[0]})`);
+          if (appState.apiKey.startsWith('AIza') && appState.apiKey.length >= 30) {
+            appState.autoTriggeredForKey = appState.apiKey;
+            setTimeout(() => {
+              fetchDailyFiveRecommendations();
+            }, 350);
+          }
+        }
+      } catch (e) {}
+
+      apiKeyInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        appState.apiKey = val;
+
+        try {
+          if (val) localStorage.setItem(STORAGE_KEY_API, val);
+          else localStorage.removeItem(STORAGE_KEY_API);
+        } catch (err) {}
+
+        if (!val) {
+          appState.autoTriggeredForKey = '';
+          updateModelStatusIndicator('idle', 'Menunggu API Key');
+          return;
+        }
+
+        updateModelStatusIndicator('ready', `Siap (${GEMINI_MODEL_CHAIN[0]})`);
+
+        if (val.startsWith('AIza') && val.length >= 30 && appState.autoTriggeredForKey !== val) {
+          clearTimeout(autoLoadTimer);
+          autoLoadTimer = setTimeout(() => {
+            appState.autoTriggeredForKey = val;
+            fetchDailyFiveRecommendations();
+          }, 450);
+        }
+      });
+
+      apiKeyInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          appState.apiKey = apiKeyInput.value.trim();
+          try {
+            if (appState.apiKey) localStorage.setItem(STORAGE_KEY_API, appState.apiKey);
+          } catch (err) {}
+          if (appState.apiKey) {
+            appState.autoTriggeredForKey = appState.apiKey;
+            fetchDailyFiveRecommendations();
+          }
+        }
+      });
+
+      document.getElementById('toggleApiKeyVisibilityBtn').addEventListener('click', () => {
+        const isPassword = apiKeyInput.type === 'password';
+        apiKeyInput.type = isPassword ? 'text' : 'password';
+        document.getElementById('eyeIconShow').classList.toggle('hidden', isPassword);
+        document.getElementById('eyeIconHide').classList.toggle('hidden', !isPassword);
+      });
+
+      document.getElementById('clearApiKeyBtn').addEventListener('click', () => {
+        apiKeyInput.value = '';
+        appState.apiKey = '';
+        appState.autoTriggeredForKey = '';
+        try {
+          localStorage.removeItem(STORAGE_KEY_API);
+        } catch (err) {}
+        updateModelStatusIndicator('idle', 'Menunggu API Key');
+        showToast('Gemini API Key dihapus dari perangkat.', 'info');
+      });
+
+      document.getElementById('loadDailyRecsBtn').addEventListener('click', () => {
+        appState.apiKey = apiKeyInput.value.trim();
+        fetchDailyFiveRecommendations();
+      });
+
+      document.getElementById('refreshDailyRecsBtn').addEventListener('click', () => {
+        appState.apiKey = apiKeyInput.value.trim();
+        fetchDailyFiveRecommendations();
+      });
+
+      // Clear single unified dalil textarea
+      document.getElementById('clearUnifiedInputBtn').addEventListener('click', () => {
+        const box = document.getElementById('inputUnifiedDalil');
+        box.value = '';
+        box.focus();
+      });
+
+      // AI Topic Search
+      const topicInput = document.getElementById('topicSearchInput');
+      document.getElementById('topicSearchBtn').addEventListener('click', () => {
+        searchDalilByTopic(topicInput.value);
+      });
+      topicInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          searchDalilByTopic(topicInput.value);
+        }
+      });
+
+      document.querySelectorAll('.topic-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const topic = chip.getAttribute('data-topic-chip');
+          topicInput.value = topic;
+          searchDalilByTopic(topic);
+        });
+      });
+
+      // Color Theme Switcher
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          appState.themeKey = btn.getAttribute('data-theme');
+          document.querySelectorAll('.theme-btn').forEach(b => {
+            b.classList.remove('border-2', 'border-[#A38A48]', 'ring-2', 'ring-[#A38A48]/30');
+            b.classList.add('border', 'border-[#D4CCB8]');
+          });
+          btn.classList.remove('border', 'border-[#D4CCB8]');
+          btn.classList.add('border-2', 'border-[#A38A48]', 'ring-2', 'ring-[#A38A48]/30');
+          refreshAllCanvasAndEditors();
+        });
+      });
+
+      document.getElementById('inputUsername').addEventListener('input', (e) => {
+        const val = e.target.value.trim() || '@lightofhijrah';
+        appState.carouselData.username = val.startsWith('@') ? val : `@${val}`;
+        refreshAllCanvasAndEditors();
+      });
+
+      const toggleMap = [
+        ['toggleStoryArc', 'storyArc'],
+        ['toggleMicroExplanation', 'microExplanation'],
+        ['toggleCuriosityBridge', 'curiosityBridge'],
+        ['toggleIntisariAmal', 'intisariAmal'],
+        ['toggleCommentTrigger', 'commentTrigger']
+      ];
+      toggleMap.forEach(([elId, key]) => {
+        document.getElementById(elId).addEventListener('change', (e) => {
+          appState.toggles[key] = e.target.checked;
+          refreshAllCanvasAndEditors();
+        });
+      });
+
+      document.getElementById('carouselGeneratorForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        generateFullCarouselWithAI();
+      });
+
+      document.getElementById('viewModeSingleBtn').addEventListener('click', () => setViewMode('single'));
+      document.getElementById('viewModeGridBtn').addEventListener('click', () => setViewMode('grid'));
+
+      document.getElementById('prevSlideBtn').addEventListener('click', () => {
+        const slides = buildSlideDescriptorList();
+        appState.currentSlideIndex = (appState.currentSlideIndex - 1 + slides.length) % slides.length;
+        refreshAllCanvasAndEditors();
+      });
+
+      document.getElementById('nextSlideBtn').addEventListener('click', () => {
+        const slides = buildSlideDescriptorList();
+        appState.currentSlideIndex = (appState.currentSlideIndex + 1) % slides.length;
+        refreshAllCanvasAndEditors();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) return;
+        if (e.key === 'ArrowLeft') {
+          const slides = buildSlideDescriptorList();
+          appState.currentSlideIndex = (appState.currentSlideIndex - 1 + slides.length) % slides.length;
+          refreshAllCanvasAndEditors();
+        } else if (e.key === 'ArrowRight') {
+          const slides = buildSlideDescriptorList();
+          appState.currentSlideIndex = (appState.currentSlideIndex + 1) % slides.length;
+          refreshAllCanvasAndEditors();
+        }
+      });
+
+      document.getElementById('toggleSlideEditorBtn').addEventListener('click', () => {
+        appState.isEditorOpen = !appState.isEditorOpen;
+        const drawer = document.getElementById('liveSlideEditorDrawer');
+        drawer.classList.toggle('hidden', !appState.isEditorOpen);
+        if (appState.isEditorOpen) {
+          if (appState.viewMode === 'grid') setViewMode('single');
+          renderLiveSlideEditorFields();
+        }
+      });
+
+      document.getElementById('closeSlideEditorBtn').addEventListener('click', () => {
+        appState.isEditorOpen = false;
+        document.getElementById('liveSlideEditorDrawer').classList.add('hidden');
+      });
+
+      const tabStory = document.getElementById('captionTabStorytelling');
+      const tabRingkas = document.getElementById('captionTabRingkas');
+      const captionTextarea = document.getElementById('captionOutputTextarea');
+
+      tabStory.addEventListener('click', () => {
+        appState.activeCaptionTab = 'storytelling';
+        tabStory.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-[#163020] text-[#FCFBF7] transition';
+        tabRingkas.className = 'px-3 py-1 rounded-lg text-xs font-bold text-[#4A5D50] hover:text-[#163020] transition';
+        updateCaptionTextarea();
+      });
+
+      tabRingkas.addEventListener('click', () => {
+        appState.activeCaptionTab = 'ringkas';
+        tabRingkas.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-[#163020] text-[#FCFBF7] transition';
+        tabStory.className = 'px-3 py-1 rounded-lg text-xs font-bold text-[#4A5D50] hover:text-[#163020] transition';
+        updateCaptionTextarea();
+      });
+
+      captionTextarea.addEventListener('input', (e) => {
+        appState.carouselData.captions[appState.activeCaptionTab] = e.target.value;
+      });
+
+      // Copy Caption silently without selecting visible textarea or opening mobile keyboard
+      document.getElementById('copyCaptionBtn').addEventListener('click', async () => {
+        const textToCopy = captionTextarea.value;
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
+
+        let copied = false;
+        if (navigator.clipboard && window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+            copied = true;
+          } catch (err) {}
+        }
+
+        if (!copied) {
+          const tempInput = document.createElement('textarea');
+          tempInput.value = textToCopy;
+          tempInput.setAttribute('readonly', '');
+          tempInput.setAttribute('inputmode', 'none');
+          tempInput.style.position = 'fixed';
+          tempInput.style.top = '-9999px';
+          tempInput.style.left = '-9999px';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          tempInput.setSelectionRange(0, textToCopy.length);
+          try {
+            copied = document.execCommand('copy');
+          } catch (err) {}
+          document.body.removeChild(tempInput);
+          const selection = window.getSelection();
+          if (selection) selection.removeAllRanges();
+        }
+
+        showToast('Caption berhasil disalin ke clipboard!', 'success');
+      });
+
+      document.getElementById('downloadCurrentSlideBtn').addEventListener('click', () => {
+        const slides = buildSlideDescriptorList();
+        const slide = slides[appState.currentSlideIndex];
+        const numStr = String(appState.currentSlideIndex + 1).padStart(2, '0');
+        let slug = 'slide';
+        if (slide.kind === 'cover') slug = 'cover';
+        else if (slide.kind === 'point') slug = `poin-${slide.pointIndex + 1}`;
+        else if (slide.kind === 'dalil') slug = slide.part ? 'dalil-' + slide.part : 'dalil';
+        else if (slide.kind === 'closing') slug = 'penutup';
+
+        const offscreen = document.createElement('canvas');
+        offscreen.width = 1080;
+        offscreen.height = 1350;
+        renderSlideToCanvas(offscreen, appState.currentSlideIndex);
+        triggerSinglePngDownload(offscreen, `${numStr}-${slug}.png`);
+        showToast(`Mengunduh ${numStr}-${slug}.png (1080×1350 px)...`, 'info');
+      });
+
+      document.getElementById('downloadAllSlidesBtn').addEventListener('click', () => {
+        downloadAllSlidesSequentially();
+      });
+    }
+
+    /**
+     * Explicit Font Preloader (forces browser to download Arabic Amiri & Display subsets immediately)
+     */
+    async function ensureCanvasFontsLoaded() {
+      if (!document.fonts || typeof document.fonts.load !== 'function') return;
+      try {
+        await Promise.all([
+          document.fonts.load('700 56px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'),
+          document.fonts.load('400 56px "Amiri"', 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ'),
+          document.fonts.load('700 84px "Playfair Display"', 'NoorSlide'),
+          document.fonts.load('italic 700 84px "Playfair Display"', 'Gelisah'),
+          document.fonts.load('400 36px "Plus Jakarta Sans"', 'NoorSlide AI'),
+          document.fonts.load('700 36px "Plus Jakarta Sans"', 'NoorSlide AI')
+        ]);
+      } catch (e) {}
+    }
+
+    // Boot Application
+    window.addEventListener('DOMContentLoaded', () => {
+      detectRealTimeHijriAndGregorian();
+      initializeEventListeners();
+      updateCaptionTextarea();
+      refreshAllCanvasAndEditors();
+
+      ensureCanvasFontsLoaded().then(() => {
+        refreshAllCanvasAndEditors();
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          refreshAllCanvasAndEditors();
+        });
+        document.fonts.addEventListener('loadingdone', () => {
+          refreshAllCanvasAndEditors();
+        });
+      }
+    });
+  
+function anchorTopY(top, maxH, h) { return Math.max(top, top + (maxH - h) / 2 - 24); }
+function getTemplateInstruction() { const v = document.getElementById('selectStoryTemplate')?.value; return v === 'mitos' ? 'Gunakan alur "Mitos vs Fakta": tiap poin membongkar satu anggapan keliru lalu meluruskannya.' : v === 'langkah' ? 'Gunakan alur "3 Langkah Praktis" yang berurutan dan bisa langsung diamalkan.' : 'Gunakan alur Masalah, Akar, lalu Solusi.'; }
+(function () {
+  const $ = id => document.getElementById(id);
+  const wc = t => String(t || '').trim().split(/\s+/).filter(Boolean).length;
+  const esc = t => String(t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const cp = async t => { try { await navigator.clipboard.writeText(t); showToast('Tersalin!', 'success'); } catch (e) { showToast('Gagal menyalin', 'error'); } };
+  const bx = 'w-full rounded-xl bg-[#F7F3EB] border border-[#D4CCB8] p-2.5 text-xs text-[#163020]';
+  const btn = 'px-3 py-1.5 rounded-lg bg-[#EFE9DC] hover:bg-[#E4DAC4] text-[#163020] text-xs font-bold border border-[#D4CCB8]';
+  function hookPreview() { const t = $('captionOutputTextarea').value, el = $('captionHookPreview'); if (!el) return; const h = t.slice(0, 110); el.innerHTML = '<b>Pratinjau sebelum "selengkapnya":</b> ' + esc(h) + (t.length > 110 ? '… <span class="text-[#8A6F2E] font-bold">selengkapnya</span>' : '') + ' <span class="opacity-70">(' + Math.min(t.length, 110) + '/110 karakter hook)</span>'; }
+  function density() { const el = $('slideDensityNote'); if (!el) return; const s = buildSlideDescriptorList()[appState.currentSlideIndex]; if (!s) return; const n = []; if (s.kind === 'point') { if (wc(s.body) > 18) n.push('Isi ' + wc(s.body) + ' kata (ideal ≤16)'); if (appState.toggles.microExplanation && wc(s.microExplanation) > 12) n.push('Refleksi ' + wc(s.microExplanation) + ' kata (ideal ≤10)'); if (wc(s.title) > 6) n.push('Judul ' + wc(s.title) + ' kata (ideal ≤6)'); } if (s.kind === 'dalil' && s.part !== 'arab' && wc(s.translation) > 70) n.push('Dalil ' + wc(s.translation) + ' kata: ringkas ke potongan inti'); if (s.kind === 'cover' && wc(s.title) > 9) n.push('Judul cover > 9 kata'); el.textContent = n.length ? '⚠️ ' + n.join(' • ') : '✅ Kepadatan teks aman'; }
+  function tools() {
+    const d = appState.carouselData, ex = d.extras || {}, box = $('retentionTools'); if (!box) return;
+    box.innerHTML = '<h2 class="font-playfair text-base font-bold text-[#163020] mb-3">🎯 Alat Retensi &amp; Caption Tambahan</h2>'
+      + '<div class="text-xs font-bold text-[#163020] mb-1.5">3 alternatif judul cover (klik untuk pakai):</div><div class="flex flex-col gap-1.5 mb-3">' + ((d.coverAlternatives || []).map((a, i) => '<button type="button" data-alt="' + i + '" class="text-left ' + btn + '">' + esc(a.title) + '</button>').join('') || '<span class="text-[11px] text-[#66786C]">Muncul setelah generate dengan AI.</span>') + '</div>'
+      + '<div class="text-xs font-bold text-[#163020] mb-1.5">Rangkuman slide penutup (1 butir per baris, maks 3):</div><textarea id="recapEditor" rows="3" class="' + bx + ' mb-3">' + esc((d.recap || []).join('\n')) + '</textarea>'
+      + '<div class="text-xs font-bold text-[#163020] mb-1.5">Komentar pertama (hashtag):</div><textarea id="exFirst" rows="2" class="' + bx + '">' + esc(ex.firstComment) + '</textarea><button type="button" data-copy="exFirst" class="' + btn + ' mt-1.5 mb-3">📋 Salin</button>'
+      + '<div class="text-xs font-bold text-[#163020] mb-1.5">Alt text (aksesibilitas &amp; SEO):</div><textarea id="exAlt" rows="2" class="' + bx + '">' + esc(ex.altText) + '</textarea><button type="button" data-copy="exAlt" class="' + btn + ' mt-1.5 mb-3">📋 Salin</button>'
+      + '<div class="text-xs font-bold text-[#163020] mb-1.5">Variasi ajakan (klik untuk tambah ke caption):</div><div class="flex flex-col gap-1.5">' + ((ex.ctaVariants || []).map((c, i) => '<button type="button" data-cta="' + i + '" class="text-left ' + btn + '">' + esc(c) + '</button>').join('') || '<span class="text-[11px] text-[#66786C]">Muncul setelah generate dengan AI.</span>') + '</div>'
+      + '<div class="text-xs font-bold text-[#163020] mt-3 mb-1.5">Pertanyaan komentar (dipindah dari slide ke caption):</div><div class="text-xs text-[#163020] bg-[#F7F3EB] border border-[#DED6C6] rounded-xl p-2.5 mb-1.5">' + esc(d.closing && d.closing.commentPrompt) + '</div><button type="button" id="addCommentQ" class="' + btn + '">➕ Tambahkan ke caption</button>';
+  }
+  const _r = refreshAllCanvasAndEditors; refreshAllCanvasAndEditors = function () { _r.apply(this, arguments); density(); try { localStorage.setItem('noorslide_draft_v1', JSON.stringify(appState.carouselData)); } catch (e) {} };
+  const _u = updateCaptionTextarea; updateCaptionTextarea = function () { _u.apply(this, arguments); hookPreview(); tools(); };
+  window.addEventListener('DOMContentLoaded', () => {
+    const sel = 'mt-1 w-full rounded-xl border border-[#D4CCB8] bg-[#F7F3EB] p-2 text-xs font-semibold text-[#163020]';
+    $('toggleStoryArc').closest('.pt-1').insertAdjacentHTML('beforebegin', '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"><label class="text-xs font-bold text-[#163020]">Alur cerita<select id="selectStoryTemplate" class="' + sel + '"><option value="pas">Masalah → Solusi</option><option value="mitos">Mitos vs Fakta</option><option value="langkah">3 Langkah Praktis</option></select></label><label class="text-xs font-bold text-[#163020]">Posisi dalil<select id="selectDalilPosition" class="' + sel + '"><option value="end">Di akhir (klimaks)</option><option value="middle">Slide 3 (lebih awal)</option></select></label><label class="flex items-center gap-2 text-xs font-bold text-[#163020] p-2.5 rounded-xl bg-[#F7F3EB] border border-[#DED6C6] cursor-pointer"><input id="toggleDarkCover" type="checkbox" checked class="w-4 h-4 accent-[#163020]" />Cover kontras (tone berlawanan)<span id=\"coverContrastHint\" class=\"ml-auto text-[10px] font-semibold text-[#66786C]\"></span></label><label class="flex items-center gap-2 text-xs font-bold text-[#163020] p-2.5 rounded-xl bg-[#F7F3EB] border border-[#DED6C6] cursor-pointer"><input id="togglePatternBreak" type="checkbox" checked class="w-4 h-4 accent-[#163020]" />Pemecah pola (balik tema slide tengah)</label></div>');
+    $('selectDalilPosition').addEventListener('change', () => refreshAllCanvasAndEditors());
+    $('togglePatternBreak').addEventListener('change', () => refreshAllCanvasAndEditors());
+    const hint = () => { const h = $('coverContrastHint'); if (!h) return; const t = COVER_CONTRAST_PAIR[appState.themeKey] || 'ivory'; h.textContent = isCoverContrastOn() ? 'Cover: ' + t.charAt(0).toUpperCase() + t.slice(1) : 'Cover: sama'; };
+    $('toggleDarkCover').addEventListener('change', () => { hint(); refreshAllCanvasAndEditors(); });
+    document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', () => setTimeout(hint, 0)));
+    hint();
+    $('slidePillsContainer').insertAdjacentHTML('afterend', '<div id="slideDensityNote" class="text-[11px] text-center text-[#66786C] mt-2"></div>');
+    $('downloadCurrentSlideBtn').parentElement.insertAdjacentHTML('beforebegin', '<p class="mt-4 text-[11px] text-[#5B4A14] bg-[#FFF8E6] border border-[#E3D3A0] rounded-xl px-3 py-2">💡 Pengingat: cek ulang teks Arab &amp; nomor hadits di <a href="https://quran.com" target="_blank" rel="noopener" class="underline">Quran.com</a> / <a href="https://sunnah.com" target="_blank" rel="noopener" class="underline">Sunnah.com</a> sebelum diposting.</p>');
+    $('captionOutputTextarea').insertAdjacentHTML('afterend', '<div id="captionHookPreview" class="mt-2 p-2.5 rounded-xl bg-[#EFE9DC] text-[11px] text-[#163020] leading-relaxed"></div>');
+    $('captionOutputTextarea').addEventListener('input', hookPreview);
+    const sec = document.createElement('section'); sec.id = 'retentionTools'; sec.className = 'bg-[#FCFBF7] rounded-3xl border border-[#DFD8C8] shadow-sm p-5';
+    $('captionOutputTextarea').closest('section').insertAdjacentElement('afterend', sec);
+    sec.addEventListener('click', e => { const t = e.target.closest('button'); if (!t) return; const d = appState.carouselData; if (t.dataset.alt) { const a = d.coverAlternatives[+t.dataset.alt]; d.cover.title = a.title; d.cover.highlightKeyword = a.highlightKeyword || ''; appState.currentSlideIndex = 0; refreshAllCanvasAndEditors(); showToast('Judul cover diganti', 'success'); } else if (t.dataset.cta) { const ta = $('captionOutputTextarea'); ta.value = ta.value.trim() + '\n\n' + d.extras.ctaVariants[+t.dataset.cta]; d.captions[appState.activeCaptionTab] = ta.value; hookPreview(); } else if (t.dataset.copy) cp($(t.dataset.copy).value); else if (t.id === 'addCommentQ') { const q = String((d.closing && d.closing.commentPrompt) || '').trim(); if (!q) return; const ta = $('captionOutputTextarea'); const parts = ta.value.trim().split('\n\n'); if (ta.value.includes(q)) { showToast('Pertanyaan sudah ada di caption', 'info'); return; } if (parts.length > 1 && /^#/.test(parts[parts.length - 1].trim())) parts.splice(parts.length - 1, 0, q); else parts.push(q); ta.value = parts.join('\n\n'); d.captions[appState.activeCaptionTab] = ta.value; hookPreview(); showToast('Pertanyaan ditambahkan ke caption', 'success'); } });
+    sec.addEventListener('input', e => { if (e.target.id === 'recapEditor') { appState.carouselData.recap = e.target.value.split('\n').map(x => x.trim()).filter(Boolean).slice(0, 3); refreshAllCanvasAndEditors(); } else if (e.target.id === 'exFirst') appState.carouselData.extras.firstComment = e.target.value; else if (e.target.id === 'exAlt') appState.carouselData.extras.altText = e.target.value; });
+    const d = appState.carouselData;
+    if (!d.recap) d.recap = ['Hati tenang karena mengingat Allah', 'Ikhtiar dulu, tawakal kemudian', 'Mulai 3 menit dzikir setelah fardhu'];
+    if (!d.coverAlternatives) d.coverAlternatives = [{ title: 'Kenapa Hati Tetap Kosong Padahal Semua Sudah Ada?', highlightKeyword: 'Kosong' }, { title: 'Bukan Kurang Harta, Tetapi Kurang Dekat dengan-Nya', highlightKeyword: 'Dekat' }, { title: 'Kita Sibuk Mengisi Dunia, Lupa Menenangkan Jiwa', highlightKeyword: 'Menenangkan' }];
+    if (!d.extras) d.extras = { firstComment: 'Semoga bermanfaat 🤍 #KetenanganHati #Dzikir #Tawakal #NasihatIslami #SelfReminder', altText: 'Carousel Islami tentang ketenangan hati lewat dzikir, dengan dalil QS. Ar-Ra’d: 28.', ctaVariants: ['Tag sahabatmu yang butuh pengingat ini 🤍', 'Simpan untuk dibaca lagi saat hati gelisah.', 'Bagikan agar kebaikannya mengalir.'] };
+    try { const x = JSON.parse(localStorage.getItem('noorslide_draft_v1') || 'null'); if (x && x.cover && Array.isArray(x.points) && x.dalil && x.closing && x.captions) Object.assign(d, x); } catch (e) {}
+    refreshAllCanvasAndEditors(); updateCaptionTextarea();
+  });
+})();
+  </script>
+
+
+
+
+
+
+
+<script id="noorslide-extensions">
+/* Ekstensi NoorSlide: dimuat setelah kode inti. Tiap bagian diisolasi agar kegagalan satu bagian tidak mematikan yang lain. */
+try {(function () {
+  const $ = id => document.getElementById(id);
+  const PK = 'noorslide_preset_v1';
+  const slug = s => s.kind === 'point' ? 'poin-' + (s.pointIndex + 1) : (s.kind === 'dalil' && s.part ? 'dalil-' + s.part : ({ cover: 'cover', dalil: 'dalil', closing: 'penutup' }[s.kind] || 'slide'));
+  const packText = () => { const ex = appState.carouselData.extras || {}; return [$('captionOutputTextarea').value.trim(), ex.firstComment ? 'KOMENTAR PERTAMA:\n' + ex.firstComment : '', ex.altText ? 'ALT TEXT:\n' + ex.altText : ''].filter(Boolean).join('\n\n'); };
+  async function shareAll() {
+    const slides = buildSlideDescriptorList(), c = document.createElement('canvas'); c.width = 1080; c.height = 1350; const files = [];
+    for (let i = 0; i < slides.length; i++) { renderSlideToCanvas(c, i); const blob = await new Promise(r => c.toBlob(r, 'image/png')); files.push(new File([blob], String(i + 1).padStart(2, '0') + '-' + slug(slides[i]) + '.png', { type: 'image/png' })); }
+    if (navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files, text: $('captionOutputTextarea').value }); } catch (e) { if (e.name !== 'AbortError') showToast('Gagal membagikan: ' + e.message, 'error'); } }
+    else showToast('Perangkat ini belum mendukung bagikan file. Gunakan tombol Download.', 'warning');
+  }
+  function savePreset() { try { localStorage.setItem(PK, JSON.stringify({ theme: appState.themeKey, user: appState.carouselData.username, dark: $('toggleDarkCover')?.checked, pb: $('togglePatternBreak')?.checked, tpl: $('selectStoryTemplate')?.value, pos: $('selectDalilPosition')?.value })); } catch (e) {} }
+  function loadPreset() {
+    try {
+      const x = JSON.parse(localStorage.getItem(PK) || 'null'); if (!x) return;
+      if (x.theme && x.theme !== appState.themeKey) document.querySelector('.theme-btn[data-theme="' + x.theme + '"]')?.click();
+      if (x.user && $('inputUsername')) { $('inputUsername').value = x.user; $('inputUsername').dispatchEvent(new Event('input')); }
+      if ($('toggleDarkCover') && typeof x.dark === 'boolean') { $('toggleDarkCover').checked = x.dark; $('toggleDarkCover').dispatchEvent(new Event('change')); }
+      if ($('togglePatternBreak') && typeof x.pb === 'boolean') { $('togglePatternBreak').checked = x.pb; $('togglePatternBreak').dispatchEvent(new Event('change')); }
+      if (x.tpl && $('selectStoryTemplate')) $('selectStoryTemplate').value = x.tpl;
+      if (x.pos && $('selectDalilPosition')) { $('selectDalilPosition').value = x.pos; $('selectDalilPosition').dispatchEvent(new Event('change')); }
+    } catch (e) {}
+  }
+  const _ed = renderLiveSlideEditorFields;
+  renderLiveSlideEditorFields = function () {
+    _ed.apply(this, arguments);
+    const slide = buildSlideDescriptorList()[appState.currentSlideIndex], box = $('liveEditorFields');
+    if (slide && slide.kind === 'dalil' && box) { const q = encodeURIComponent(appState.carouselData.dalil.sourceRef || ''); box.insertAdjacentHTML('beforeend', '<div class="text-[11px] text-[#5B4A14] bg-[#FFF8E6] border border-[#E3D3A0] rounded-xl px-3 py-2">🔎 Cek dalil: <a class="underline font-bold" target="_blank" rel="noopener" href="https://quran.com/search?query=' + q + '">Quran.com</a> • <a class="underline font-bold" target="_blank" rel="noopener" href="https://sunnah.com/search?q=' + q + '">Sunnah.com</a></div>'); }
+  };
+  window.addEventListener('DOMContentLoaded', () => {
+    const btn = 'px-3 py-2 rounded-xl bg-[#EFE9DC] hover:bg-[#E4DAC4] text-[#163020] text-xs font-bold border border-[#D4CCB8] transition';
+    $('exportProgressNote').insertAdjacentHTML('beforebegin', '<div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2"><button id="shareAllBtn" type="button" class="' + btn + '">📲 Bagikan</button><button id="copyPackBtn" type="button" class="' + btn + '">📋 Paket Posting</button><button id="phoneModeBtn" type="button" class="' + btn + '" aria-pressed="false">📱 Mode HP</button><button id="safeZoneBtn" type="button" class="' + btn + '" aria-pressed="false">🔲 Garis Aman</button></div>');
+    $('shareAllBtn').addEventListener('click', shareAll);
+    $('copyPackBtn').addEventListener('click', async () => {
+      const textToCopy = packText();
+      if (document.activeElement && typeof document.activeElement.blur === 'function') { document.activeElement.blur(); }
+      let copied = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try { await navigator.clipboard.writeText(textToCopy); copied = true; } catch (err) {}
+      }
+      if (!copied) {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = textToCopy;
+        tempInput.setAttribute('readonly', '');
+        tempInput.setAttribute('inputmode', 'none');
+        tempInput.style.position = 'fixed';
+        tempInput.style.top = '-9999px';
+        tempInput.style.left = '-9999px';
+        tempInput.style.opacity = '0';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, textToCopy.length);
+        try { copied = document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(tempInput);
+        const selection = window.getSelection();
+        if (selection) selection.removeAllRanges();
+      }
+      showToast('Caption, komentar pertama & alt text berhasil disalin!', 'success');
+    });
+    $('phoneModeBtn').addEventListener('click', e => { const w = document.querySelector('.canvas-stage-wrapper'), on = w.style.maxWidth !== '390px'; w.style.maxWidth = on ? '390px' : ''; e.currentTarget.setAttribute('aria-pressed', on); showToast(on ? 'Mode HP: ukuran nyata di layar ponsel. Pastikan semua teks tetap terbaca.' : 'Mode HP dimatikan', 'info'); });
+    $('safeZoneBtn').addEventListener('click', e => { const w = document.querySelector('.canvas-stage-wrapper'); let g = $('safeZoneGuide'); if (!g) { g = document.createElement('div'); g.id = 'safeZoneGuide'; g.setAttribute('aria-hidden', 'true'); g.style.cssText = 'position:absolute;inset:0;pointer-events:none;display:none;background:linear-gradient(to right,rgba(220,38,38,.30) 0,rgba(220,38,38,.30) 3.15%,transparent 3.15%,transparent 96.85%,rgba(220,38,38,.30) 96.85%)'; w.appendChild(g); } const on = g.style.display === 'none'; g.style.display = on ? 'block' : 'none'; e.currentTarget.setAttribute('aria-pressed', on); showToast(on ? 'Area merah terpotong di grid profil Instagram (3:4). Jaga teks tetap di luar area merah.' : 'Garis aman dimatikan', 'info'); });
+    const c = $('mainCarouselCanvas'); c.setAttribute('role', 'img'); c.setAttribute('aria-label', 'Pratinjau slide carousel Islami');
+    ['click', 'input', 'change'].forEach(ev => document.addEventListener(ev, e => { if (e.target.closest && e.target.closest('.theme-btn, #inputUsername, #toggleDarkCover, #togglePatternBreak, #selectStoryTemplate, #selectDalilPosition')) setTimeout(savePreset, 0); }));
+    setTimeout(loadPreset, 300);
+  });
+})();
+} catch (e) { console.error("Ekstensi gagal dimuat:", e); }
+
+try {(function () {
+  const $ = id => document.getElementById(id);
+  const WD = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const TH = ['Ketenangan hati dengan dzikir', 'Syukur di saat serba kurang', 'Sabar menghadapi ujian', 'Memaafkan dan melapangkan dada', 'Birrul walidain: berbakti kepada orang tua', 'Doa dan tawakal', 'Menjaga lisan dan niat'];
+  function plan(d, h) {
+    const w = d.getDay(), m = h.monthNumber, x = h.day;
+    if (m === 9) return { tag: 'Ramadhan', topic: 'Menjaga amal terbaik di bulan Ramadhan' };
+    if (m === 10 && x === 1) return { tag: 'Idul Fitri', topic: 'Makna kembali fitrah dan saling memaafkan' };
+    if (m === 12 && x === 9) return { tag: 'Hari Arafah', topic: 'Keutamaan puasa dan doa di hari Arafah' };
+    if (m === 12 && x === 10) return { tag: 'Idul Adha', topic: 'Pelajaran keikhlasan dari kisah Ibrahim' };
+    if (m === 12 && x >= 11 && x <= 13) return { tag: 'Hari Tasyriq', topic: 'Dzikir dan syukur di hari Tasyriq' };
+    if (m === 12 && x < 9) return { tag: '10 hari Dzulhijjah', topic: 'Amal shalih terbaik di awal Dzulhijjah' };
+    if (m === 1 && (x === 9 || x === 10)) return { tag: x === 9 ? "Tasu'a" : 'Asyura', topic: 'Keutamaan puasa Asyura dan hikmahnya' };
+    if (x >= 13 && x <= 15) return { tag: 'Ayyamul Bidh', topic: 'Puasa Ayyamul Bidh: tiga hari penuh cahaya' };
+    if (m === 10) return { tag: 'Syawal', topic: 'Puasa enam hari Syawal dan istiqamah setelah Ramadhan' };
+    if (w === 5) return { tag: 'Jumat', topic: 'Adab dan keutamaan hari Jumat' };
+    if (w === 1 || w === 4) return { tag: 'Puasa Senin/Kamis', topic: 'Puasa Senin-Kamis dan amalan yang diangkat' };
+    return { tag: WD[w], topic: TH[w] };
+  }
+  const topics = [];
+  function renderCal() {
+    let html = ''; topics.length = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(); d.setDate(d.getDate() + i);
+      const h = computeMathematicalHijri(d), p = plan(d, h); topics.push(p.topic);
+      html += '<div class="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F3EB] border border-[#DED6C6]"><div class="w-14 shrink-0 text-[11px] font-bold text-[#163020]">' + WD[d.getDay()] + '<br><span class="font-normal text-[#66786C]">' + d.getDate() + '/' + (d.getMonth() + 1) + '</span></div><div class="flex-1 min-w-0"><div class="text-[10px] font-bold text-[#8A6F2E]">' + h.day + ' ' + h.monthName + ' • ' + p.tag + '</div><div class="text-xs text-[#163020]">' + p.topic + '</div></div><button type="button" data-ct="' + i + '" class="shrink-0 px-3 py-1.5 rounded-lg bg-[#163020] text-[#FCFBF7] text-[11px] font-bold">Pakai</button></div>';
+    }
+    $('calList').innerHTML = html;
+  }
+  const _rf = refreshAllCanvasAndEditors;
+  refreshAllCanvasAndEditors = function () {
+    _rf.apply(this, arguments);
+    const sl = buildSlideDescriptorList(), i = appState.currentSlideIndex, c = $('mainCarouselCanvas');
+    if (c && sl[i]) c.setAttribute('aria-label', 'Slide ' + (i + 1) + ' dari ' + sl.length + ': ' + sl[i].label);
+  };
+  window.addEventListener('DOMContentLoaded', () => {
+    const sec = document.createElement('details');
+    sec.className = 'bg-[#FCFBF7] rounded-3xl border border-[#DFD8C8] shadow-sm p-5';
+    sec.innerHTML = '<summary class="cursor-pointer font-playfair text-base font-bold text-[#163020]">🗓️ Rencana Konten 7 Hari (Momentum Hijriah)</summary><p class="text-[11px] text-[#66786C] mt-2 mb-3">Tanggal Hijriah dihitung otomatis dan bisa selisih ±1 hari dari penetapan resmi. Klik "Pakai" untuk mencari dalil topik tersebut.</p><div id="calList" class="flex flex-col gap-2"></div>';
+    $('topicSearchInput').closest('section').insertAdjacentElement('beforebegin', sec);
+    renderCal();
+    sec.addEventListener('click', e => { const b = e.target.closest('button[data-ct]'); if (!b) return; const t = topics[+b.dataset.ct]; $('topicSearchInput').value = t; searchDalilByTopic(t); $('topicSearchInput').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    // Aksesibilitas
+    const tc = $('toastContainer'); tc.setAttribute('role', 'status'); tc.setAttribute('aria-live', 'polite');
+    document.querySelectorAll('button,input,select,textarea').forEach(el => { if (!el.getAttribute('aria-label') && !(el.labels && el.labels.length) && !el.textContent.trim()) el.setAttribute('aria-label', el.title || el.placeholder || el.id || 'kontrol'); });
+    const st = document.createElement('style');
+    st.textContent = ':focus-visible{outline:3px solid #A38A48;outline-offset:2px}@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}';
+    document.head.appendChild(st);
+  });
+})();
+} catch (e) { console.error("Ekstensi gagal dimuat:", e); }
+
+try {(function () {
+  const $ = id => document.getElementById(id);
+  // 1. Peringatan teks terkecil (pantau ukuran huruf yang dipakai kanvas utama)
+  const FD = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, 'font'); let minPx = 999;
+  Object.defineProperty(CanvasRenderingContext2D.prototype, 'font', { configurable: true, get() { return FD.get.call(this); }, set(v) { const m = /(\d+(?:\.\d+)?)px/.exec(v); if (m && this.canvas && this.canvas.id === 'mainCarouselCanvas' && +m[1] < minPx) minPx = +m[1]; FD.set.call(this, v); } });
+  const _rf = refreshAllCanvasAndEditors;
+  refreshAllCanvasAndEditors = function () {
+    minPx = 999; _rf.apply(this, arguments);
+    const n = $('slideDensityNote'); if (n && minPx < 28) n.textContent += ' • ⚠ Teks terkecil ' + Math.round(minPx) + 'px (≈' + Math.round(minPx * 390 / 1080) + 'px di HP)';
+  };
+  // 2. Tautan cek dalil di kartu rekomendasi
+  const _bc = buildDalilRecommendationCardHtml;
+  buildDalilRecommendationCardHtml = function (item) {
+    const h = _bc.apply(this, arguments), q = encodeURIComponent(item.sourceRef || ''), i = h.lastIndexOf('</div>');
+    const L = '<div class="px-4 pb-3 text-[11px] text-[#5B4A14]" onclick="event.stopPropagation()">🔎 Cek: <a class="underline font-bold" target="_blank" rel="noopener" href="https://quran.com/search?query=' + q + '">Quran.com</a> • <a class="underline font-bold" target="_blank" rel="noopener" href="https://sunnah.com/search?q=' + q + '">Sunnah.com</a></div>';
+    return i < 0 ? h : h.slice(0, i) + L + h.slice(i);
+  };
+  // 3. Templat kuis
+  const _gt = getTemplateInstruction;
+  getTemplateInstruction = function () { return $('selectStoryTemplate')?.value === 'kuis' ? "Gunakan alur 'Kuis Benar atau Salah': judul tiap poin berupa pernyataan yang ditebak pembaca, isi poin mengungkap jawabannya dengan penjelasan singkat, dan poin terakhir mengajak pembaca menjawab skor mereka di komentar." : _gt.apply(this, arguments); };
+  // 4. Grid: dapat difokus & dioperasikan dengan keyboard
+  const _g = renderGridViewThumbnails;
+  renderGridViewThumbnails = function () { _g.apply(this, arguments); $('gridViewContainer').querySelectorAll('.group.cursor-pointer').forEach((c, i) => { c.tabIndex = 0; c.setAttribute('role', 'button'); c.setAttribute('aria-label', 'Buka slide ' + (i + 1)); }); };
+  document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('#gridViewContainer .group.cursor-pointer')) { e.preventDefault(); e.target.click(); } });
+  // 5. Beberapa draf
+  const DK = 'noorslide_drafts_v1';
+  const ld = () => { try { return JSON.parse(localStorage.getItem(DK) || '{}'); } catch (e) { return {}; } };
+  const sv = o => { try { localStorage.setItem(DK, JSON.stringify(o)); } catch (e) { showToast('Penyimpanan penuh', 'error'); } };
+  function drawDrafts() { const o = ld(), sel = $('draftSel'); sel.innerHTML = ''; Object.keys(o).sort((a, b) => o[b].ts - o[a].ts).forEach(k => { const op = document.createElement('option'); op.value = k; op.textContent = k; sel.appendChild(op); }); if (!sel.options.length) { const op = document.createElement('option'); op.textContent = '(belum ada draf)'; op.value = ''; sel.appendChild(op); } }
+  window.addEventListener('DOMContentLoaded', () => {
+    const so = $('selectStoryTemplate'); if (so && !so.querySelector('[value="kuis"]')) so.insertAdjacentHTML('beforeend', '<option value="kuis">Kuis Benar/Salah</option>');
+    const b = 'px-3 py-1.5 rounded-lg bg-[#EFE9DC] hover:bg-[#E4DAC4] text-[#163020] text-xs font-bold border border-[#D4CCB8]';
+    const sec = document.createElement('section'); sec.className = 'bg-[#FCFBF7] rounded-3xl border border-[#DFD8C8] shadow-sm p-5';
+    sec.innerHTML = '<h2 class="font-playfair text-base font-bold text-[#163020] mb-3">💾 Draf Tersimpan</h2><div class="flex flex-wrap gap-2 items-center"><button id="draftSave" type="button" class="' + b + '">Simpan draf ini</button><select id="draftSel" aria-label="Pilih draf" class="flex-1 min-w-[140px] rounded-lg border border-[#D4CCB8] bg-[#F7F3EB] p-1.5 text-xs"></select><button id="draftLoad" type="button" class="' + b + '">Muat</button><button id="draftDel" type="button" class="' + b + '">Hapus</button></div>';
+    ($('retentionTools') || $('captionOutputTextarea').closest('section')).insertAdjacentElement('afterend', sec); drawDrafts();
+    $('draftSave').addEventListener('click', () => { const o = ld(), d = appState.carouselData, name = (d.cover.title || 'Draf').slice(0, 40) + ' • ' + new Date().toLocaleDateString('id-ID'); o[name] = { ts: Date.now(), data: JSON.parse(JSON.stringify(d)) }; Object.keys(o).sort((a, c) => o[c].ts - o[a].ts).slice(20).forEach(k => delete o[k]); sv(o); drawDrafts(); showToast('Draf tersimpan', 'success'); });
+    $('draftLoad').addEventListener('click', () => { const k = $('draftSel').value, x = ld()[k]; if (!x) return; Object.assign(appState.carouselData, JSON.parse(JSON.stringify(x.data))); appState.currentSlideIndex = 0; refreshAllCanvasAndEditors(); updateCaptionTextarea(); showToast('Draf dimuat', 'success'); });
+    $('draftDel').addEventListener('click', () => { const o = ld(), k = $('draftSel').value; if (o[k]) { delete o[k]; sv(o); drawDrafts(); showToast('Draf dihapus', 'info'); } });
+    // 6. Kalender: usulan topik oleh AI
+    const cl = $('calList');
+    if (cl) {
+      cl.insertAdjacentHTML('beforebegin', '<button id="calAi" type="button" class="' + b + ' mb-3">✨ Usulkan topik dengan AI</button>');
+      $('calAi').addEventListener('click', async e => {
+        const rows = [...cl.children], list = rows.map(r => r.querySelector('.text-\\[10px\\]').textContent), btn = e.currentTarget;
+        btn.disabled = true; btn.textContent = '⏳ Menyusun…';
+        try {
+          const r = await callGeminiWithFallback({ systemPrompt: 'Anda perencana konten dakwah Instagram yang berhati-hati dan hanya mengusulkan tema umum yang tidak diperdebatkan.', userPrompt: 'Untuk 7 hari berikut (tanggal Hijriah • momen), beri 1 topik carousel (maks 9 kata, menyentuh, praktis) per hari, urut:\n' + list.join('\n') + '\nBalas JSON: {"topics":["...","...","...","...","...","...","..."]}' });
+          (r.topics || []).slice(0, 7).forEach((t, i) => { const row = rows[i]; if (!row || !t) return; row.querySelector('.text-xs').textContent = String(t); const bt = row.querySelector('button'); bt.removeAttribute('data-ct'); bt.dataset.at = String(t); });
+          showToast('Usulan topik AI dimuat', 'success');
+        } catch (err) { showToast('Gagal: ' + err.message, 'error'); }
+        btn.disabled = false; btn.textContent = '✨ Usulkan topik dengan AI';
+      });
+      cl.addEventListener('click', e => { const bt = e.target.closest('button[data-at]'); if (!bt) return; const t = bt.dataset.at; $('topicSearchInput').value = t; searchDalilByTopic(t); $('topicSearchInput').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    }
+  });
+})();
+} catch (e) { console.error("Ekstensi gagal dimuat:", e); }
+
+
+try { (function () {
+  const $ = id => document.getElementById(id);
+  window.addEventListener('DOMContentLoaded', () => {
+    const cl = $('calList'); if (!cl) return;
+    cl.insertAdjacentHTML('beforebegin', '<button id="calIcs" type="button" class="px-3 py-1.5 rounded-lg bg-[#EFE9DC] hover:bg-[#E4DAC4] text-[#163020] text-xs font-bold border border-[#D4CCB8] mb-3 ml-2">📅 Unduh jadwal (.ics)</button>');
+    $('calIcs').addEventListener('click', () => {
+      const pad = n => String(n).padStart(2, '0'), esc = t => String(t).replace(/[\\;,]/g, '\\$&').replace(/\n/g, ' ');
+      const now = new Date(), stamp = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate()) + 'T' + pad(now.getHours()) + pad(now.getMinutes()) + '00';
+      const ev = [...cl.children].map((r, i) => {
+        const d = new Date(); d.setDate(d.getDate() + i); const ds = d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+        const topic = r.querySelector('.text-xs').textContent, tag = r.querySelector('.text-\\[10px\\]').textContent;
+        return ['BEGIN:VEVENT', 'UID:noorslide-' + ds + '-' + i + '@local', 'DTSTAMP:' + stamp, 'DTSTART:' + ds + 'T190000', 'DTEND:' + ds + 'T194500', 'SUMMARY:' + esc('Posting carousel: ' + topic), 'DESCRIPTION:' + esc(tag), 'BEGIN:VALARM', 'TRIGGER:-PT60M', 'ACTION:DISPLAY', 'DESCRIPTION:Siapkan carousel', 'END:VALARM', 'END:VEVENT'].join('\r\n');
+      }).join('\r\n');
+      const ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//NoorSlide//ID\r\nCALSCALE:GREGORIAN\r\n' + ev + '\r\nEND:VCALENDAR\r\n';
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })); a.download = 'jadwal-konten-noorslide.ics';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      showToast('Jadwal 7 hari diunduh (pukul 19.00, pengingat 1 jam sebelumnya).', 'success');
+    });
+  });
+})(); } catch (e) { console.error('Ekstensi gagal dimuat:', e); }
+</script>
+</body>
+</html>
