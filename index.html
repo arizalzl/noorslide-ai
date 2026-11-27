@@ -96,7 +96,7 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#A38A48]/25 selection:text-[#10261B]">
 
-  <!-- Hidden Font Preloader so Arabic Amiri & Display Fonts load before Slide 5 is opened -->
+  <!-- Hidden Font Preloader so Arabic Amiri & Display Fonts load immediately on page open -->
   <div aria-hidden="true" class="sr-only pointer-events-none select-none">
     <span class="font-amiri font-bold">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
     <span class="font-playfair font-bold italic">NoorSlide</span>
@@ -153,7 +153,7 @@
         </div>
       </div>
 
-      <!-- Gemini API Key Bar (Memory-Only, No localStorage) -->
+      <!-- Gemini API Key Bar (Persisted in Device localStorage) -->
       <div class="mt-4 pt-3.5 border-t border-[#D4AF37]/20 flex flex-col md:flex-row items-stretch md:items-center gap-3">
         <div class="flex items-center gap-2 text-xs text-[#E5DFD0] shrink-0">
           <svg class="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -161,7 +161,7 @@
           </svg>
           <span class="font-semibold">Gemini API Key</span>
           <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-500/30">
-            Hanya di Memori Aktif
+            Tersimpan di Perangkat
           </span>
         </div>
 
@@ -192,7 +192,7 @@
             <button
               id="clearApiKeyBtn"
               type="button"
-              title="Hapus API Key dari Memori"
+              title="Hapus API Key dari Perangkat"
               class="px-2 py-1 rounded-lg text-[11px] font-medium text-rose-300 hover:text-rose-200 hover:bg-rose-500/20 transition"
             >
               Hapus
@@ -215,7 +215,7 @@
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-      <!-- LEFT COLUMN (7 cols on lg): AI Discovery + Topic Search + Simplified Single-Field Dalil Form -->
+      <!-- LEFT COLUMN (7 cols on lg): AI Discovery + Topic Search + Streamlined Single-Column Dalil Form -->
       <div class="lg:col-span-7 flex flex-col gap-6">
 
         <!-- SECTION 1: 5 DAILY AI RECOMMENDATIONS (1 MOMENTUM + 4 DAILY LIFE) -->
@@ -243,9 +243,7 @@
           </div>
 
           <div class="p-5">
-            <!-- Empty / Loading / Cards Container -->
             <div id="dailyRecsContainer" class="space-y-3.5">
-              <!-- Initial State (Before API Key) -->
               <div class="rounded-2xl border border-dashed border-[#A38A48]/50 bg-[#F7F3EB]/70 p-6 text-center">
                 <div class="w-12 h-12 rounded-2xl bg-[#163020]/10 text-[#163020] mx-auto flex items-center justify-center mb-3 text-xl">
                   🔑
@@ -607,7 +605,7 @@
 
   <!-- Footer -->
   <footer class="border-t border-[#DFD8C8] bg-[#EFE9DC]/70 py-4 px-4 text-center text-xs text-[#54685A]">
-    NoorSlide AI — Islamic Carousel &amp; Caption Generator (Gemini Edition) • Bebas Penyimpanan Lokal • Terverifikasi Al-Qur'an &amp; Hadits Shahih
+    NoorSlide AI — Islamic Carousel &amp; Caption Generator (Gemini Edition) • API Key Tersimpan Lokal di Perangkat • Terverifikasi Al-Qur'an &amp; Hadits Shahih
   </footer>
 
   <!-- COMPLETE APPLICATION SCRIPT -->
@@ -615,11 +613,11 @@
     /**
      * ============================================================================
      * NOORSLIDE AI — ISLAMIC CAROUSEL & CAPTION GENERATOR (GEMINI EDITION)
-     * Pure In-Memory AI Architecture (Zero localStorage, Zero Offline Presets)
+     * Complete Self-Contained Application Logic (Zero Truncation)
      * ============================================================================
      */
 
-    // 1. GEMINI MODEL FALLBACK CHAIN & CONFIGURATION
+    // 1. GEMINI MODEL FALLBACK CHAIN & DEVICE STORAGE KEY
     const GEMINI_MODEL_CHAIN = [
       'gemini-4-hydrogen',
       'gemini-3.5-flash-lite',
@@ -627,6 +625,8 @@
       'gemini-3.8-flash',
       'gemini-3.6-flash'
     ];
+
+    const STORAGE_KEY_API = 'noorslide_gemini_api_key';
 
     // 2. COLOR THEMES FOR 4:5 (1080x1350) CANVAS
     const CANVAS_THEMES = {
@@ -636,14 +636,14 @@
         bg: '#F7F3EB',
         bgGradientEnd: '#EFE8D8',
         primaryInk: '#163020',
-        mutedInk: '#3D5043',
+        mutedInk: '#4A5D50',
         gold: '#A38A48',
-        goldBright: '#B8963D',
+        goldBright: '#C2A353',
         cardSurface: '#EFE8D8',
-        cardBorder: 'rgba(163, 138, 72, 0.45)',
+        cardBorder: 'rgba(163, 138, 72, 0.42)',
         frameBorder: 'rgba(163, 138, 72, 0.50)',
         pillBg: 'rgba(22, 48, 32, 0.08)',
-        watermarkColor: 'rgba(163, 138, 72, 0.06)'
+        watermarkColor: 'rgba(163, 138, 72, 0.065)'
       },
       emerald: {
         id: 'emerald',
@@ -651,14 +651,14 @@
         bg: '#10261B',
         bgGradientEnd: '#0B1C13',
         primaryInk: '#F7F3EA',
-        mutedInk: '#CEDAD2',
+        mutedInk: '#C2D1C8',
         gold: '#D4AF37',
         goldBright: '#F2D16B',
         cardSurface: '#173526',
-        cardBorder: 'rgba(212, 175, 55, 0.42)',
+        cardBorder: 'rgba(212, 175, 55, 0.40)',
         frameBorder: 'rgba(212, 175, 55, 0.45)',
-        pillBg: 'rgba(212, 175, 55, 0.15)',
-        watermarkColor: 'rgba(212, 175, 55, 0.05)'
+        pillBg: 'rgba(212, 175, 55, 0.14)',
+        watermarkColor: 'rgba(212, 175, 55, 0.055)'
       },
       sand: {
         id: 'sand',
@@ -666,20 +666,20 @@
         bg: '#EFE6D5',
         bgGradientEnd: '#E5D8C1',
         primaryInk: '#1F3326',
-        mutedInk: '#435449',
+        mutedInk: '#4F6155',
         gold: '#9B783A',
-        goldBright: '#B38B42',
+        goldBright: '#B89149',
         cardSurface: '#E4D7C0',
-        cardBorder: 'rgba(155, 120, 58, 0.45)',
+        cardBorder: 'rgba(155, 120, 58, 0.42)',
         frameBorder: 'rgba(155, 120, 58, 0.48)',
         pillBg: 'rgba(31, 51, 38, 0.08)',
-        watermarkColor: 'rgba(155, 120, 58, 0.06)'
+        watermarkColor: 'rgba(155, 120, 58, 0.065)'
       }
     };
 
-    // 3. ACTIVE IN-MEMORY APPLICATION STATE (NO localStorage)
+    // 3. APPLICATION STATE
     const appState = {
-      apiKey: '', // Stored exclusively in JS memory
+      apiKey: '',
       activeModel: GEMINI_MODEL_CHAIN[0],
       hijriInfo: null,
       dailyRecommendations: [],
@@ -712,26 +712,29 @@
         cover: {
           title: 'Hati Tetap Gelisah Meski Segalanya Terpenuhi?',
           highlightKeyword: 'Gelisah',
-          subHook: 'Bukan karena kurang harta atau pencapaian, melainkan karena jiwa merindukan ketenangan dari Pemiliknya.'
+          subHook: 'Bukan karena kurang pencapaian dunia, melainkan jiwa merindukan ketenangan dari Pemiliknya.'
         },
         points: [
           {
-            title: 'Ketenangan Hati Tidak Dibeli dari Luar',
-            body: 'Sering kali kita mengejar validasi dan materi untuk menambal rasa cemas, padahal ruang di dalam dada hanya bisa diisi oleh kedekatan dengan Allah.',
-            microExplanation: 'Evaluasi sejenak: saat gelisah melanda, apa yang pertama kali kita buka—ponsel atau mushaf dan doa?',
-            curiosityBridge: 'Lalu, mengapa dzikir menjadi kunci utamanya? →'
+            title: 'Ketenangan Tidak Dibeli dari Luar',
+            highlightKeyword: 'Tidak Dibeli',
+            body: 'Kita sering mengejar validasi dan materi untuk menambal cemas, padahal ruang di dada hanya diisi oleh kedekatan dengan Allah.',
+            microExplanation: 'Saat gelisah melanda, apa yang pertama kita buka—ponsel atau mushaf dan doa?',
+            curiosityBridge: 'Lalu mengapa dzikir kuncinya?'
           },
           {
-            title: 'Dzikir Mengembalikan Arah Pandang Jiwa',
-            body: 'Mengingat Allah bukan sekadar ucapan di lisan, melainkan kesadaran penuh bahwa segala urusan berada dalam genggaman Yang Maha Bijaksana.',
-            microExplanation: 'Luangkan 3 menit selepas shalat fardhu untuk berdzikir dengan tartil tanpa tergesa-gesa.',
-            curiosityBridge: 'Bagaimana agar tawakal terasa nyata dalam keseharian? →'
+            title: 'Dzikir Mengembalikan Arah Jiwa',
+            highlightKeyword: 'Arah Jiwa',
+            body: 'Mengingat Allah bukan sekadar ucapan di lisan, melainkan kesadaran penuh bahwa segala urusan berada di tangan Yang Maha Bijaksana.',
+            microExplanation: 'Luangkan 3 menit selepas shalat fardhu untuk berdzikir dengan tenang tanpa tergesa.',
+            curiosityBridge: 'Bagaimana cara menguatkan tawakal?'
           },
           {
-            title: 'Tawakal Membebaskan Beban yang Bukan Milik Kita',
-            body: 'Tugas kita hanyalah menyempurnakan ikhtiar terbaik sesuai syariat, sementara hasil akhir adalah hak prerogatif Allah yang selalu penuh hikmah.',
-            microExplanation: 'Ucapkan "Hasbunallahu wa ni’mal wakil" setiap kali pikiran mulai mencemaskan masa depan.',
-            curiosityBridge: 'Simak janji Allah dalam Al-Qur’an berikut →'
+            title: 'Tawakal Membebaskan Beban Hati',
+            highlightKeyword: 'Membebaskan',
+            body: 'Tugas kita menyempurnakan ikhtiar sesuai syariat, sementara hasil akhir adalah hak prerogatif Allah yang selalu penuh hikmah.',
+            microExplanation: 'Ucapkan "Hasbunallahu wa ni’mal wakil" setiap kali pikiran mencemaskan hari esok.',
+            curiosityBridge: 'Simak janji Allah dalam Al-Qur’an'
           }
         ],
         dalil: {
@@ -746,11 +749,11 @@
         closing: {
           headline: 'Simpan & bagikan',
           subheadline: 'ke yang sedang butuh',
-          commentPrompt: 'Dzikir atau ayat apa yang paling menenangkan hatimu saat sedang cemas?'
+          commentPrompt: 'Dzikir atau ayat apa yang paling menenangkan hatimu saat pikiran terasa riuh?'
         },
         captions: {
-          storytelling: `Pernahkah merasa lelah dan cemas, padahal semua urusan dunia tampak baik-baik saja?\n\nSering kali kita mencari obat kegelisahan di tempat yang keliru. Kita menyibukkan diri dengan layar, validasi manusia, dan target tanpa henti—namun hati tetap terasa kosong.\n\nGeser setiap slide di atas untuk menemukan tiga pergeseran sudut pandang yang sering terlupakan, hingga janji ketenangan dari Allah ﷻ dalam QS. Ar-Ra'd ayat 28.\n\nSimpan pengingat ini untuk dibaca ulang saat pikiran mulai riuh, dan kirimkan kepada sahabat yang sedang membutuhkannya. 🤍\n\n#DakwahVisual #KetenanganHati #SelfReminderIslami #Tawakal #MuhasabahDiri`,
-          ringkas: `Hati tidak pernah benar-benar tenang sampai ia kembali mengingat Penciptanya.\n\nGeser slide di atas untuk merenungi 3 kunci ketenangan batin dan janji Allah dalam QS. Ar-Ra'd: 28.\n\nSimpan & bagikan untuk orang terdekatmu. 🌿\n\n#NasihatIslami #Dzikir #RenunganHarian #AlQuran`
+          storytelling: `Pernahkah merasa dada terasa penuh dan gelisah, padahal dari luar semua urusan tampak berjalan baik-baik saja?\n\nSering kali kita mencoba menenangkan hati dengan menggulir layar tanpa henti atau mengejar validasi manusia—lalu heran mengapa rasa kosong itu tetap tinggal.\n\nAllah ﷻ sudah menyiapkan jawabannya dengan begitu lembut dalam Al-Qur'an. Geser perlahan sampai slide terakhir untuk menemukan kunci ketenangan jiwa dan langkah kecil yang bisa langsung kita amalkan hari ini.\n\nYa Allah, tenangkanlah hati kami dengan dzikir kepada-Mu dan lapangkanlah setiap urusan kami. Aamiin.\n\nSimpan pengingat ini untuk hari-hari saat pikiran terasa riuh, atau kirimkan diam-diam ke satu sahabat yang sedang butuh dikuatkan. 🤍\n\n#KetenanganHati #SelfReminderIslami #DzikirHarian #Tawakal #MuhasabahDiri`,
+          ringkas: `Hati tidak pernah benar-benar tenang sampai ia kembali mengingat Penciptanya.\n\nGeser sampai slide terakhir untuk merenungi janji Allah tentang ketenangan jiwa dan langkah amal ringannya hari ini. 🌿\n\nSimpan & bagikan pengingat lembut ini untuk sahabat terdekatmu.\n\n#NasihatIslami #Dzikir #RenunganHarian #AlQuran #SelfReminder`
         }
       }
     };
@@ -761,7 +764,7 @@
 
     const HIJRI_MONTHS_ID = [
       'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
-      'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\'ban',
+      'Jumadil Awal', 'Jumadil Akhir', 'Rajab', "Sya'ban",
       'Ramadhan', 'Syawal', 'Zulkaidah', 'Zulhijjah'
     ];
 
@@ -859,7 +862,7 @@
     }
 
     // ============================================================================
-    // 5. TOAST NOTIFICATIONS & MODEL STATUS HELPERS (NO alert/confirm)
+    // 5. TOAST NOTIFICATIONS & MODEL STATUS HELPERS
     // ============================================================================
 
     function showToast(message, type = 'info') {
@@ -958,7 +961,7 @@
                 }
               ],
               generationConfig: {
-                temperature: 0.25,
+                temperature: 0.2,
                 responseMimeType: 'application/json'
               }
             };
@@ -1025,7 +1028,7 @@
     }
 
     // ============================================================================
-    // 7. STRICT SCHOLARLY AUTHENTICITY & HIGH-RETENTION STORYTELLING PROMPTS
+    // 7. STRICT SCHOLARLY AUTHENTICITY SYSTEM PROMPTS
     // ============================================================================
 
     const STRICT_SCHOLARLY_GUARDRAILS = `
@@ -1071,7 +1074,7 @@ Format JSON wajib:
     {
       "id": "rec-1",
       "type": "momentum",
-      "momentumBadge": "Label singkat momentum, misal: 16 Jumadil Akhir • Sunnah Kamis",
+      "momentumBadge": "Label singkat momentum, misal: 16 Jumadil Akhir • Sunnah Jumat",
       "dalilType": "HADITS",
       "category": "TASAWUF (AKHLAK)",
       "authenticityStatus": "Shahih",
@@ -1189,8 +1192,7 @@ Format JSON wajib:
     }
 
     /**
-     * Generates full Carousel Slides & Captions from the SINGLE unified input column
-     * Engineered for high swipe-through retention from Slide 1 through the Closing Slide
+     * Generates full High-Retention Carousel Slides & Captions from the Single Unified Input
      */
     async function generateFullCarouselWithAI() {
       if (!appState.apiKey.trim()) {
@@ -1199,12 +1201,12 @@ Format JSON wajib:
       }
       if (appState.isGeneratingCarousel) return;
 
-      const rawUserDalilInput = document.getElementById('inputUnifiedDalil').value.trim();
+      const unifiedInput = document.getElementById('inputUnifiedDalil').value.trim();
       const pointCount = parseInt(document.getElementById('inputPointCount').value, 10) || 3;
       const username = document.getElementById('inputUsername').value.trim() || '@lightofhijrah';
 
-      if (!rawUserDalilInput) {
-        showToast('Silakan tempel (paste) Hadits, ayat Al-Qur\'an, atau pesan dakwah pada kolom yang tersedia.', 'warning');
+      if (!unifiedInput) {
+        showToast('Silakan tempelkan (paste) teks Hadits, ayat Al-Qur\'an, atau pesan dakwah terlebih dahulu.', 'warning');
         return;
       }
 
@@ -1212,47 +1214,47 @@ Format JSON wajib:
       const btn = document.getElementById('generateCarouselBtn');
       const originalBtnHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = `<span class="w-4 h-4 border-2 border-[#F2D16B] border-t-transparent rounded-full animate-spin"></span><span>Menyusun Slide &amp; Verifikasi Dalil (AI)...</span>`;
+      btn.innerHTML = `<span class="w-4 h-4 border-2 border-[#F2D16B] border-t-transparent rounded-full animate-spin"></span><span>Meracik Slide &amp; Verifikasi Dalil (AI)...</span>`;
 
       const systemPrompt = `Anda adalah desainer narasi dakwah visual kelas dunia untuk Instagram Carousel 4:5 (high-retention storytelling) dan ahli verifikasi Al-Qur'an & Hadits Shahih.
 ${STRICT_SCHOLARLY_GUARDRAILS}
-TUGAS UTAMA & PSIKOLOGI RETENSI PEMBACA:
-Pengguna akan menempelkan (paste) teks mentah berupa ayat Al-Qur'an, Hadits Shahih, maupun kutipan refleksi Islami dalam satu kolom.
-Anda WAJIB:
-1. Mengidentifikasi & memverifikasi dalil utama tersebut:
-   - Tentukan "category" yang paling tepat: "TAUHID (AKIDAH)", "FIQIH", atau "TASAWUF (AKHLAK)".
-   - Tentukan "dalil.type": "AL-QUR'AN" atau "HADITS".
-   - Lengkapi teks Arab berharakat penuh 100% akurat sesuai Mushaf Utsmani / kitab Hadits Shahih.
-   - Lengkapi terjemahan Bahasa Indonesia yang jernih dan rujukan sumber yang presisi (contoh: "QS. Ar-Ra'd: 28" atau "HR. Muslim no. 2664").
-2. Merangkai alur cerita (Narrative Arc) agar pembaca penasaran dan terus menggeser sampai slide akhir:
-   - Slide 1 (Cover): Gunakan pola "Emotional Mirror" atau "Curiosity Gap" yang sangat relevan dengan kegelisahan nyata pembaca (maks 7-9 kata). Pilih 1-2 kata kunci terpenting sebagai "highlightKeyword" (persis ada di dalam "title"). Sub-hook (1-2 kalimat) memvalidasi perasaan pembaca tanpa menggurui.
-   - Slide Poin (1 sampai ${pointCount}): Bangun alur progresif:
-     * Poin 1 menyentuh akar masalah / kesalahpahaman umum.
-     * Poin berikutnya membuka sudut pandang baru yang melegakan jiwa.
-     * Setiap poin memiliki:
-       - "title": Judul poin tajam & menggugah (maks 7 kata).
-       - "body": Penjelasan jernih, mengalir, dan menyentuh hati (22-35 kata).
-       - "microExplanation": Contoh nyata / langkah praktis ringan dalam keseharian (14-22 kata).
-       - "curiosityBridge": Kalimat jembatan penasaran pendek (maks 6 kata, diakhiri "→") yang menggantungkan rasa ingin tahu ke slide berikutnya (misal: "Ternyata ada satu kunci yang sering terlewat →").
-   - Slide Dalil (Klimaks Spiritual):
-     * "highlightPhrase": Pilih 1 frasa kunci (3-6 kata) yang PERSIS ada di dalam "translation" untuk disorot warna emas.
-     * "intisariAmal": 1 kalimat langkah amal konkret yang mudah langsung diamalkan hari ini.
-   - Slide Penutup:
-     * "commentPrompt": Pertanyaan reflektif yang hangat dan personal (JANGAN gunakan kata-kata teknis seperti "pemicu komentar" atau "tulis di kolom komentar", langsung ajukan pertanyaan yang menyentuh hati pembaca).
-3. Captions (High-Retention Copywriting):
-   - "storytelling": 2 baris pertama wajib berupa hook emosional yang kuat (sebelum tombol "selengkapnya"), diikuti jembatan cerita yang mengajak pembaca menggeser slide hingga akhir, rujukan dalil, ajakan simpan/bagikan, dan 5 hashtag Islami relevan.
-   - "ringkas": Caption singkat padat 3-4 baris + hashtag.`;
+ATURAN PENULISAN SLIDE & CAPTION BERRETENSI TINGGI:
+- Pengguna menempelkan teks mentah dalam satu kolom (bisa berupa potongan ayat Al-Qur'an, teks Hadits, terjemahan, nomor surat/perawi, atau gagasan dakwah). Tugas Anda mengekstrak dalil utamanya, melengkapi teks Arab Mushaf Utsmani / Hadits Shahih berharakat lengkap beserta sumber rujukan resminya, dan mengelompokkannya ke cabang ilmu Islam ("TASAWUF (AKHLAK)", "TAUHID (AKIDAH)", atau "FIQIH").
+- Cover title: Kuat, menyentuh emosi atau paradoks lembut (curiosity gap), maksimal 7-9 kata. Pilih 1-2 kata kunci terpenting sebagai "highlightKeyword" (persis ada di dalam "title").
+- Sub-hook cover: 2 kalimat ringkas yang menyentuh perasaan pembaca.
+- Poin 1 (Slide 2) wajib berfungsi sebagai "Hook Kedua" yang menyambung langsung ketegangan emosi dari judul Cover.
+- Susun poin-poin secara berurutan (Poin 1 sebagai Hook Kedua yang menyambung Cover, Poin 2 pendalaman sudut pandang, dan Poin 3 sebagai puncak pemahaman/langkah praktis) sebelum ditutup klimaks Slide Dalil dan Slide Penutup.
+- Setiap Poin Slide memiliki:
+  * "title": Judul poin tegas (maks 7 kata).
+  * "highlightKeyword": 1-2 kata kunci terpenting yang PERSIS ada di dalam "title" untuk disorot warna emas.
+  * "body": Penjelasan jernih & empatik dengan sudut pandang "kita/kamu" (22-32 kata).
+  * "microExplanation": 1 kalimat refleksi/langkah amal padat (maks 14 kata) agar ruang kosong slide tetap lega.
+  * "curiosityBridge": Kalimat jembatan penasaran sangat singkat (maks 5 kata) TANPA tanda panah di akhir teks (contoh: "Lalu mengapa dzikir kuncinya?").
+- Slide Dalil:
+  * Tampilkan teks Arab lengkap dan terjemahan Bahasa Indonesia yang utuh tanpa memotong inti makna dalil.
+  * "highlightPhrase": Pilih 1 frasa kunci (3-6 kata) yang PERSIS ada di dalam "translation" untuk disorot warna emas.
+  * "intisariAmal": 1 kalimat langkah amal nyata yang bisa langsung dilakukan pembaca.
+- Slide Penutup:
+  * "commentPrompt": 1 pertanyaan hangat dan personal yang mengundang pembaca berbagi pengalaman di kolom komentar (tanpa label internal apa pun).
+- Captions (Jangan membocorkan seluruh isi slide agar pembaca tetap menggeser carousel):
+  * "storytelling":
+    1) 110 karakter pertama wajib menjadi hook emosional yang memikat sebelum tombol "...selengkapnya".
+    2) Cerita pengantar (backstory) yang relevan dan menyentuh tanpa merangkum poin-poin slide.
+    3) Ajakan lembut menggeser hingga slide terakhir.
+    4) 1-2 baris doa pendek yang tulus ("Ya Allah... Aamiin.").
+    5) Ajakan simpan/bagikan yang personal + 5 hashtag Islami relevan.
+  * "ringkas": 2 baris hook memikat + ajakan menggeser sampai slide terakhir + ajakan simpan/bagikan + 5 hashtag.`;
 
-      const userPrompt = `Berikut adalah teks Hadits / Ayat Al-Qur'an / Materi yang ditempelkan (paste) oleh pengguna:
+      const userPrompt = `Berikut adalah materi/dalil yang ditempel oleh pengguna:
 """
-${rawUserDalilInput}
+${unifiedInput}
 """
 
-Susun menjadi paket lengkap Instagram Carousel Islami dengan jumlah poin pembahasan TEPAT ${pointCount} poin (array "points" berisi ${pointCount} objek).
+Susun menjadi konten lengkap Instagram Carousel Islami dengan jumlah poin pembahasan TEPAT ${pointCount} poin (array "points" berisi ${pointCount} objek).
 
 Format JSON wajib:
 {
-  "category": "TAUHID (AKIDAH) atau FIQIH atau TASAWUF (AKHLAK)",
+  "category": "TASAWUF (AKHLAK) atau TAUHID (AKIDAH) atau FIQIH",
   "readingTime": "Baca 30 Detik",
   "cover": {
     "title": "...",
@@ -1262,6 +1264,7 @@ Format JSON wajib:
   "points": [
     {
       "title": "...",
+      "highlightKeyword": "...",
       "body": "...",
       "microExplanation": "...",
       "curiosityBridge": "..."
@@ -1279,7 +1282,7 @@ Format JSON wajib:
   "closing": {
     "headline": "Simpan & bagikan",
     "subheadline": "ke yang sedang butuh",
-    "commentPrompt": "Pertanyaan reflektif hangat yang menyentuh hati pembaca"
+    "commentPrompt": "..."
   },
   "captions": {
     "storytelling": "...",
@@ -1301,15 +1304,16 @@ Format JSON wajib:
           category: normalizeCategory(result.category),
           readingTime: result.readingTime || 'Baca 30 Detik',
           cover: {
-            title: result.cover.title || 'Renungan Indah dari Dalil Hari Ini',
+            title: result.cover.title || 'Renungan Jiwa Hari Ini',
             highlightKeyword: result.cover.highlightKeyword || '',
             subHook: result.cover.subHook || ''
           },
           points: result.points.slice(0, pointCount).map((p, i) => ({
             title: p.title || `Poin Pembahasan ${i + 1}`,
+            highlightKeyword: p.highlightKeyword || '',
             body: p.body || '',
             microExplanation: p.microExplanation || '',
-            curiosityBridge: p.curiosityBridge || 'Geser untuk melanjutkan →'
+            curiosityBridge: String(p.curiosityBridge || 'Geser untuk melanjutkan').replace(/\s*[→➔➜]+\s*$/g, '').trim()
           })),
           dalil: {
             type: resolvedDalilType,
@@ -1334,7 +1338,7 @@ Format JSON wajib:
         appState.currentSlideIndex = 0;
         refreshAllCanvasAndEditors();
         updateCaptionTextarea();
-        showToast('Carousel 4:5 & Caption berhasil diracik AI dari dalil Anda!', 'success');
+        showToast('Carousel 4:5 & Caption berhasil diracik oleh Gemini AI!', 'success');
       } catch (err) {
         showToast(err.message, 'error');
       } finally {
@@ -1413,7 +1417,6 @@ Format JSON wajib:
 
       return `
         <article class="rounded-2xl border ${isMomentum ? 'border-[#A38A48] bg-gradient-to-br from-[#FBF8F0] to-[#F3ECDC] shadow-sm' : 'border-[#E2DAC9] bg-white hover:border-[#A38A48]/60'} p-4 transition">
-          <!-- Badges Row -->
           <div class="flex flex-wrap items-center gap-1.5 mb-2">
             ${listSource === 'daily' ? typeBadge : ''}
             <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${dalilBadgeClass}">
@@ -1427,22 +1430,18 @@ Format JSON wajib:
             </span>
           </div>
 
-          <!-- Hook Title -->
           <h3 class="font-playfair text-base font-bold text-[#163020] leading-snug mb-2">
             ${escapeHtml(item.hookTitle)}
           </h3>
 
-          <!-- Arabic Snippet -->
           <p class="font-amiri text-xl sm:text-2xl text-[#163020] text-right leading-loose bg-[#F7F3EB]/80 px-3.5 py-2 rounded-xl border border-[#EAE2D1] mb-2">
             ${escapeHtml(item.arabicText)}
           </p>
 
-          <!-- Indonesian Translation -->
           <p class="text-xs sm:text-sm text-[#394B40] italic leading-relaxed mb-2.5">
             "${escapeHtml(item.translation)}"
           </p>
 
-          <!-- Footer: Source & Action Buttons -->
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pt-2.5 border-t border-[#EFE8D8]">
             <span class="text-xs font-bold text-[#8A7235]">
               📖 ${escapeHtml(item.sourceRef)}
@@ -1498,35 +1497,32 @@ Format JSON wajib:
       `;
     }
 
-    /**
-     * Populates the single unified input column from a selected recommendation/search item
-     */
     window.applyRecommendationToForm = function(listSource, itemId, autoGenerate) {
       const pool = listSource === 'daily' ? appState.dailyRecommendations : appState.searchResults;
       const item = pool.find(x => x.id === itemId);
       if (!item) return;
 
       const unifiedText = [
-        `${item.sourceRef} (${item.dalilType} • ${item.category})`,
-        item.arabicText,
-        `"${item.translation}"`,
-        item.topicPrompt ? `Fokus Tema: ${item.topicPrompt}` : ''
+        item.topicPrompt ? `Tema: ${item.topicPrompt}` : '',
+        `${item.dalilType} (${item.sourceRef})`,
+        item.arabicText || '',
+        item.translation ? `"${item.translation}"` : ''
       ].filter(Boolean).join('\n');
 
-      const unifiedInput = document.getElementById('inputUnifiedDalil');
-      unifiedInput.value = unifiedText;
+      const unifiedBox = document.getElementById('inputUnifiedDalil');
+      unifiedBox.value = unifiedText;
 
       if (autoGenerate) {
         generateFullCarouselWithAI();
       } else {
-        unifiedInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        showToast(`Dalil "${item.sourceRef}" telah ditempelkan ke kolom materi.`, 'info');
+        unifiedBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast(`Dalil "${item.sourceRef}" telah dimasukkan ke kolom racik materi.`, 'info');
       }
     };
 
     // ============================================================================
     // 9. HIGH-RETENTION 4:5 PORTRAIT HTML5 CANVAS 2D ENGINE (1080 x 1350 PX)
-    //    Clean Public-Facing Design (No Internal Creator Tags on Slides)
+    //    Adaptive Anti-Overlap Layout + Full Text Preservation + Category Header
     // ============================================================================
 
     function buildSlideDescriptorList() {
@@ -1545,7 +1541,7 @@ Format JSON wajib:
         username: data.username
       });
 
-      // Slides 2..N: 1 to 3 Point Slides (alternating 3 distinct visual layouts)
+      // Slides 2..N: Sequential Order (Cover -> Poin 1 -> Poin 2 -> Poin 3 -> Dalil -> Penutup)
       data.points.forEach((pt, idx) => {
         slides.push({
           kind: 'point',
@@ -1553,6 +1549,7 @@ Format JSON wajib:
           label: `Poin ${idx + 1}`,
           category: data.category,
           title: pt.title,
+          highlightKeyword: pt.highlightKeyword || '',
           body: pt.body,
           microExplanation: pt.microExplanation,
           curiosityBridge: pt.curiosityBridge,
@@ -1560,7 +1557,7 @@ Format JSON wajib:
         });
       });
 
-      // Dalil Slide
+      // Slide Dalil
       slides.push({
         kind: 'dalil',
         label: 'Dalil',
@@ -1574,7 +1571,7 @@ Format JSON wajib:
         username: data.username
       });
 
-      // Closing Slide
+      // Slide Penutup
       slides.push({
         kind: 'closing',
         label: 'Penutup',
@@ -1586,28 +1583,6 @@ Format JSON wajib:
       });
 
       return slides;
-    }
-
-    /**
-     * Smart Arabic Excerpting:
-     * Cuts cleanly at clause/waqf/word boundaries if excessively long so >=50px Amiri stays crisp & roomy
-     */
-    function smartExcerptArabic(text, maxChars = 225) {
-      const clean = (text || '').trim();
-      if (clean.length <= maxChars) return clean;
-      const slice = clean.slice(0, maxChars);
-      const waqfMatches = [...slice.matchAll(/[ۖۗۚۛۙ۔،]/g)];
-      if (waqfMatches.length > 0) {
-        const lastWaqfIdx = waqfMatches[waqfMatches.length - 1].index;
-        if (lastWaqfIdx > maxChars * 0.55) {
-          return slice.slice(0, lastWaqfIdx + 1).trim() + ' ...';
-        }
-      }
-      const lastSpace = slice.lastIndexOf(' ');
-      if (lastSpace > 0) {
-        return slice.slice(0, lastSpace).trim() + ' ...';
-      }
-      return slice + ' ...';
     }
 
     function drawRoundRect(ctx, x, y, width, height, radius) {
@@ -1629,6 +1604,27 @@ Format JSON wajib:
       ctx.lineTo(cx + size, cy);
       ctx.lineTo(cx, cy + size);
       ctx.lineTo(cx - size, cy);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawSwipeEdgeCue(ctx, theme, centerY, startX = 954) {
+      ctx.save();
+      const endX = 1034; // Connects cleanly to outer frame right edge
+      const effectiveStartX = Math.min(startX, endX - 18);
+      ctx.strokeStyle = theme.gold;
+      ctx.lineWidth = 2.6;
+      ctx.beginPath();
+      ctx.moveTo(effectiveStartX, centerY);
+      ctx.lineTo(endX, centerY);
+      ctx.stroke();
+
+      ctx.fillStyle = theme.gold;
+      ctx.beginPath();
+      ctx.moveTo(endX, centerY);
+      ctx.lineTo(endX - 12, centerY - 8);
+      ctx.lineTo(endX - 12, centerY + 8);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
@@ -1656,114 +1652,40 @@ Format JSON wajib:
     }
 
     function wrapArabicText(ctx, text, maxWidth) {
-      const words = String(text || '').trim().split(/\s+/).filter(Boolean);
-      if (words.length === 0) return [];
-      const lines = [];
-      let current = words[0];
-      for (let i = 1; i < words.length; i++) {
-        const test = `${current} ${words[i]}`;
-        if (ctx.measureText(test).width <= maxWidth) {
-          current = test;
-        } else {
-          lines.push(current);
-          current = words[i];
+      const paragraphs = String(text || '').split('\n');
+      const allLines = [];
+      paragraphs.forEach(para => {
+        const words = para.trim().split(/\s+/).filter(Boolean);
+        if (words.length === 0) return;
+        let current = words[0];
+        for (let i = 1; i < words.length; i++) {
+          const test = `${current} ${words[i]}`;
+          if (ctx.measureText(test).width <= maxWidth) {
+            current = test;
+          } else {
+            allLines.push(current);
+            current = words[i];
+          }
         }
-      }
-      lines.push(current);
-      return lines;
+        allLines.push(current);
+      });
+      return allLines;
     }
 
-    function drawCoverTitleWithGoldHighlight(ctx, title, highlightKeyword, centerX, startY, maxWidth, fontSize, lineHeight, baseColor, goldColor) {
-      ctx.save();
-      const baseFont = `700 ${fontSize}px "Playfair Display", Georgia, serif`;
-      const italicGoldFont = `italic 700 ${fontSize}px "Playfair Display", Georgia, serif`;
-
-      const cleanTitle = String(title || '').trim();
-      const kw = String(highlightKeyword || '').trim();
+    /**
+     * Exact token-based line builder for mixed base + highlighted spans
+     * Guarantees layout measurement matches drawing 100%
+     */
+    function buildHighlightedTokenLines(ctx, text, highlightSubstr, maxWidth, baseFont, highlightFont) {
+      const cleanText = String(text || '').trim();
+      const kw = String(highlightSubstr || '').trim();
       let hlStart = -1;
       let hlEnd = -1;
       if (kw.length > 0) {
-        const idx = cleanTitle.toLowerCase().indexOf(kw.toLowerCase());
+        const idx = cleanText.toLowerCase().indexOf(kw.toLowerCase());
         if (idx !== -1) {
           hlStart = idx;
           hlEnd = idx + kw.length;
-        }
-      }
-
-      const wordTokens = [];
-      const regex = /\S+/g;
-      let match;
-      while ((match = regex.exec(cleanTitle)) !== null) {
-        const wStart = match.index;
-        const wEnd = wStart + match[0].length;
-        const isHighlighted = hlStart !== -1 && wEnd > hlStart && wStart < hlEnd;
-        wordTokens.push({ text: match[0], isHighlighted });
-      }
-
-      const lines = [];
-      let currentLine = [];
-      let currentWidth = 0;
-
-      wordTokens.forEach(tok => {
-        ctx.font = tok.isHighlighted ? italicGoldFont : baseFont;
-        const tokWidth = ctx.measureText(tok.text).width;
-        const spaceWidth = currentLine.length > 0 ? ctx.measureText(' ').width : 0;
-
-        if (currentLine.length > 0 && currentWidth + spaceWidth + tokWidth > maxWidth) {
-          lines.push(currentLine);
-          currentLine = [tok];
-          currentWidth = tokWidth;
-        } else {
-          currentLine.push(tok);
-          currentWidth += spaceWidth + tokWidth;
-        }
-      });
-      if (currentLine.length > 0) lines.push(currentLine);
-
-      lines.forEach((lineTokens, lineIdx) => {
-        let totalLineW = 0;
-        lineTokens.forEach((tok, idx) => {
-          ctx.font = tok.isHighlighted ? italicGoldFont : baseFont;
-          totalLineW += ctx.measureText(tok.text).width;
-          if (idx < lineTokens.length - 1) {
-            totalLineW += ctx.measureText(' ').width;
-          }
-        });
-
-        let cursorX = centerX - totalLineW / 2;
-        const y = startY + lineIdx * lineHeight;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-
-        lineTokens.forEach((tok, idx) => {
-          ctx.font = tok.isHighlighted ? italicGoldFont : baseFont;
-          ctx.fillStyle = tok.isHighlighted ? goldColor : baseColor;
-          ctx.fillText(tok.text, cursorX, y);
-          cursorX += ctx.measureText(tok.text).width;
-          if (idx < lineTokens.length - 1) {
-            cursorX += ctx.measureText(' ').width;
-          }
-        });
-      });
-
-      ctx.restore();
-      return lines.length * lineHeight;
-    }
-
-    function drawDalilTranslationWithGoldPhrase(ctx, text, highlightPhrase, centerX, startY, maxWidth, fontSize, lineHeight, baseColor, goldColor) {
-      ctx.save();
-      const baseFont = `500 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-      const boldGoldFont = `700 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
-
-      const cleanText = String(text || '').trim();
-      const phrase = String(highlightPhrase || '').trim();
-      let hlStart = -1;
-      let hlEnd = -1;
-      if (phrase.length > 0) {
-        const idx = cleanText.toLowerCase().indexOf(phrase.toLowerCase());
-        if (idx !== -1) {
-          hlStart = idx;
-          hlEnd = idx + phrase.length;
         }
       }
 
@@ -1781,8 +1703,9 @@ Format JSON wajib:
       let currentLine = [];
       let currentWidth = 0;
 
+      ctx.save();
       wordTokens.forEach(tok => {
-        ctx.font = tok.isHighlighted ? boldGoldFont : baseFont;
+        ctx.font = tok.isHighlighted ? highlightFont : baseFont;
         const tokWidth = ctx.measureText(tok.text).width;
         const spaceWidth = currentLine.length > 0 ? ctx.measureText(' ').width : 0;
 
@@ -1796,26 +1719,37 @@ Format JSON wajib:
         }
       });
       if (currentLine.length > 0) lines.push(currentLine);
+      ctx.restore();
+
+      return lines;
+    }
+
+    function drawTokenLines(ctx, lines, align, anchorX, startY, lineHeight, baseFont, highlightFont, baseColor, goldColor) {
+      ctx.save();
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
 
       lines.forEach((lineTokens, lineIdx) => {
         let totalLineW = 0;
         lineTokens.forEach((tok, idx) => {
-          ctx.font = tok.isHighlighted ? boldGoldFont : baseFont;
+          ctx.font = tok.isHighlighted ? highlightFont : baseFont;
           totalLineW += ctx.measureText(tok.text).width;
-          if (idx < lineTokens.length - 1) totalLineW += ctx.measureText(' ').width;
+          if (idx < lineTokens.length - 1) {
+            totalLineW += ctx.measureText(' ').width;
+          }
         });
 
-        let cursorX = centerX - totalLineW / 2;
+        let cursorX = align === 'center' ? (anchorX - totalLineW / 2) : anchorX;
         const y = startY + lineIdx * lineHeight;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
 
         lineTokens.forEach((tok, idx) => {
-          ctx.font = tok.isHighlighted ? boldGoldFont : baseFont;
+          ctx.font = tok.isHighlighted ? highlightFont : baseFont;
           ctx.fillStyle = tok.isHighlighted ? goldColor : baseColor;
           ctx.fillText(tok.text, cursorX, y);
           cursorX += ctx.measureText(tok.text).width;
-          if (idx < lineTokens.length - 1) cursorX += ctx.measureText(' ').width;
+          if (idx < lineTokens.length - 1) {
+            cursorX += ctx.measureText(' ').width;
+          }
         });
       });
 
@@ -1824,20 +1758,18 @@ Format JSON wajib:
     }
 
     /**
-     * Renders Global Slide Frame, Subtle Paper Texture, Geometric Watermark, and Bottom Gold Progress Bar
+     * Global Slide Frame, Subtle Paper Grain, Geometric Watermark, Top Category Pill & Footer
      */
     function renderSlideFrameAndBackground(ctx, theme, slideIndex, totalSlides) {
       const W = 1080;
       const H = 1350;
 
-      // 1. Base gradient background
       const grad = ctx.createLinearGradient(0, 0, 0, H);
       grad.addColorStop(0, theme.bg);
       grad.addColorStop(1, theme.bgGradientEnd);
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
 
-      // 2. Subtle warm paper texture micro-grain
       ctx.save();
       ctx.fillStyle = theme.id === 'emerald' ? 'rgba(255,255,255,0.018)' : 'rgba(22,48,32,0.022)';
       for (let y = 24; y < H; y += 36) {
@@ -1849,7 +1781,6 @@ Format JSON wajib:
       }
       ctx.restore();
 
-      // 3. Subtle Islamic 8-pointed star (Rub el Hizb) geometric watermark in center
       ctx.save();
       ctx.translate(W / 2, H / 2);
       ctx.strokeStyle = theme.watermarkColor;
@@ -1863,27 +1794,24 @@ Format JSON wajib:
       ctx.stroke();
       ctx.restore();
 
-      // 4. Thin rounded outer frame with top & bottom center diamond ornaments
-      const fx = 38;
-      const fy = 38;
-      const fw = W - 76;
-      const fh = H - 76;
+      const fx = 44;
+      const fy = 44;
+      const fw = W - 88;
+      const fh = H - 88;
       ctx.save();
       ctx.strokeStyle = theme.frameBorder;
       ctx.lineWidth = 2.2;
       drawRoundRect(ctx, fx, fy, fw, fh, 30);
       ctx.stroke();
 
-      // Top & bottom center diamonds on outer frame
       drawDiamond(ctx, W / 2, fy, 8, theme.gold);
       drawDiamond(ctx, W / 2, fy + fh, 8, theme.gold);
       ctx.restore();
 
-      // 5. Bottom frame gold progress bar
-      const barMarginX = 96;
-      const barY = H - 52;
+      const barMarginX = 110;
+      const barY = H - 64;
       const barW = W - barMarginX * 2;
-      const barH = 6;
+      const barH = 5;
       ctx.save();
       ctx.fillStyle = theme.cardBorder;
       drawRoundRect(ctx, barMarginX, barY, barW, barH, 3);
@@ -1896,24 +1824,47 @@ Format JSON wajib:
       ctx.restore();
     }
 
-    /**
-     * Renders Slide Footer Row (@username + right badge/progress pill)
-     */
+    function renderSlideTopCategoryBadge(ctx, theme, category) {
+      if (!category) return;
+      const W = 1080;
+      const centerX = W / 2;
+      const badgeY = 72;
+      const label = `✦  ${String(category).toUpperCase()}  ✦`;
+
+      ctx.save();
+      ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+      const textW = ctx.measureText(label).width;
+      const pillW = Math.min(W - 180, textW + 44);
+      const pillH = 38;
+
+      ctx.fillStyle = theme.pillBg;
+      drawRoundRect(ctx, centerX - pillW / 2, badgeY, pillW, pillH, 19);
+      ctx.fill();
+      ctx.strokeStyle = theme.cardBorder;
+      ctx.lineWidth = 1.4;
+      ctx.stroke();
+
+      ctx.fillStyle = theme.gold;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, centerX, badgeY + pillH / 2 + 1);
+      ctx.restore();
+    }
+
     function renderSlideFooter(ctx, theme, username, rightText, isSwipeCta = false) {
-      const footerY = 1236;
+      const footerY = 1204;
       ctx.save();
       ctx.font = '600 28px "Plus Jakarta Sans", sans-serif';
       ctx.fillStyle = theme.mutedInk;
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      ctx.fillText(username, 82, footerY);
+      ctx.fillText(username, 96, footerY);
 
-      // Right pill (Geser → or 02 / 06)
-      ctx.font = '700 26px "Plus Jakarta Sans", sans-serif';
+      ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
       const pillTextW = ctx.measureText(rightText).width;
       const pillW = pillTextW + 46;
       const pillH = 50;
-      const pillX = 1080 - 82 - pillW;
+      const pillX = 1080 - 96 - pillW;
       const pillY = footerY - pillH / 2;
 
       ctx.fillStyle = isSwipeCta ? theme.gold : theme.pillBg;
@@ -1924,170 +1875,176 @@ Format JSON wajib:
       ctx.textAlign = 'center';
       ctx.fillText(rightText, pillX + pillW / 2, footerY + 1);
       ctx.restore();
+
+      if (isSwipeCta) {
+        drawSwipeEdgeCue(ctx, theme, footerY, 992);
+      }
     }
 
     /**
-     * Renders Top Category Pill (e.g., TASAWUF (AKHLAK), TAUHID (AKIDAH), FIQIH) on every slide
+     * SLIDE 1: COVER HOOK (LARGE DISPLAY TYPOGRAPHY + ADAPTIVE ANTI-OVERLAP)
      */
-    function renderSlideTopCategoryBadge(ctx, theme, category) {
-      const catText = String(category || 'TASAWUF (AKHLAK)').toUpperCase().trim();
-      if (!catText) return;
-
-      const centerX = 540;
-      const pillY = 66;
-      const pillH = 40;
-
-      ctx.save();
-      ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
-      const label = `✦  ${catText}  ✦`;
-      const textW = ctx.measureText(label).width;
-      const pillW = Math.min(860, textW + 44);
-      const pillX = centerX - pillW / 2;
-
-      ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, pillX, pillY, pillW, pillH, 20);
-      ctx.fill();
-
-      ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      ctx.fillStyle = theme.gold;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(label, centerX, pillY + pillH / 2 + 1);
-      ctx.restore();
-    }
-
-    /**
-     * SLIDE 1: COVER HOOK RENDERER
-     */
-    function renderCoverSlide(ctx, slide, theme) {
+    function renderCoverSlide(ctx, slide, theme, totalSlides) {
       const W = 1080;
       const centerX = W / 2;
+      const SAFE_TOP = 132;
+      const SAFE_BOTTOM = 1146;
+      const MAX_H = SAFE_BOTTOM - SAFE_TOP;
 
-      let titleFontSize = slide.title.length > 55 ? 92 : 106;
-      let titleLineHeight = Math.round(titleFontSize * 1.16);
-      ctx.font = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
-      let estTitleLines = wrapLatinText(ctx, slide.title, 948).length;
-      if (estTitleLines >= 4) {
-        titleFontSize = 84;
-        titleLineHeight = Math.round(titleFontSize * 1.16);
-        ctx.font = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
-        estTitleLines = wrapLatinText(ctx, slide.title, 948).length;
-      }
-      const titleBlockH = estTitleLines * titleLineHeight;
+      let scale = 1.0;
+      let layout = null;
 
-      let subFontSize = 51;
-      let subLineHeight = 68;
-      ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
-      let subLines = wrapLatinText(ctx, slide.subHook, 930);
-      let subBlockH = subLines.length * subLineHeight;
+      while (scale >= 0.72) {
+        const crestR = Math.round(48 * scale);
+        const crestToPillsGap = Math.round(28 * scale);
+        const pillFontSize = Math.max(22, Math.round(28 * scale));
+        const pillH = Math.round(52 * scale);
+        const pillsToTitleGap = Math.round(34 * scale);
 
-      let totalBlockH = 132 + 94 + titleBlockH + 34 + 38 + subBlockH;
-      if (totalBlockH > 1080) {
-        titleFontSize = Math.max(78, titleFontSize - 10);
-        titleLineHeight = Math.round(titleFontSize * 1.16);
-        subFontSize = 46;
-        subLineHeight = 62;
+        const baseTitleSize = slide.title.length > 52 ? 92 : 104;
+        const titleFontSize = Math.max(64, Math.round(baseTitleSize * scale));
+        const titleLineHeight = Math.round(titleFontSize * 1.16);
+        const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+        const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+        const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, 860, baseTitleFont, hlTitleFont);
+        const titleBlockH = titleLines.length * titleLineHeight;
+
+        const titleToDividerGap = Math.round(32 * scale);
+        const dividerToSubGap = Math.round(32 * scale);
+
+        const subFontSize = Math.max(34, Math.round(48 * scale));
+        const subLineHeight = Math.round(subFontSize * 1.32);
         ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
-        subLines = wrapLatinText(ctx, slide.subHook, 930);
-        subBlockH = subLines.length * subLineHeight;
-        totalBlockH = 132 + 94 + (estTitleLines * titleLineHeight) + 34 + 38 + subBlockH;
+        const subLines = wrapLatinText(ctx, slide.subHook, 820);
+        const subBlockH = subLines.length * subLineHeight;
+
+        const totalBlockH =
+          crestR * 2 +
+          crestToPillsGap +
+          pillH +
+          pillsToTitleGap +
+          titleBlockH +
+          titleToDividerGap +
+          dividerToSubGap +
+          subBlockH;
+
+        layout = {
+          crestR,
+          crestToPillsGap,
+          pillFontSize,
+          pillH,
+          pillsToTitleGap,
+          titleFontSize,
+          titleLineHeight,
+          baseTitleFont,
+          hlTitleFont,
+          titleLines,
+          titleBlockH,
+          titleToDividerGap,
+          dividerToSubGap,
+          subFontSize,
+          subLineHeight,
+          subLines,
+          totalBlockH
+        };
+
+        if (totalBlockH <= MAX_H) break;
+        scale -= 0.04;
       }
-      let curY = Math.max(82, 78 + (1100 - totalBlockH) / 2);
+
+      let curY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.totalBlockH) / 2);
 
       // 1. Crescent Moon Emblem Crest
       ctx.save();
       ctx.strokeStyle = theme.frameBorder;
-      ctx.lineWidth = 2.8;
+      ctx.lineWidth = 2.4;
       ctx.beginPath();
-      ctx.arc(centerX, curY + 54, 56, 0, Math.PI * 2);
+      ctx.arc(centerX, curY + layout.crestR, layout.crestR, 0, Math.PI * 2);
       ctx.stroke();
 
+      const moonR = Math.round(layout.crestR * 0.48);
       ctx.fillStyle = theme.gold;
       ctx.beginPath();
-      ctx.arc(centerX - 4, curY + 54, 27, 0.25 * Math.PI, 1.75 * Math.PI, false);
-      ctx.arc(centerX + 10, curY + 46, 22, 1.65 * Math.PI, 0.35 * Math.PI, true);
+      ctx.arc(centerX - 4, curY + layout.crestR, moonR, 0.25 * Math.PI, 1.75 * Math.PI, false);
+      ctx.arc(centerX + Math.round(moonR * 0.42), curY + layout.crestR - 5, Math.round(moonR * 0.8), 1.65 * Math.PI, 0.35 * Math.PI, true);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
-      curY += 132;
+      curY += layout.crestR * 2 + layout.crestToPillsGap;
 
       // 2. Category Pill + Reading Time Pill
       ctx.save();
-      const catText = String(slide.category || 'TASAWUF (AKHLAK)').toUpperCase();
-      const timeText = `⏱ ${slide.readingTime || 'Baca 30 Detik'}`;
-      ctx.font = '700 30px "Plus Jakarta Sans", sans-serif';
-      const catW = ctx.measureText(catText).width + 52;
-      const timeW = ctx.measureText(timeText).width + 52;
-      const gap = 18;
+      const catText = slide.category.toUpperCase();
+      const timeText = `⏱ ${slide.readingTime}`;
+      ctx.font = `700 ${layout.pillFontSize}px "Plus Jakarta Sans", sans-serif`;
+      const catW = ctx.measureText(catText).width + 44;
+      const timeW = ctx.measureText(timeText).width + 44;
+      const gap = 16;
       const totalPillsW = catW + gap + timeW;
       const startPillsX = centerX - totalPillsW / 2;
 
       ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, startPillsX, curY, catW, 62, 31);
+      drawRoundRect(ctx, startPillsX, curY, catW, layout.pillH, layout.pillH / 2);
       ctx.fill();
       ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 1.6;
       ctx.stroke();
       ctx.fillStyle = theme.gold;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(catText, startPillsX + catW / 2, curY + 32);
+      ctx.fillText(catText, startPillsX + catW / 2, curY + layout.pillH / 2 + 1);
 
       ctx.fillStyle = theme.cardSurface;
-      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, 62, 31);
+      drawRoundRect(ctx, startPillsX + catW + gap, curY, timeW, layout.pillH, layout.pillH / 2);
       ctx.fill();
       ctx.fillStyle = theme.mutedInk;
-      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + 32);
+      ctx.fillText(timeText, startPillsX + catW + gap + timeW / 2, curY + layout.pillH / 2 + 1);
       ctx.restore();
-      curY += 94;
+      curY += layout.pillH + layout.pillsToTitleGap;
 
-      // 3. Playfair Display Main Hook Title with Italic Gold Keyword
-      const renderedTitleH = drawCoverTitleWithGoldHighlight(
+      // 3. Large Playfair Display Main Hook Title with Italic Gold Keyword
+      const renderedTitleH = drawTokenLines(
         ctx,
-        slide.title,
-        slide.highlightKeyword,
+        layout.titleLines,
+        'center',
         centerX,
         curY,
-        948,
-        titleFontSize,
-        titleLineHeight,
+        layout.titleLineHeight,
+        layout.baseTitleFont,
+        layout.hlTitleFont,
         theme.primaryInk,
         theme.goldBright
       );
-      curY += renderedTitleH + 34;
+      curY += renderedTitleH + layout.titleToDividerGap;
 
-      // 4. Short Gold Divider Rule with Diamond Ornament
+      // 4. Gold Divider Rule with Center Diamond
       ctx.save();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3.6;
+      ctx.lineWidth = 3.2;
       ctx.beginPath();
-      ctx.moveTo(centerX - 112, curY);
-      ctx.lineTo(centerX + 112, curY);
+      ctx.moveTo(centerX - 96, curY);
+      ctx.lineTo(centerX + 96, curY);
       ctx.stroke();
-      drawDiamond(ctx, centerX, curY, 9, theme.gold);
+      drawDiamond(ctx, centerX, curY, 7, theme.gold);
       ctx.restore();
-      curY += 38;
+      curY += layout.dividerToSubGap;
 
-      // 5. Sub-Hook Text
+      // 5. Sub-Hook
       ctx.save();
-      ctx.font = `400 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
+      ctx.font = `400 ${layout.subFontSize}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = theme.mutedInk;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      subLines.forEach((line, i) => {
-        ctx.fillText(line, centerX, curY + i * subLineHeight);
+      layout.subLines.forEach((line, i) => {
+        ctx.fillText(line, centerX, curY + i * layout.subLineHeight);
       });
       ctx.restore();
 
-      // 6. Footer with @username and Geser →
       renderSlideFooter(ctx, theme, slide.username, 'Geser →', true);
     }
 
     /**
-     * SLIDES 2..N: POINT SLIDES (3 ALTERNATING LAYOUTS FOR HIGH VISUAL RETENTION)
+     * SLIDES 2..4: POINT SLIDES (3 DISTINCT LAYOUTS + ADAPTIVE ANTI-OVERLAP + OPTION B ARROW)
      */
     function renderPointSlide(ctx, slide, theme, slideIndex, totalSlides) {
       const W = 1080;
@@ -2098,323 +2055,453 @@ Format JSON wajib:
       const showMicro = appState.toggles.microExplanation && Boolean(slide.microExplanation?.trim());
       const showBridge = appState.toggles.curiosityBridge && Boolean(slide.curiosityBridge?.trim());
 
-      const bottomLimitY = showBridge ? 1110 : 1170;
-      const topLimitY = 126;
-      const availableH = bottomLimitY - topLimitY;
+      renderSlideTopCategoryBadge(ctx, theme, slide.category);
+
+      const SAFE_TOP = 134;
+      const SAFE_BOTTOM = showBridge ? 1072 : 1144;
+      const MAX_H = SAFE_BOTTOM - SAFE_TOP;
 
       if (layoutVariant === 0) {
-        // ============================================================
-        // POINT 1 (LAYOUT A): Left-aligned Editorial + Vertical Gold Bar + Contrast Card
-        // ============================================================
-        const marginX = 82;
+        // LAYOUT A: Editorial Left + Vertical Gold Bar + Contrast Card
+        const marginX = 102;
         const contentW = W - marginX * 2;
+        let scale = 1.0;
+        let layout = null;
 
-        const titleFont = 62;
-        const titleLH = 76;
-        const bodyFont = 38;
-        const bodyLH = 54;
-        const microFont = 33;
-        const microLH = 46;
+        while (scale >= 0.72) {
+          const badgeH = Math.round(44 * scale);
+          const badgeToTitleGap = Math.round(24 * scale);
 
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        const titleLines = wrapLatinText(ctx, slide.title, contentW);
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
-        const bodyLines = wrapLatinText(ctx, slide.body, contentW - 36);
-        ctx.font = `500 ${microFont}px "Plus Jakarta Sans", sans-serif`;
-        const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, contentW - 64) : [];
+          const titleFontSize = Math.max(42, Math.round(62 * scale));
+          const titleLineHeight = Math.round(titleFontSize * 1.2);
+          const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, contentW, baseTitleFont, hlTitleFont);
+          const titleH = titleLines.length * titleLineHeight;
 
-        const titleH = titleLines.length * titleLH;
-        const bodyH = bodyLines.length * bodyLH;
-        const microBoxH = showMicro ? (microLines.length * microLH + 86) : 0;
-        const totalH = 74 + titleH + 34 + bodyH + (showMicro ? 40 + microBoxH : 0);
+          const titleToBodyGap = Math.round(26 * scale);
+          const bodyFontSize = Math.max(26, Math.round(37 * scale));
+          const bodyLineHeight = Math.round(bodyFontSize * 1.44);
+          ctx.font = `400 ${bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const bodyLines = wrapLatinText(ctx, slide.body, contentW - 36);
+          const bodyH = bodyLines.length * bodyLineHeight;
 
-        let curY = Math.max(topLimitY, topLimitY + (availableH - totalH) / 2);
+          const bodyToMicroGap = showMicro ? Math.round(30 * scale) : 0;
+          const microLabelSize = Math.max(18, Math.round(21 * scale));
+          const microFontSize = Math.max(23, Math.round(32 * scale));
+          const microLineHeight = Math.round(microFontSize * 1.38);
+          ctx.font = `500 ${microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, contentW - 68) : [];
+          const microBoxH = showMicro ? (microLines.length * microLineHeight + Math.round(78 * scale)) : 0;
 
-        // Oversized translucent step numeral watermark + POIN 01 pill
+          const totalH = badgeH + badgeToTitleGap + titleH + titleToBodyGap + bodyH + bodyToMicroGap + microBoxH;
+
+          layout = {
+            scale,
+            badgeH,
+            badgeToTitleGap,
+            titleFontSize,
+            titleLineHeight,
+            baseTitleFont,
+            hlTitleFont,
+            titleLines,
+            titleH,
+            titleToBodyGap,
+            bodyFontSize,
+            bodyLineHeight,
+            bodyLines,
+            bodyH,
+            bodyToMicroGap,
+            microLabelSize,
+            microFontSize,
+            microLineHeight,
+            microLines,
+            microBoxH,
+            totalH
+          };
+
+          if (totalH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        let curY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.totalH) / 2);
+
         ctx.save();
-        ctx.font = '700 144px "Playfair Display", Georgia, serif';
+        ctx.font = `700 ${Math.round(132 * layout.scale)}px "Playfair Display", Georgia, serif`;
         ctx.fillStyle = theme.pillBg;
         ctx.textAlign = 'right';
         ctx.textBaseline = 'top';
-        ctx.fillText(stepNumStr, W - marginX, curY - 26);
+        ctx.fillText(stepNumStr, W - marginX, curY - 18);
 
         ctx.fillStyle = theme.gold;
-        drawRoundRect(ctx, marginX, curY, 160, 48, 24);
+        drawRoundRect(ctx, marginX, curY, 152, layout.badgeH, layout.badgeH / 2);
         ctx.fill();
-        ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
+        ctx.font = `700 ${Math.max(18, Math.round(21 * layout.scale))}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.id === 'emerald' ? '#10261B' : '#FFFFFF';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`POIN ${stepNumStr}`, marginX + 80, curY + 25);
+        ctx.fillText(`POIN ${stepNumStr}`, marginX + 76, curY + layout.badgeH / 2 + 1);
         ctx.restore();
-        curY += 74;
+        curY += layout.badgeH + layout.badgeToTitleGap;
 
-        // Editorial Playfair Headline
-        ctx.save();
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        ctx.fillStyle = theme.primaryInk;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        titleLines.forEach((line, i) => {
-          ctx.fillText(line, marginX, curY + i * titleLH);
-        });
-        ctx.restore();
-        curY += titleH + 34;
+        drawTokenLines(
+          ctx,
+          layout.titleLines,
+          'left',
+          marginX,
+          curY,
+          layout.titleLineHeight,
+          layout.baseTitleFont,
+          layout.hlTitleFont,
+          theme.primaryInk,
+          theme.goldBright
+        );
+        curY += layout.titleH + layout.titleToBodyGap;
 
-        // Vertical Gold Bar + Core Body Text
         ctx.save();
         ctx.fillStyle = theme.gold;
-        drawRoundRect(ctx, marginX, curY + 6, 8, Math.max(40, bodyH - 12), 4);
+        drawRoundRect(ctx, marginX, curY + 4, 8, Math.max(24, layout.bodyH - 8), 4);
         ctx.fill();
 
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.mutedInk;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
-        bodyLines.forEach((line, i) => {
-          ctx.fillText(line, marginX + 34, curY + i * bodyLH);
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, marginX + 34, curY + i * layout.bodyLineHeight);
         });
         ctx.restore();
-        curY += bodyH + 40;
+        curY += layout.bodyH + layout.bodyToMicroGap;
 
-        // Contrast Card for Practical Reflection
         if (showMicro) {
           ctx.save();
           ctx.fillStyle = theme.cardSurface;
-          drawRoundRect(ctx, marginX, curY, contentW, microBoxH, 24);
+          drawRoundRect(ctx, marginX, curY, contentW, layout.microBoxH, 24);
           ctx.fill();
           ctx.strokeStyle = theme.cardBorder;
-          ctx.lineWidth = 2;
+          ctx.lineWidth = 1.8;
           ctx.stroke();
 
-          ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
+          const padTop = Math.round(22 * layout.scale);
+          const textOffset = Math.round(54 * layout.scale);
+          ctx.font = `700 ${layout.microLabelSize}px "Plus Jakarta Sans", sans-serif`;
           ctx.fillStyle = theme.gold;
           ctx.textAlign = 'left';
           ctx.textBaseline = 'top';
-          ctx.fillText('✦ REFLEKSI PRAKTIS', marginX + 32, curY + 24);
+          ctx.fillText('✦ REFLEKSI PRAKTIS', marginX + 34, curY + padTop);
 
-          ctx.font = `500 ${microFont}px "Plus Jakarta Sans", sans-serif`;
+          ctx.font = `500 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
           ctx.fillStyle = theme.primaryInk;
-          microLines.forEach((line, i) => {
-            ctx.fillText(line, marginX + 32, curY + 62 + i * microLH);
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, marginX + 34, curY + textOffset + i * layout.microLineHeight);
           });
           ctx.restore();
         }
       } else if (layoutVariant === 1) {
-        // ============================================================
-        // POINT 2 (LAYOUT B): Centered Layout ✦ ── 2 ── ✦ + Gold Highlight Pill Backdrop
-        // ============================================================
+        // LAYOUT B: Rhythmic Contrast Panel + Centered Ornament ✦ ── 2 ── ✦
         const centerX = W / 2;
-        const maxW = 910;
+        const panelX = 86;
+        const panelW = W - panelX * 2;
+        const maxW = panelW - 88;
+        let scale = 1.0;
+        let layout = null;
 
-        const titleFont = 62;
-        const titleLH = 76;
-        const bodyFont = 38;
-        const bodyLH = 54;
-        const microFont = 33;
-        const microLH = 46;
+        while (scale >= 0.72) {
+          const padV = Math.round(42 * scale);
+          const ornamentH = Math.round(36 * scale);
+          const ornamentToTitleGap = Math.round(22 * scale);
 
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        const titleLines = wrapLatinText(ctx, slide.title, maxW);
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
-        const bodyLines = wrapLatinText(ctx, slide.body, maxW - 30);
-        ctx.font = `italic 500 ${microFont}px "Plus Jakarta Sans", sans-serif`;
-        const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, maxW - 60) : [];
+          const titleFontSize = Math.max(42, Math.round(60 * scale));
+          const titleLineHeight = Math.round(titleFontSize * 1.2);
+          const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, maxW, baseTitleFont, hlTitleFont);
+          const titleH = titleLines.length * titleLineHeight;
 
-        const titleH = titleLines.length * titleLH;
-        const bodyH = bodyLines.length * bodyLH;
-        const microH = showMicro ? (microLines.length * microLH + 46) : 0;
-        const totalH = 64 + titleH + 38 + bodyH + (showMicro ? 40 + microH : 0);
+          const titleToBodyGap = Math.round(26 * scale);
+          const bodyFontSize = Math.max(26, Math.round(37 * scale));
+          const bodyLineHeight = Math.round(bodyFontSize * 1.44);
+          ctx.font = `400 ${bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const bodyLines = wrapLatinText(ctx, slide.body, maxW - 24);
+          const bodyH = bodyLines.length * bodyLineHeight;
 
-        let curY = Math.max(topLimitY, topLimitY + (availableH - totalH) / 2);
+          const bodyToMicroGap = showMicro ? Math.round(28 * scale) : 0;
+          const microFontSize = Math.max(23, Math.round(32 * scale));
+          const microLineHeight = Math.round(microFontSize * 1.38);
+          ctx.font = `italic 500 ${microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, maxW - 44) : [];
+          const microH = showMicro ? (microLines.length * microLineHeight + Math.round(28 * scale)) : 0;
 
-        // Ornament Header: ✦ ── 2 ── ✦
+          const panelH = padV * 2 + ornamentH + ornamentToTitleGap + titleH + titleToBodyGap + bodyH + bodyToMicroGap + microH;
+
+          layout = {
+            scale,
+            padV,
+            ornamentH,
+            ornamentToTitleGap,
+            titleFontSize,
+            titleLineHeight,
+            baseTitleFont,
+            hlTitleFont,
+            titleLines,
+            titleH,
+            titleToBodyGap,
+            bodyFontSize,
+            bodyLineHeight,
+            bodyLines,
+            bodyH,
+            bodyToMicroGap,
+            microFontSize,
+            microLineHeight,
+            microLines,
+            panelH
+          };
+
+          if (panelH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        const panelY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.panelH) / 2);
+
         ctx.save();
-        ctx.font = '700 32px "Playfair Display", Georgia, serif';
+        ctx.fillStyle = theme.cardSurface;
+        drawRoundRect(ctx, panelX, panelY, panelW, layout.panelH, 30);
+        ctx.fill();
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+
+        let curY = panelY + layout.padV;
+
+        ctx.save();
+        ctx.font = `700 ${Math.max(22, Math.round(29 * layout.scale))}px "Playfair Display", Georgia, serif`;
         ctx.fillStyle = theme.gold;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(`✦  ────  ${slide.pointIndex + 1}  ────  ✦`, centerX, curY + 18);
+        ctx.fillText(`✦  ────  ${slide.pointIndex + 1}  ────  ✦`, centerX, curY + layout.ornamentH / 2);
         ctx.restore();
-        curY += 66;
+        curY += layout.ornamentH + layout.ornamentToTitleGap;
 
-        // Centered Headline with soft Gold Highlight Pill Backdrop behind first line
         ctx.save();
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        const firstLineW = Math.min(maxW, ctx.measureText(titleLines[0] || '').width + 48);
+        ctx.font = layout.baseTitleFont;
+        const firstLinePlain = (layout.titleLines[0] || []).map(t => t.text).join(' ');
+        const firstLineW = Math.min(maxW, ctx.measureText(firstLinePlain).width + 48);
         ctx.fillStyle = theme.pillBg;
-        drawRoundRect(ctx, centerX - firstLineW / 2, curY + 8, firstLineW, 64, 20);
+        drawRoundRect(ctx, centerX - firstLineW / 2, curY + 6, firstLineW, Math.round(layout.titleFontSize * 1.05), 18);
         ctx.fill();
-
-        ctx.fillStyle = theme.primaryInk;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
-        titleLines.forEach((line, i) => {
-          ctx.fillText(line, centerX, curY + i * titleLH);
-        });
         ctx.restore();
-        curY += titleH + 38;
 
-        // Centered Body Text
+        drawTokenLines(
+          ctx,
+          layout.titleLines,
+          'center',
+          centerX,
+          curY,
+          layout.titleLineHeight,
+          layout.baseTitleFont,
+          layout.hlTitleFont,
+          theme.primaryInk,
+          theme.goldBright
+        );
+        curY += layout.titleH + layout.titleToBodyGap;
+
         ctx.save();
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.mutedInk;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        bodyLines.forEach((line, i) => {
-          ctx.fillText(line, centerX, curY + i * bodyLH);
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, centerX, curY + i * layout.bodyLineHeight);
         });
         ctx.restore();
-        curY += bodyH + 40;
+        curY += layout.bodyH + layout.bodyToMicroGap;
 
-        // Centered Quoted Reflection
         if (showMicro) {
           ctx.save();
           ctx.strokeStyle = theme.gold;
-          ctx.lineWidth = 2.4;
+          ctx.lineWidth = 2.2;
           ctx.beginPath();
-          ctx.moveTo(centerX - 75, curY);
-          ctx.lineTo(centerX + 75, curY);
+          ctx.moveTo(centerX - 64, curY);
+          ctx.lineTo(centerX + 64, curY);
           ctx.stroke();
 
-          ctx.font = `italic 500 ${microFont}px "Plus Jakarta Sans", sans-serif`;
+          ctx.font = `italic 500 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
           ctx.fillStyle = theme.primaryInk;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
-          microLines.forEach((line, i) => {
-            ctx.fillText(line, centerX, curY + 24 + i * microLH);
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, centerX, curY + Math.round(20 * layout.scale) + i * layout.microLineHeight);
           });
           ctx.restore();
         }
       } else {
-        // ============================================================
-        // POINT 3 (LAYOUT C): Framed Actionable Takeaway Card
-        // ============================================================
-        const marginX = 82;
+        // LAYOUT C: Framed Actionable Takeaway Card
+        const marginX = 102;
         const contentW = W - marginX * 2;
+        let scale = 1.0;
+        let layout = null;
 
-        const titleFont = 60;
-        const titleLH = 74;
-        const bodyFont = 37;
-        const bodyLH = 53;
-        const microFont = 33;
-        const microLH = 46;
+        while (scale >= 0.72) {
+          const headerH = Math.round(36 * scale);
+          const headerToTitleGap = Math.round(20 * scale);
 
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        const titleLines = wrapLatinText(ctx, slide.title, contentW);
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
-        const bodyLines = wrapLatinText(ctx, slide.body, contentW);
-        ctx.font = `600 ${microFont}px "Plus Jakarta Sans", sans-serif`;
-        const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, contentW - 64) : [];
+          const titleFontSize = Math.max(40, Math.round(58 * scale));
+          const titleLineHeight = Math.round(titleFontSize * 1.2);
+          const baseTitleFont = `700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const hlTitleFont = `italic 700 ${titleFontSize}px "Playfair Display", Georgia, serif`;
+          const titleLines = buildHighlightedTokenLines(ctx, slide.title, slide.highlightKeyword, contentW, baseTitleFont, hlTitleFont);
+          const titleH = titleLines.length * titleLineHeight;
 
-        const titleH = titleLines.length * titleLH;
-        const bodyH = bodyLines.length * bodyLH;
-        const actionCardH = showMicro ? (microLines.length * microLH + 96) : 0;
-        const totalH = 62 + titleH + 30 + bodyH + (showMicro ? 40 + actionCardH : 0);
+          const titleToBodyGap = Math.round(22 * scale);
+          const bodyFontSize = Math.max(25, Math.round(36 * scale));
+          const bodyLineHeight = Math.round(bodyFontSize * 1.44);
+          ctx.font = `400 ${bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const bodyLines = wrapLatinText(ctx, slide.body, contentW);
+          const bodyH = bodyLines.length * bodyLineHeight;
 
-        let curY = Math.max(topLimitY, topLimitY + (availableH - totalH) / 2);
+          const bodyToActionGap = showMicro ? Math.round(28 * scale) : 0;
+          const microFontSize = Math.max(23, Math.round(32 * scale));
+          const microLineHeight = Math.round(microFontSize * 1.38);
+          ctx.font = `600 ${microFontSize}px "Plus Jakarta Sans", sans-serif`;
+          const microLines = showMicro ? wrapLatinText(ctx, slide.microExplanation, contentW - 68) : [];
+          const actionCardH = showMicro ? (microLines.length * microLineHeight + Math.round(86 * scale)) : 0;
 
-        // Top Step Tag + Horizontal Gold Rule
+          const totalH = headerH + headerToTitleGap + titleH + titleToBodyGap + bodyH + bodyToActionGap + actionCardH;
+
+          layout = {
+            scale,
+            headerH,
+            headerToTitleGap,
+            titleFontSize,
+            titleLineHeight,
+            baseTitleFont,
+            hlTitleFont,
+            titleLines,
+            titleH,
+            titleToBodyGap,
+            bodyFontSize,
+            bodyLineHeight,
+            bodyLines,
+            bodyH,
+            bodyToActionGap,
+            microFontSize,
+            microLineHeight,
+            microLines,
+            actionCardH,
+            totalH
+          };
+
+          if (totalH <= MAX_H) break;
+          scale -= 0.04;
+        }
+
+        let curY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.totalH) / 2);
+
         ctx.save();
-        ctx.font = '700 26px "Plus Jakarta Sans", sans-serif';
+        ctx.font = `700 ${Math.max(19, Math.round(24 * layout.scale))}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.gold;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
         const tagLabel = `KUNCI ${stepNumStr}`;
-        ctx.fillText(tagLabel, marginX, curY + 16);
+        ctx.fillText(tagLabel, marginX, curY + layout.headerH / 2);
         const tagW = ctx.measureText(tagLabel).width;
 
         ctx.strokeStyle = theme.cardBorder;
-        ctx.lineWidth = 2.2;
+        ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(marginX + tagW + 22, curY + 16);
-        ctx.lineTo(W - marginX, curY + 16);
+        ctx.moveTo(marginX + tagW + 22, curY + layout.headerH / 2);
+        ctx.lineTo(W - marginX, curY + layout.headerH / 2);
         ctx.stroke();
         ctx.restore();
-        curY += 58;
+        curY += layout.headerH + layout.headerToTitleGap;
 
-        // Title
-        ctx.save();
-        ctx.font = `700 ${titleFont}px "Playfair Display", Georgia, serif`;
-        ctx.fillStyle = theme.primaryInk;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        titleLines.forEach((line, i) => {
-          ctx.fillText(line, marginX, curY + i * titleLH);
-        });
-        ctx.restore();
-        curY += titleH + 30;
+        drawTokenLines(
+          ctx,
+          layout.titleLines,
+          'left',
+          marginX,
+          curY,
+          layout.titleLineHeight,
+          layout.baseTitleFont,
+          layout.hlTitleFont,
+          theme.primaryInk,
+          theme.goldBright
+        );
+        curY += layout.titleH + layout.titleToBodyGap;
 
-        // Body
         ctx.save();
-        ctx.font = `400 ${bodyFont}px "Plus Jakarta Sans", sans-serif`;
+        ctx.font = `400 ${layout.bodyFontSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.mutedInk;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
-        bodyLines.forEach((line, i) => {
-          ctx.fillText(line, marginX, curY + i * bodyLH);
+        layout.bodyLines.forEach((line, i) => {
+          ctx.fillText(line, marginX, curY + i * layout.bodyLineHeight);
         });
         ctx.restore();
-        curY += bodyH + 40;
+        curY += layout.bodyH + layout.bodyToActionGap;
 
-        // Framed Actionable Takeaway Card
         if (showMicro) {
           ctx.save();
           ctx.fillStyle = theme.cardSurface;
-          drawRoundRect(ctx, marginX, curY, contentW, actionCardH, 24);
+          drawRoundRect(ctx, marginX, curY, contentW, layout.actionCardH, 24);
           ctx.fill();
           ctx.strokeStyle = theme.gold;
-          ctx.lineWidth = 2.4;
+          ctx.lineWidth = 2.2;
           ctx.stroke();
 
+          const pillH = Math.round(36 * layout.scale);
           ctx.fillStyle = theme.gold;
-          drawRoundRect(ctx, marginX + 30, curY + 24, 225, 42, 21);
+          drawRoundRect(ctx, marginX + 30, curY + Math.round(18 * layout.scale), 205, pillH, pillH / 2);
           ctx.fill();
-          ctx.font = '700 22px "Plus Jakarta Sans", sans-serif';
+          ctx.font = `700 ${Math.max(16, Math.round(19 * layout.scale))}px "Plus Jakarta Sans", sans-serif`;
           ctx.fillStyle = theme.id === 'emerald' ? '#10261B' : '#FFFFFF';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText('LANGKAH AMAL', marginX + 30 + 112.5, curY + 46);
+          ctx.fillText('LANGKAH AMAL', marginX + 30 + 102.5, curY + Math.round(18 * layout.scale) + pillH / 2 + 1);
 
-          ctx.font = `600 ${microFont}px "Plus Jakarta Sans", sans-serif`;
+          ctx.font = `600 ${layout.microFontSize}px "Plus Jakarta Sans", sans-serif`;
           ctx.fillStyle = theme.primaryInk;
           ctx.textAlign = 'left';
           ctx.textBaseline = 'top';
-          microLines.forEach((line, i) => {
-            ctx.fillText(line, marginX + 30, curY + 80 + i * microLH);
+          layout.microLines.forEach((line, i) => {
+            ctx.fillText(line, marginX + 30, curY + Math.round(64 * layout.scale) + i * layout.microLineHeight);
           });
           ctx.restore();
         }
       }
 
-      // Open-Loop Curiosity Bridge Cue at Bottom-Right above Footer
+      // Open-Loop Curiosity Bridge Pill (Option B: No arrow inside text, vector arrow outside to edge)
       if (showBridge) {
+        const cleanBridgeText = String(slide.curiosityBridge || '').replace(/\s*[→➔➜]+\s*$/g, '').trim();
         ctx.save();
-        ctx.font = 'italic 600 28px "Plus Jakarta Sans", sans-serif';
-        const bridgeW = ctx.measureText(slide.curiosityBridge).width;
-        const pillPadX = 24;
-        const pillW = Math.min(W - 164, bridgeW + pillPadX * 2);
-        const pillH = 48;
-        const pillX = W - 82 - pillW;
-        const pillY = 1138;
+        ctx.font = 'italic 700 26px "Plus Jakarta Sans", sans-serif';
+        const bridgeW = Math.min(W - 220, ctx.measureText(cleanBridgeText).width + 44);
+        const bridgeH = 48;
+        const bridgeX = W - 122 - bridgeW;
+        const bridgeY = 1094;
 
         ctx.fillStyle = theme.pillBg;
-        drawRoundRect(ctx, pillX, pillY, pillW, pillH, 24);
+        drawRoundRect(ctx, bridgeX, bridgeY, bridgeW, bridgeH, 24);
         ctx.fill();
+        ctx.strokeStyle = theme.cardBorder;
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
 
         ctx.fillStyle = theme.gold;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(slide.curiosityBridge, pillX + pillW / 2, pillY + pillH / 2 + 1);
+        ctx.fillText(cleanBridgeText, bridgeX + bridgeW / 2, bridgeY + bridgeH / 2 + 1);
         ctx.restore();
+
+        drawSwipeEdgeCue(ctx, theme, bridgeY + bridgeH / 2, bridgeX + bridgeW + 10);
       }
 
       renderSlideFooter(ctx, theme, slide.username, progressStr, false);
     }
 
     /**
-     * DALIL SLIDE (SLIDE 5): DARK EMERALD CARD + AMIRI ARABIC + TRANSLATION + CLEAN SOURCE + INTISARI AMAL
-     * Spacious header-to-Arabic clearance so Arabic ascenders/harakat never overlap the title above
+     * DALIL SLIDE (SLIDE 5): DARK EMERALD CARD + FULL QURAN/HADITH TEXT PRESERVED + ADAPTIVE ANTI-OVERLAP
      */
     function renderDalilSlide(ctx, slide, theme, slideIndex, totalSlides) {
       const W = 1080;
@@ -2422,181 +2509,235 @@ Format JSON wajib:
       const progressStr = `${String(slideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
       const showIntisari = appState.toggles.intisariAmal && Boolean(slide.intisariAmal?.trim());
 
-      const excerptedArabic = smartExcerptArabic(slide.arabicText, 225);
+      renderSlideTopCategoryBadge(ctx, theme, slide.category);
 
-      const cardX = 68;
+      const cardX = 86;
       const cardW = W - cardX * 2;
-      const innerTextMaxW = cardW - 96;
-      const minCardY = 124;
-      const maxBottomY = 1182;
-      const maxTotalBudgetH = maxBottomY - minCardY;
+      const innerTextMaxW = cardW - 116;
 
-      // Determine optimal font sizes so the card + Intisari Amal fits cleanly without crowding
-      let arabicFontSize = excerptedArabic.length > 155 ? 48 : (excerptedArabic.length > 100 ? 52 : 56);
-      let transFontSize = 35;
+      const fullArabicText = String(slide.arabicText || '').trim();
+      const SAFE_TOP = 132;
+      const SAFE_BOTTOM = 1148;
+      const MAX_TOTAL_H = SAFE_BOTTOM - SAFE_TOP;
 
-      const intisariFont = 30;
-      const intisariLH = 42;
-      ctx.font = `500 ${intisariFont}px "Plus Jakarta Sans", sans-serif`;
-      const intisariLines = showIntisari ? wrapLatinText(ctx, slide.intisariAmal, cardW - 64) : [];
-      const intisariBoxH = showIntisari ? (intisariLines.length * intisariLH + 80) : 0;
+      let baseArabicSize = 58;
+      if (fullArabicText.length > 260) baseArabicSize = 44;
+      else if (fullArabicText.length > 180) baseArabicSize = 48;
+      else if (fullArabicText.length > 120) baseArabicSize = 53;
 
-      let arabicLines = [];
-      let transLines = [];
-      let arabicLineHeight = 0;
-      let transLineHeight = 0;
-      let arabicH = 0;
-      let transH = 0;
-      let cardH = 0;
+      let scale = 1.0;
+      let layout = null;
 
-      const headerClearanceTop = 114; // Generous space below "♦ AL-QUR'AN ♦" + hairline divider
-      const midDividerBlockH = 54;
-      const bottomSourceBlockH = 110;
-
-      for (let scaleStep = 0; scaleStep < 3; scaleStep++) {
-        arabicLineHeight = Math.round(arabicFontSize * 1.85);
-        transLineHeight = Math.round(transFontSize * 1.42);
+      while (scale >= 0.62) {
+        const arabicFontSize = Math.max(32, Math.round(baseArabicSize * scale));
+        const arabicLineHeight = Math.round(arabicFontSize * 1.80);
 
         ctx.save();
         ctx.direction = 'rtl';
         ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
-        arabicLines = wrapArabicText(ctx, excerptedArabic, innerTextMaxW);
+        const arabicLines = wrapArabicText(ctx, fullArabicText, innerTextMaxW);
         ctx.restore();
 
-        ctx.font = `500 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
-        transLines = wrapLatinText(ctx, slide.translation, innerTextMaxW);
+        const transFontSize = Math.max(22, Math.round(35 * scale));
+        const transLineHeight = Math.round(transFontSize * 1.40);
+        const baseTransFont = `500 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const hlTransFont = `700 ${transFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const transTokenLines = buildHighlightedTokenLines(
+          ctx,
+          slide.translation,
+          slide.highlightPhrase,
+          innerTextMaxW,
+          baseTransFont,
+          hlTransFont
+        );
 
-        arabicH = arabicLines.length * arabicLineHeight;
-        transH = transLines.length * transLineHeight;
-        cardH = headerClearanceTop + arabicH + midDividerBlockH + transH + bottomSourceBlockH;
+        const arabicH = arabicLines.length * arabicLineHeight;
+        const transH = transTokenLines.length * transLineHeight;
 
-        const neededH = cardH + (showIntisari ? 22 + intisariBoxH : 0);
-        if (neededH <= maxTotalBudgetH || scaleStep === 2) break;
+        const topPadding = Math.round(108 * scale);
+        const arabicToDividerGap = Math.round(22 * scale);
+        const dividerToTransGap = Math.round(24 * scale);
+        const transToPillGap = Math.round(26 * scale);
+        const pillH = Math.max(36, Math.round(46 * scale));
+        const bottomCardPadding = Math.round(28 * scale);
 
-        arabicFontSize = Math.max(44, arabicFontSize - 5);
-        transFontSize = Math.max(30, transFontSize - 3);
+        const cardH =
+          topPadding +
+          arabicH +
+          arabicToDividerGap +
+          dividerToTransGap +
+          transH +
+          transToPillGap +
+          pillH +
+          bottomCardPadding;
+
+        const cardToIntisariGap = showIntisari ? Math.round(22 * scale) : 0;
+        const intisariLabelSize = Math.max(17, Math.round(21 * scale));
+        const intisariFontSize = Math.max(21, Math.round(30 * scale));
+        const intisariLineHeight = Math.round(intisariFontSize * 1.38);
+
+        ctx.font = `500 ${intisariFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const intisariLines = showIntisari ? wrapLatinText(ctx, slide.intisariAmal, cardW - 68) : [];
+        const intisariTopPad = Math.round(18 * scale);
+        const intisariTextOffset = Math.round(48 * scale);
+        const intisariBottomPad = Math.round(18 * scale);
+        const intisariBoxH = showIntisari
+          ? (intisariTextOffset + intisariLines.length * intisariLineHeight + intisariBottomPad)
+          : 0;
+
+        const totalGroupH = cardH + cardToIntisariGap + intisariBoxH;
+
+        layout = {
+          scale,
+          arabicFontSize,
+          arabicLineHeight,
+          arabicLines,
+          transFontSize,
+          transLineHeight,
+          baseTransFont,
+          hlTransFont,
+          transTokenLines,
+          arabicH,
+          transH,
+          topPadding,
+          arabicToDividerGap,
+          dividerToTransGap,
+          transToPillGap,
+          pillH,
+          cardH,
+          cardToIntisariGap,
+          intisariLabelSize,
+          intisariFontSize,
+          intisariLineHeight,
+          intisariLines,
+          intisariTopPad,
+          intisariTextOffset,
+          intisariBoxH,
+          totalGroupH
+        };
+
+        if (totalGroupH <= MAX_TOTAL_H) {
+          break;
+        }
+        scale -= 0.04;
       }
 
-      const totalGroupH = cardH + (showIntisari ? 22 + intisariBoxH : 0);
-      const cardY = Math.max(minCardY, minCardY + (maxTotalBudgetH - totalGroupH) / 2);
+      const cardY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_TOTAL_H - layout.totalGroupH) / 2);
 
-      // 1. Draw Rich Dark Emerald Card with Subtle Depth Gradient
+      // 1. Rich Dark Emerald Card (#183928)
       ctx.save();
-      const cardGrad = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardH);
-      cardGrad.addColorStop(0, '#1D4430');
-      cardGrad.addColorStop(1, '#122B1E');
+      const cardGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + layout.cardH);
+      cardGrad.addColorStop(0, '#1B3F2D');
+      cardGrad.addColorStop(0.5, '#153224');
+      cardGrad.addColorStop(1, '#10261B');
       ctx.fillStyle = cardGrad;
-      drawRoundRect(ctx, cardX, cardY, cardW, cardH, 28);
+      drawRoundRect(ctx, cardX, cardY, cardW, layout.cardH, 28);
       ctx.fill();
 
-      // Crisp Inner Gold Border
       ctx.strokeStyle = '#D4AF37';
-      ctx.lineWidth = 2.2;
-      drawRoundRect(ctx, cardX + 14, cardY + 14, cardW - 28, cardH - 28, 20);
+      ctx.lineWidth = 2;
+      drawRoundRect(ctx, cardX + 14, cardY + 14, cardW - 28, layout.cardH - 28, 20);
       ctx.stroke();
 
-      // Header: ♦ AL-QUR'AN ♦ or ♦ HADITS ♦
       const headerLabel = `♦  ${slide.dalilType}  ♦`;
-      ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
+      ctx.font = `700 ${Math.max(19, Math.round(24 * layout.scale))}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = '#F2D16B';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(headerLabel, centerX, cardY + 50);
+      ctx.fillText(headerLabel, centerX, cardY + Math.round(48 * layout.scale));
 
-      // Subtle gold hairline separating header title from Arabic verse
-      ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
-      ctx.lineWidth = 1.5;
+      const headerRuleY = cardY + Math.round(74 * layout.scale);
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.32)';
+      ctx.lineWidth = 1.4;
       ctx.beginPath();
-      ctx.moveTo(centerX - 150, cardY + 78);
-      ctx.lineTo(centerX + 150, cardY + 78);
+      ctx.moveTo(cardX + 110, headerRuleY);
+      ctx.lineTo(cardX + cardW - 110, headerRuleY);
       ctx.stroke();
       ctx.restore();
 
-      // 2. Render Arabic Text in Amiri with ample clearance below header hairline
-      let curY = cardY + headerClearanceTop;
+      // 2. Full Arabic Text in Amiri (RTL, never truncated)
+      let curY = cardY + layout.topPadding;
       ctx.save();
       ctx.direction = 'rtl';
-      ctx.font = `700 ${arabicFontSize}px "Amiri", serif`;
+      ctx.font = `700 ${layout.arabicFontSize}px "Amiri", serif`;
       ctx.fillStyle = '#FCFBF7';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      arabicLines.forEach((line, i) => {
-        ctx.fillText(line, centerX, curY + i * arabicLineHeight);
+      layout.arabicLines.forEach((line, i) => {
+        ctx.fillText(line, centerX, curY + i * layout.arabicLineHeight);
       });
       ctx.restore();
-      curY += arabicH + 26;
+      curY += layout.arabicH + layout.arabicToDividerGap;
 
       // 3. Gold Diamond Divider
       ctx.save();
       ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.8;
       ctx.beginPath();
-      ctx.moveTo(centerX - 140, curY);
-      ctx.lineTo(centerX - 22, curY);
-      ctx.moveTo(centerX + 22, curY);
-      ctx.lineTo(centerX + 140, curY);
+      ctx.moveTo(centerX - 130, curY);
+      ctx.lineTo(centerX - 20, curY);
+      ctx.moveTo(centerX + 20, curY);
+      ctx.lineTo(centerX + 130, curY);
       ctx.stroke();
-      drawDiamond(ctx, centerX, curY, 7, '#F2D16B');
+      drawDiamond(ctx, centerX, curY, 6, '#F2D16B');
       ctx.restore();
-      curY += 28;
+      curY += layout.dividerToTransGap;
 
-      // 4. Indonesian Translation with Golden Highlight Phrase
-      drawDalilTranslationWithGoldPhrase(
+      // 4. Full Indonesian Translation with Golden Highlight Phrase
+      drawTokenLines(
         ctx,
-        slide.translation,
-        slide.highlightPhrase,
+        layout.transTokenLines,
+        'center',
         centerX,
         curY,
-        innerTextMaxW,
-        transFontSize,
-        transLineHeight,
+        layout.transLineHeight,
+        layout.baseTransFont,
+        layout.hlTransFont,
         '#E8EFEA',
         '#F2D16B'
       );
-      curY += transH + 28;
+      curY += layout.transH + layout.transToPillGap;
 
-      // 5. Clean Source Reference Pill
+      // 5. Clean Source Pill (No internal verification tags)
       ctx.save();
       const sourceBadgeText = String(slide.sourceRef || '').trim();
-      if (sourceBadgeText) {
-        ctx.font = '700 25px "Plus Jakarta Sans", sans-serif';
-        const badgeW = Math.min(cardW - 60, ctx.measureText(sourceBadgeText).width + 54);
-        const badgeH = 48;
-        ctx.fillStyle = 'rgba(212, 175, 55, 0.16)';
-        drawRoundRect(ctx, centerX - badgeW / 2, curY, badgeW, badgeH, 24);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(212, 175, 55, 0.55)';
-        ctx.lineWidth = 1.6;
-        ctx.stroke();
+      ctx.font = `700 ${Math.max(19, Math.round(24 * layout.scale))}px "Plus Jakarta Sans", sans-serif`;
+      const badgeW = Math.min(cardW - 80, ctx.measureText(sourceBadgeText).width + 48);
+      const badgeH = layout.pillH;
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.16)';
+      drawRoundRect(ctx, centerX - badgeW / 2, curY, badgeW, badgeH, badgeH / 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
 
-        ctx.fillStyle = '#F2D16B';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(sourceBadgeText, centerX, curY + badgeH / 2 + 1);
-      }
+      ctx.fillStyle = '#F2D16B';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(sourceBadgeText, centerX, curY + badgeH / 2 + 1);
       ctx.restore();
 
-      // 6. INTISARI AMAL Box below the Dark Emerald Card
+      // 6. INTISARI AMAL Box below Dark Emerald Card
       if (showIntisari) {
-        const boxY = cardY + cardH + 22;
+        const boxY = cardY + layout.cardH + layout.cardToIntisariGap;
         ctx.save();
         ctx.fillStyle = theme.cardSurface;
-        drawRoundRect(ctx, cardX, boxY, cardW, intisariBoxH, 22);
+        drawRoundRect(ctx, cardX, boxY, cardW, layout.intisariBoxH, 22);
         ctx.fill();
         ctx.strokeStyle = theme.cardBorder;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.8;
         ctx.stroke();
 
-        ctx.font = '700 23px "Plus Jakarta Sans", sans-serif';
+        ctx.font = `700 ${layout.intisariLabelSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.gold;
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
-        ctx.fillText('✦ INTISARI AMAL', cardX + 32, boxY + 22);
+        ctx.fillText('✦ INTISARI AMAL', cardX + 34, boxY + layout.intisariTopPad);
 
-        ctx.font = `500 ${intisariFont}px "Plus Jakarta Sans", sans-serif`;
+        ctx.font = `500 ${layout.intisariFontSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.primaryInk;
-        intisariLines.forEach((line, i) => {
-          ctx.fillText(line, cardX + 32, boxY + 56 + i * intisariLH);
+        layout.intisariLines.forEach((line, i) => {
+          ctx.fillText(line, cardX + 34, boxY + layout.intisariTextOffset + i * layout.intisariLineHeight);
         });
         ctx.restore();
       }
@@ -2605,7 +2746,7 @@ Format JSON wajib:
     }
 
     /**
-     * CLOSING SLIDE (SLIDE 6): GOLD BOOKMARK & SHARE ICONS + CTA + CLEAN REFLECTION BOX
+     * CLOSING SLIDE (SLIDE 6): LARGE DISPLAY TYPOGRAPHY + ADAPTIVE ANTI-OVERLAP
      */
     function renderClosingSlide(ctx, slide, theme, slideIndex, totalSlides) {
       const W = 1080;
@@ -2613,164 +2754,215 @@ Format JSON wajib:
       const progressStr = `${String(slideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
       const showComment = appState.toggles.commentTrigger && Boolean(slide.commentPrompt?.trim());
 
-      let headlineFont = 108;
-      let headlineLH = 124;
-      ctx.font = `700 ${headlineFont}px "Playfair Display", Georgia, serif`;
-      const estHeadlineLines = wrapLatinText(ctx, slide.headline, 948).length;
-      let estHeadlineH = estHeadlineLines * headlineLH;
+      renderSlideTopCategoryBadge(ctx, theme, slide.category);
 
-      let subFont = 60;
-      let subLH = 78;
-      ctx.font = `500 ${subFont}px "Plus Jakarta Sans", sans-serif`;
-      let subLines = wrapLatinText(ctx, slide.subheadline, 930);
-      let subBlockH = subLines.length * subLH;
+      const SAFE_TOP = 132;
+      const SAFE_BOTTOM = 1146;
+      const MAX_H = SAFE_BOTTOM - SAFE_TOP;
 
-      let promptFont = 48;
-      let promptLH = 65;
-      ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
-      let promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 880) : [];
-      let promptBoxH = showComment ? (promptLines.length * promptLH + 76) : 0;
+      let scale = 1.0;
+      let layout = null;
 
-      let totalH = 140 + estHeadlineH + 20 + subBlockH + 34 + 76 + (showComment ? 44 + promptBoxH : 0);
-      if (totalH > 1055) {
-        headlineFont = 96;
-        headlineLH = 112;
-        estHeadlineH = estHeadlineLines * headlineLH;
-        subFont = 54;
-        subLH = 70;
-        subBlockH = subLines.length * subLH;
-        promptFont = 44;
-        promptLH = 60;
-        ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
-        promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 880) : [];
-        promptBoxH = showComment ? (promptLines.length * promptLH + 72) : 0;
-        totalH = 140 + estHeadlineH + 20 + subBlockH + 34 + 76 + (showComment ? 44 + promptBoxH : 0);
+      while (scale >= 0.70) {
+        const circleR = Math.round(52 * scale);
+        const iconsToHeadGap = Math.round(30 * scale);
+
+        const headFontSize = Math.max(66, Math.round(108 * scale));
+        const headLineHeight = Math.round(headFontSize * 1.14);
+        const baseHeadFont = `700 ${headFontSize}px "Playfair Display", Georgia, serif`;
+        const hlHeadFont = `italic 700 ${headFontSize}px "Playfair Display", Georgia, serif`;
+        const headLines = buildHighlightedTokenLines(ctx, slide.headline, 'bagikan', 860, baseHeadFont, hlHeadFont);
+        const headH = headLines.length * headLineHeight;
+
+        const headToSubGap = Math.round(22 * scale);
+        const subFontSize = Math.max(36, Math.round(60 * scale));
+        const subLineHeight = Math.round(subFontSize * 1.24);
+        ctx.font = `500 ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const subLines = wrapLatinText(ctx, slide.subheadline, 840);
+        const subH = subLines.length * subLineHeight;
+
+        const subToHandleGap = Math.round(28 * scale);
+        const handleFontSize = Math.max(28, Math.round(42 * scale));
+        const handleH = Math.round(68 * scale);
+
+        const handleToPromptGap = showComment ? Math.round(34 * scale) : 0;
+        const promptFontSize = Math.max(30, Math.round(46 * scale));
+        const promptLineHeight = Math.round(promptFontSize * 1.32);
+        ctx.font = `500 ${promptFontSize}px "Plus Jakarta Sans", sans-serif`;
+        const promptLines = showComment ? wrapLatinText(ctx, slide.commentPrompt, 760) : [];
+        const promptPadV = Math.round(32 * scale);
+        const promptBoxH = showComment ? (promptLines.length * promptLineHeight + promptPadV * 2) : 0;
+
+        const totalH =
+          circleR * 2 +
+          iconsToHeadGap +
+          headH +
+          headToSubGap +
+          subH +
+          subToHandleGap +
+          handleH +
+          handleToPromptGap +
+          promptBoxH;
+
+        layout = {
+          scale,
+          circleR,
+          iconsToHeadGap,
+          headFontSize,
+          headLineHeight,
+          baseHeadFont,
+          hlHeadFont,
+          headLines,
+          headH,
+          headToSubGap,
+          subFontSize,
+          subLineHeight,
+          subLines,
+          subH,
+          subToHandleGap,
+          handleFontSize,
+          handleH,
+          handleToPromptGap,
+          promptFontSize,
+          promptLineHeight,
+          promptLines,
+          promptPadV,
+          promptBoxH,
+          totalH
+        };
+
+        if (totalH <= MAX_H) break;
+        scale -= 0.04;
       }
-      let curY = Math.max(124, 122 + (1062 - totalH) / 2);
 
-      // 1. Gold Bookmark & Share Vector Icons inside circular badges
+      let curY = Math.max(SAFE_TOP, SAFE_TOP + (MAX_H - layout.totalH) / 2);
+
+      // 1. Gold Bookmark & Share Vector Icons
       ctx.save();
-      const iconGap = 38;
-      const circleR = 56;
+      const iconGap = Math.round(32 * layout.scale);
+      const circleR = layout.circleR;
       const leftCircleX = centerX - circleR - iconGap / 2;
       const rightCircleX = centerX + circleR + iconGap / 2;
       const iconCenterY = curY + circleR;
 
-      // Left Circle: Gold Bookmark Icon
       ctx.fillStyle = theme.cardSurface;
       ctx.beginPath();
       ctx.arc(leftCircleX, iconCenterY, circleR, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2.4;
       ctx.stroke();
 
+      const bmW = Math.round(15 * layout.scale);
+      const bmTop = Math.round(20 * layout.scale);
+      const bmBot = Math.round(21 * layout.scale);
       ctx.fillStyle = theme.gold;
       ctx.beginPath();
-      ctx.moveTo(leftCircleX - 18, iconCenterY - 24);
-      ctx.lineTo(leftCircleX + 18, iconCenterY - 24);
-      ctx.lineTo(leftCircleX + 18, iconCenterY + 25);
-      ctx.lineTo(leftCircleX, iconCenterY + 12);
-      ctx.lineTo(leftCircleX - 18, iconCenterY + 25);
+      ctx.moveTo(leftCircleX - bmW, iconCenterY - bmTop);
+      ctx.lineTo(leftCircleX + bmW, iconCenterY - bmTop);
+      ctx.lineTo(leftCircleX + bmW, iconCenterY + bmBot);
+      ctx.lineTo(leftCircleX, iconCenterY + Math.round(10 * layout.scale));
+      ctx.lineTo(leftCircleX - bmW, iconCenterY + bmBot);
       ctx.closePath();
       ctx.fill();
 
-      // Right Circle: Gold Share Nodes Icon
       ctx.fillStyle = theme.cardSurface;
       ctx.beginPath();
       ctx.arc(rightCircleX, iconCenterY, circleR, 0, Math.PI * 2);
       ctx.fill();
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2.4;
       ctx.stroke();
 
+      const shX = Math.round(12 * layout.scale);
+      const shY = Math.round(14 * layout.scale);
       ctx.strokeStyle = theme.gold;
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 3.2;
       ctx.beginPath();
-      ctx.moveTo(rightCircleX + 14, iconCenterY - 16);
-      ctx.lineTo(rightCircleX - 15, iconCenterY);
-      ctx.lineTo(rightCircleX + 14, iconCenterY + 16);
+      ctx.moveTo(rightCircleX + shX, iconCenterY - shY);
+      ctx.lineTo(rightCircleX - shX, iconCenterY);
+      ctx.lineTo(rightCircleX + shX, iconCenterY + shY);
       ctx.stroke();
 
       [
-        [rightCircleX + 14, iconCenterY - 16],
-        [rightCircleX - 15, iconCenterY],
-        [rightCircleX + 14, iconCenterY + 16]
+        [rightCircleX + shX, iconCenterY - shY],
+        [rightCircleX - shX, iconCenterY],
+        [rightCircleX + shX, iconCenterY + shY]
       ].forEach(([nx, ny]) => {
         ctx.fillStyle = theme.gold;
         ctx.beginPath();
-        ctx.arc(nx, ny, 7.5, 0, Math.PI * 2);
+        ctx.arc(nx, ny, Math.max(4.5, 6 * layout.scale), 0, Math.PI * 2);
         ctx.fill();
       });
       ctx.restore();
-      curY += 140;
+      curY += circleR * 2 + layout.iconsToHeadGap;
 
-      // 2. Headline: "Simpan & bagikan"
-      const renderedHeadlineH = drawCoverTitleWithGoldHighlight(
+      // 2. Large Closing Headline
+      drawTokenLines(
         ctx,
-        slide.headline,
-        'bagikan',
+        layout.headLines,
+        'center',
         centerX,
         curY,
-        948,
-        headlineFont,
-        headlineLH,
+        layout.headLineHeight,
+        layout.baseHeadFont,
+        layout.hlHeadFont,
         theme.primaryInk,
         theme.goldBright
       );
-      curY += renderedHeadlineH + 20;
+      curY += layout.headH + layout.headToSubGap;
 
-      // 3. Subheadline: "ke yang sedang butuh"
+      // 3. Large Subheadline
       ctx.save();
-      ctx.font = `500 ${subFont}px "Plus Jakarta Sans", sans-serif`;
+      ctx.font = `500 ${layout.subFontSize}px "Plus Jakarta Sans", sans-serif`;
       ctx.fillStyle = theme.mutedInk;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'top';
-      subLines.forEach((line, i) => {
-        ctx.fillText(line, centerX, curY + i * subLH);
+      layout.subLines.forEach((line, i) => {
+        ctx.fillText(line, centerX, curY + i * layout.subLineHeight);
       });
       ctx.restore();
-      curY += subBlockH + 34;
+      curY += layout.subH + layout.subToHandleGap;
 
-      // 4. Creator Handle Pill (@username)
+      // 4. Creator Handle Pill
       ctx.save();
-      ctx.font = '700 42px "Plus Jakarta Sans", sans-serif';
-      const handleW = ctx.measureText(slide.username).width + 80;
+      ctx.font = `700 ${layout.handleFontSize}px "Plus Jakarta Sans", sans-serif`;
+      const handleW = ctx.measureText(slide.username).width + 64;
       ctx.fillStyle = theme.pillBg;
-      drawRoundRect(ctx, centerX - handleW / 2, curY, handleW, 76, 38);
+      drawRoundRect(ctx, centerX - handleW / 2, curY, handleW, layout.handleH, layout.handleH / 2);
       ctx.fill();
       ctx.strokeStyle = theme.cardBorder;
-      ctx.lineWidth = 2.4;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
       ctx.fillStyle = theme.gold;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(slide.username, centerX, curY + 39);
+      ctx.fillText(slide.username, centerX, curY + layout.handleH / 2 + 1);
       ctx.restore();
-      curY += 120;
+      curY += layout.handleH + layout.handleToPromptGap;
 
-      // 5. Clean Reflective Question Card
+      // 5. Clean Reflective Prompt Dashed Card (No internal labels)
       if (showComment) {
-        const boxW = 948;
+        const boxW = 840;
         const boxX = centerX - boxW / 2;
         ctx.save();
         ctx.fillStyle = theme.cardSurface;
-        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 28);
+        drawRoundRect(ctx, boxX, curY, boxW, layout.promptBoxH, 26);
         ctx.fill();
 
         ctx.setLineDash([10, 8]);
         ctx.strokeStyle = theme.gold;
-        ctx.lineWidth = 3.2;
-        drawRoundRect(ctx, boxX, curY, boxW, promptBoxH, 28);
+        ctx.lineWidth = 2.4;
+        drawRoundRect(ctx, boxX, curY, boxW, layout.promptBoxH, 26);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        ctx.font = `500 ${promptFont}px "Plus Jakarta Sans", sans-serif`;
+        ctx.font = `500 ${layout.promptFontSize}px "Plus Jakarta Sans", sans-serif`;
         ctx.fillStyle = theme.primaryInk;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        promptLines.forEach((line, i) => {
-          ctx.fillText(line, centerX, curY + 38 + i * promptLH);
+        layout.promptLines.forEach((line, i) => {
+          ctx.fillText(line, centerX, curY + layout.promptPadV + i * layout.promptLineHeight);
         });
         ctx.restore();
       }
@@ -2779,7 +2971,7 @@ Format JSON wajib:
     }
 
     /**
-     * Master Canvas Render Entry Point for any slide index
+     * Master Canvas Render Entry Point
      */
     function renderSlideToCanvas(canvas, slideIndex) {
       if (!canvas) return;
@@ -2793,12 +2985,8 @@ Format JSON wajib:
       ctx.clearRect(0, 0, 1080, 1350);
       renderSlideFrameAndBackground(ctx, theme, safeIndex, totalSlides);
 
-      if (slide.kind !== 'cover') {
-        renderSlideTopCategoryBadge(ctx, theme, slide.category);
-      }
-
       if (slide.kind === 'cover') {
-        renderCoverSlide(ctx, slide, theme);
+        renderCoverSlide(ctx, slide, theme, totalSlides);
       } else if (slide.kind === 'point') {
         renderPointSlide(ctx, slide, theme, safeIndex, totalSlides);
       } else if (slide.kind === 'dalil') {
@@ -2955,7 +3143,7 @@ Format JSON wajib:
             </div>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#163020] mb-1">Sub-Hook</label>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Sub-Hook (2 Baris)</label>
             <textarea rows="2"
               oninput="appState.carouselData.cover.subHook = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
               class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(appState.carouselData.cover.subHook)}</textarea>
@@ -2965,11 +3153,19 @@ Format JSON wajib:
         const pIdx = slide.pointIndex;
         const pt = appState.carouselData.points[pIdx];
         fieldsContainer.innerHTML = `
-          <div>
-            <label class="block text-[11px] font-bold text-[#163020] mb-1">Judul Poin ${pIdx + 1}</label>
-            <input type="text" value="${escapeHtml(pt.title)}"
-              oninput="appState.carouselData.points[${pIdx}].title = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
-              class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Judul Poin ${pIdx + 1}</label>
+              <input type="text" value="${escapeHtml(pt.title)}"
+                oninput="appState.carouselData.points[${pIdx}].title = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-[#163020] mb-1">Kata Sorotan Emas</label>
+              <input type="text" value="${escapeHtml(pt.highlightKeyword || '')}"
+                oninput="appState.carouselData.points[${pIdx}].highlightKeyword = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
+                class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
+            </div>
           </div>
           <div>
             <label class="block text-[11px] font-bold text-[#163020] mb-1">Penjelasan Utama</label>
@@ -2978,13 +3174,13 @@ Format JSON wajib:
               class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]">${escapeHtml(pt.body)}</textarea>
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#163020] mb-1">Refleksi / Langkah Amal</label>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Micro Explanation / Langkah Amal</label>
             <input type="text" value="${escapeHtml(pt.microExplanation)}"
               oninput="appState.carouselData.points[${pIdx}].microExplanation = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
               class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-[#163020] mb-1">Kalimat Jembatan Slide Berikutnya</label>
+            <label class="block text-[11px] font-bold text-[#163020] mb-1">Curiosity Bridge (Tanpa Panah)</label>
             <input type="text" value="${escapeHtml(pt.curiosityBridge)}"
               oninput="appState.carouselData.points[${pIdx}].curiosityBridge = this.value; renderSlideToCanvas(document.getElementById('mainCarouselCanvas'), appState.currentSlideIndex);"
               class="w-full rounded-xl bg-white border border-[#D4CCB8] px-3 py-2 text-xs text-[#163020]" />
@@ -3116,9 +3312,30 @@ Format JSON wajib:
       const apiKeyInput = document.getElementById('geminiApiKeyInput');
       let autoLoadTimer = null;
 
+      // Load saved API key from device localStorage on boot
+      try {
+        const savedKey = localStorage.getItem(STORAGE_KEY_API);
+        if (savedKey && savedKey.trim()) {
+          appState.apiKey = savedKey.trim();
+          apiKeyInput.value = appState.apiKey;
+          updateModelStatusIndicator('ready', `Siap (${GEMINI_MODEL_CHAIN[0]})`);
+          if (appState.apiKey.startsWith('AIza') && appState.apiKey.length >= 30) {
+            appState.autoTriggeredForKey = appState.apiKey;
+            setTimeout(() => {
+              fetchDailyFiveRecommendations();
+            }, 350);
+          }
+        }
+      } catch (e) {}
+
       apiKeyInput.addEventListener('input', (e) => {
         const val = e.target.value.trim();
         appState.apiKey = val;
+
+        try {
+          if (val) localStorage.setItem(STORAGE_KEY_API, val);
+          else localStorage.removeItem(STORAGE_KEY_API);
+        } catch (err) {}
 
         if (!val) {
           appState.autoTriggeredForKey = '';
@@ -3141,6 +3358,9 @@ Format JSON wajib:
         if (e.key === 'Enter') {
           e.preventDefault();
           appState.apiKey = apiKeyInput.value.trim();
+          try {
+            if (appState.apiKey) localStorage.setItem(STORAGE_KEY_API, appState.apiKey);
+          } catch (err) {}
           if (appState.apiKey) {
             appState.autoTriggeredForKey = appState.apiKey;
             fetchDailyFiveRecommendations();
@@ -3159,8 +3379,11 @@ Format JSON wajib:
         apiKeyInput.value = '';
         appState.apiKey = '';
         appState.autoTriggeredForKey = '';
+        try {
+          localStorage.removeItem(STORAGE_KEY_API);
+        } catch (err) {}
         updateModelStatusIndicator('idle', 'Menunggu API Key');
-        showToast('Gemini API Key dihapus dari memori halaman.', 'info');
+        showToast('Gemini API Key dihapus dari perangkat.', 'info');
       });
 
       document.getElementById('loadDailyRecsBtn').addEventListener('click', () => {
@@ -3173,11 +3396,11 @@ Format JSON wajib:
         fetchDailyFiveRecommendations();
       });
 
-      // Clear unified dalil input button
+      // Clear single unified dalil textarea
       document.getElementById('clearUnifiedInputBtn').addEventListener('click', () => {
-        const el = document.getElementById('inputUnifiedDalil');
-        el.value = '';
-        el.focus();
+        const box = document.getElementById('inputUnifiedDalil');
+        box.value = '';
+        box.focus();
       });
 
       // AI Topic Search
@@ -3214,14 +3437,12 @@ Format JSON wajib:
         });
       });
 
-      // Username live sync
       document.getElementById('inputUsername').addEventListener('input', (e) => {
         const val = e.target.value.trim() || '@lightofhijrah';
         appState.carouselData.username = val.startsWith('@') ? val : `@${val}`;
         refreshAllCanvasAndEditors();
       });
 
-      // Retention & Interaction Toggles
       const toggleMap = [
         ['toggleMicroExplanation', 'microExplanation'],
         ['toggleCuriosityBridge', 'curiosityBridge'],
@@ -3235,17 +3456,14 @@ Format JSON wajib:
         });
       });
 
-      // Carousel Generator Form Submit
       document.getElementById('carouselGeneratorForm').addEventListener('submit', (e) => {
         e.preventDefault();
         generateFullCarouselWithAI();
       });
 
-      // View Mode Switchers
       document.getElementById('viewModeSingleBtn').addEventListener('click', () => setViewMode('single'));
       document.getElementById('viewModeGridBtn').addEventListener('click', () => setViewMode('grid'));
 
-      // Slide Navigation Buttons & Keyboard Arrows
       document.getElementById('prevSlideBtn').addEventListener('click', () => {
         const slides = buildSlideDescriptorList();
         appState.currentSlideIndex = (appState.currentSlideIndex - 1 + slides.length) % slides.length;
@@ -3271,7 +3489,6 @@ Format JSON wajib:
         }
       });
 
-      // Live Slide Editor Drawer Toggle
       document.getElementById('toggleSlideEditorBtn').addEventListener('click', () => {
         appState.isEditorOpen = !appState.isEditorOpen;
         const drawer = document.getElementById('liveSlideEditorDrawer');
@@ -3287,7 +3504,6 @@ Format JSON wajib:
         document.getElementById('liveSlideEditorDrawer').classList.add('hidden');
       });
 
-      // Caption Tabs & Copy Button
       const tabStory = document.getElementById('captionTabStorytelling');
       const tabRingkas = document.getElementById('captionTabRingkas');
       const captionTextarea = document.getElementById('captionOutputTextarea');
@@ -3310,20 +3526,44 @@ Format JSON wajib:
         appState.carouselData.captions[appState.activeCaptionTab] = e.target.value;
       });
 
-      document.getElementById('copyCaptionBtn').addEventListener('click', () => {
-        captionTextarea.select();
-        captionTextarea.setSelectionRange(0, 99999);
-        let copied = false;
-        try {
-          copied = document.execCommand('copy');
-        } catch (err) {}
-        if (!copied && navigator.clipboard) {
-          navigator.clipboard.writeText(captionTextarea.value).catch(() => {});
+      // Copy Caption silently without selecting visible textarea or opening mobile keyboard
+      document.getElementById('copyCaptionBtn').addEventListener('click', async () => {
+        const textToCopy = captionTextarea.value;
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
         }
+
+        let copied = false;
+        if (navigator.clipboard && window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(textToCopy);
+            copied = true;
+          } catch (err) {}
+        }
+
+        if (!copied) {
+          const tempInput = document.createElement('textarea');
+          tempInput.value = textToCopy;
+          tempInput.setAttribute('readonly', '');
+          tempInput.setAttribute('inputmode', 'none');
+          tempInput.style.position = 'fixed';
+          tempInput.style.top = '-9999px';
+          tempInput.style.left = '-9999px';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          tempInput.setSelectionRange(0, textToCopy.length);
+          try {
+            copied = document.execCommand('copy');
+          } catch (err) {}
+          document.body.removeChild(tempInput);
+          const selection = window.getSelection();
+          if (selection) selection.removeAllRanges();
+        }
+
         showToast('Caption berhasil disalin ke clipboard!', 'success');
       });
 
-      // Download Current Slide & Download All Slides Sequentially
       document.getElementById('downloadCurrentSlideBtn').addEventListener('click', () => {
         const slides = buildSlideDescriptorList();
         const slide = slides[appState.currentSlideIndex];
@@ -3347,35 +3587,21 @@ Format JSON wajib:
       });
     }
 
-    // Preload all Canvas Fonts (especially Arabic Amiri unicode-range subset)
-    function preloadCanvasFonts() {
-      if (!document.fonts) return;
-
-      const fontSpecs = [
-        ['700 54px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'],
-        ['400 54px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'],
-        ['700 72px "Playfair Display"', 'NoorSlide'],
-        ['italic 700 72px "Playfair Display"', 'NoorSlide'],
-        ['400 36px "Plus Jakarta Sans"', 'NoorSlide'],
-        ['600 36px "Plus Jakarta Sans"', 'NoorSlide'],
-        ['700 36px "Plus Jakarta Sans"', 'NoorSlide']
-      ];
-
-      Promise.allSettled(
-        fontSpecs.map(([spec, sample]) => document.fonts.load(spec, sample))
-      ).then(() => {
-        refreshAllCanvasAndEditors();
-      });
-
-      document.fonts.ready.then(() => {
-        refreshAllCanvasAndEditors();
-      });
-
-      if (typeof document.fonts.addEventListener === 'function') {
-        document.fonts.addEventListener('loadingdone', () => {
-          refreshAllCanvasAndEditors();
-        });
-      }
+    /**
+     * Explicit Font Preloader (forces browser to download Arabic Amiri & Display subsets immediately)
+     */
+    async function ensureCanvasFontsLoaded() {
+      if (!document.fonts || typeof document.fonts.load !== 'function') return;
+      try {
+        await Promise.all([
+          document.fonts.load('700 56px "Amiri"', 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ'),
+          document.fonts.load('400 56px "Amiri"', 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ'),
+          document.fonts.load('700 84px "Playfair Display"', 'NoorSlide'),
+          document.fonts.load('italic 700 84px "Playfair Display"', 'Gelisah'),
+          document.fonts.load('400 36px "Plus Jakarta Sans"', 'NoorSlide AI'),
+          document.fonts.load('700 36px "Plus Jakarta Sans"', 'NoorSlide AI')
+        ]);
+      } catch (e) {}
     }
 
     // Boot Application
@@ -3384,7 +3610,19 @@ Format JSON wajib:
       initializeEventListeners();
       updateCaptionTextarea();
       refreshAllCanvasAndEditors();
-      preloadCanvasFonts();
+
+      ensureCanvasFontsLoaded().then(() => {
+        refreshAllCanvasAndEditors();
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          refreshAllCanvasAndEditors();
+        });
+        document.fonts.addEventListener('loadingdone', () => {
+          refreshAllCanvasAndEditors();
+        });
+      }
     });
   </script>
 </body>
